@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsnd --respawn src/server.ts" 
+    "start": "tsnd --respawn src/server.ts"
   },
   "repository": {
     "type": "git",
@@ -18,7 +18,6 @@
   },
   "homepage": "https://github.com/volkb/SDnDSpring2020#readme",
   "dependencies": {
-    "dotenv": "^8.2.0",
     "express": "^4.17.1"
   },
   "devDependencies": {

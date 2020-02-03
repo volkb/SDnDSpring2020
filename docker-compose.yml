@@ -1,0 +1,34 @@
+version: '3.0'
+
+services:
+  alumni:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/usr/src/app
+    environment:
+      TZ: "America/New York"
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    ports:
+      - "8081:80"
+    environment:
+      MYSQL_USERNAME: root
+      MYSQL_ROOT_PASSWORD: root
+    # phpmyadmin requires that the mysql container be linked as "db"
+    links:
+      - mariadb:db
+    depends_on:
+      - mariadb
+
+  mariadb:
+    image: mariadb:10.1
+    volumes:
+        # - ./alumni.sql:/docker-entrypoint-initdb.d/init.sql:ro
+        - ./database/:/var/lib/mysql
+    ports:
+      - "33060:3306"
+    environment:
+        TZ: "America/New York"
+        MYSQL_ROOT_PASSWORD: "root"
