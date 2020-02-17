@@ -1,6 +1,6 @@
 FROM node:lts
 
-WORKDIR /usr/src/app
+WORKDIR /var/www/app #changed to /var/www to account for variable size of files
 
 COPY package*.json ./
 RUN npm install
