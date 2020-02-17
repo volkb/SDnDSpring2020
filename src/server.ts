@@ -7,7 +7,7 @@ const app = express();
 app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
-    res.send("Hello world :) Woof Woof!");
+    res.send("Hello world :)!");
 });
 
 app.listen(PORT, () => console.log("Bloodhound has begun sniffing!"));

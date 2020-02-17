@@ -28,7 +28,7 @@ services:
         # - ./alumni.sql:/docker-entrypoint-initdb.d/init.sql:ro
         - ./database/:/var/lib/mysql
     ports:
-      - "33060:3306"
+      - "3307:3306"
     environment:
         TZ: "America/New York"
         MYSQL_ROOT_PASSWORD: "root"
