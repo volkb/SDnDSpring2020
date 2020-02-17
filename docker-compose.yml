@@ -32,10 +32,10 @@ services:
         MYSQL_PASSWORD: ${PASSWORD?PASSWORD variable not set}
         MYSQL_ROOT_PASSWORD: ${ROOTPASSWORD?ROOTPASSWORD variable not set}
         
-# For windows, you MUST go to the docker hub rashboard > settings > resources > shared files
+# For windows, you MUST go to the docker hub dashboard > settings > resources > shared files
 # and check BOTH the C drive and the drive containing the project folder.         
 
 #for security reasons, users and passwords have been switched to use cred. injection
 #simply set the USERNAME, PASSWORD, and ROOTPASSWORD variables in your environment and run docker-compose as normal
-#USERNAME=[username] PASSWORD=[password] docker-compose up 
+#USERNAME=[username] PASSWORD=[password] docker-compose up can also be used if on linux
 #ROOTPASSWORD only needs to be set once as the /database state is then generated
