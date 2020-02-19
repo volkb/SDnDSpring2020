@@ -6,23 +6,18 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - .:/usr/src/app
+      - .:/var/www/app
+      - ./data:/var/www/app/data #following the host:VM machine pattern this allows us to decouple the data directory from the app dir itself. Following proper microservice architecture
     environment:
       TZ: "America/New York"
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin:latest
+    image: phpmyadmin/phpmyadmin:5 #build changed to 5 for release stability managment 
     ports:
       - "8081:80"
-    environment:
-      MYSQL_USERNAME: root
-      MYSQL_ROOT_PASSWORD: root
-    # phpmyadmin requires that the mysql container be linked as "db"
-    links:
-      - mariadb:db
     depends_on:
-      - mariadb
+      - db
 
-  mariadb:
+  db:
     image: mariadb:10.1
     volumes:
         # - ./alumni.sql:/docker-entrypoint-initdb.d/init.sql:ro
@@ -31,4 +26,6 @@ services:
       - "3307:3306"
     environment:
         TZ: "America/New York"
-        MYSQL_ROOT_PASSWORD: "root"
+        MYSQL_USER: ${USERNAME?USERNAME variable not set}
+        MYSQL_PASSWORD: ${PASSWORD?PASSWORD variable not set}
+        MYSQL_ROOT_PASSWORD: ${ROOTPASSWORD?ROOTPASSWORD variable not set}

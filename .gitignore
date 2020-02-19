@@ -104,5 +104,6 @@ dist
 .tern-port
 
 out
+data
 node_modules
 database
