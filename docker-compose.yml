@@ -20,7 +20,7 @@ services:
   db:
     image: mariadb:10.1
     volumes:
-        # - ./alumni.sql:/docker-entrypoint-initdb.d/init.sql:ro
+        - ./alumni.sql:/docker-entrypoint-initdb.d/init.sql:ro
         - ./database/:/var/lib/mysql
     ports:
       - "3307:3306"
