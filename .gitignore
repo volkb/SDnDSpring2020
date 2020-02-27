@@ -107,3 +107,4 @@ out
 data
 node_modules
 database
+*.pem
