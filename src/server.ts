@@ -13,6 +13,7 @@ dotenv.config();
 const PORT = 8080;
 const app = express();
 configurePassport(passport);
+// Establishes a persistent session via a cookie which lasts 3 days
 app.use(session({
     secret: process.env.SESSION_SECRET as string,
     resave: true,
@@ -31,17 +32,23 @@ app.get("/login", (req, res) => {
     res.send("Login page here!");
 });
 
+// Requests email and the public profile from facebook
 app.get("/auth/facebook", authenticate("facebook", { scope: ["email", "public_profile"] }));
 
+// If you successfully login then you get redirected to the secure route, else back to the login screen
 app.get("/auth/facebook/callback", authenticate("facebook", {
-    successRedirect: "/secured_login",
+    successRedirect: "/secured_route",
     failureRedirect: "/login"
 }));
 app.get("/secured_route", isAuthenticated, (req, res) => {
-    console.log(req.user);
     res.send("You're logged in!");
 });
 
+/*
+ Creates the https server sadly this means you need to use https:// 
+ as node itself doesn't support reverse proxying (if you're not using port 80 and 443) as this is normally reserved for
+ running behind a web server such as NGINX
+*/
 https.createServer({
     key: readFileSync("./key.pem"),
     cert: readFileSync("./cert.pem"),

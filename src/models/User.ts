@@ -1,3 +1,4 @@
+// The class representing our generic user. Will need alumni and student subclasses
 export class User{
     id: string;
     first_name: string | undefined;
