@@ -6,6 +6,7 @@ import * as bodyParser from "body-parser";
 import * as dotenv from "dotenv";
 import {authenticate} from "passport";
 import session from "express-session";
+import path from "path";
 import {configurePassport, isAuthenticated} from "./config/passport";
 
 dotenv.config();
@@ -23,10 +24,6 @@ app.use(session({
 app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
-
-app.get("/", (req, res) => {
-    res.send("Hello world :)! Woof Woof");
-});
 
 app.get("/login", (req, res) => {
     res.send("Login page here!");
@@ -56,3 +53,5 @@ https.createServer({
 }, app).listen(PORT, () => {
     console.log("Bloodhound has begun sniffing");
 });
+
+app.use("/", express.static(path.join(__dirname, "Flattern")));
