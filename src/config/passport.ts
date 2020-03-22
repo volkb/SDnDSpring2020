@@ -11,15 +11,14 @@ export function configurePassport(passport: PassportStatic): void {
         callbackURL: "/auth/facebook/callback",
         profileFields: ["id", "displayName", "email", "gender", "name"],
         passReqToCallback: true
-    }, (req: any, accessToken, refreshToken, profile, done) => {
+    }, async (req: any, accessToken, refreshToken, profile, done) => {
         // This is where the authentication with facebook happens
         let email = "";
         if (profile.emails) {
             email = profile.emails[0].value;
         }
         // Some fields are undefined so ?. is a safe dereference
-        const authed_user = new User(profile.id, profile.name?.givenName, profile.name?.familyName, email, accessToken);
-        // We would find or create the user based on their profile id and then form the user object rather than hardcoding like this
+        const authed_user = await User.findOrCreate(profile.id, profile.name?.givenName, profile.name?.familyName, email);
         done(null, authed_user);
     }));
 
@@ -28,9 +27,13 @@ export function configurePassport(passport: PassportStatic): void {
         done(null, user.id);
     });
     
-    passport.deserializeUser((id: number, done) => {
-        // Here is where the get user from database would happen
-        done(null, id);
+    passport.deserializeUser(async (id: string, done) => {
+        const user = await User.find(id);
+        if (user !== false) {
+            done(null, user);
+        } else {
+            done("Failed to find user", id);
+        }
     });
 }
 
