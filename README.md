@@ -3,6 +3,8 @@
 ## Dev Setup Instructions
 The development environment for this website utilizes docker, docker-compose, and node. Please ensure you have the latest version of docker installed and Node LTS (10.x).
 
+*Note: If using windows you must ssh into WSL through VS code in order to run this bash command.*
+
 1. Run `openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365` to generate a valid SSL cert 
 1. Go to developers.facebook.com and create an application.
 1. Click setup facebook login and ensure you have https://localhost:8080/auth/facebook/callback as a valid oauth redirect
