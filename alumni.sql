@@ -114,8 +114,10 @@ DROP TABLE IF EXISTS `users`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `oauth_token` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
-  `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `first_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `last_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `grad_year` int(11) DEFAULT NULL,
   `industry` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `gpa` float DEFAULT NULL,
@@ -155,4 +157,3 @@ CREATE TABLE `users` (
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2020-02-24 16:38:17
-

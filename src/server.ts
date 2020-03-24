@@ -8,11 +8,14 @@ import {authenticate} from "passport";
 import session from "express-session";
 import path from "path";
 import {configurePassport, isAuthenticated} from "./config/passport";
+import {DatabaseManager} from "./models/DatabaseManager";
 
 dotenv.config();
 
 const PORT = 8080;
 const app = express();
+// Singleton design pattern, we only want one here
+export const DBManager = new DatabaseManager();
 configurePassport(passport);
 // Establishes a persistent session via a cookie which lasts 3 days
 app.use(session({
