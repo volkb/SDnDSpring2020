@@ -24,15 +24,15 @@ export function configurePassport(passport: PassportStatic): void {
 
     // Serializes and deserializes the user into and out of the cookie
     passport.serializeUser((user: User, done) => {
-        done(null, user.id);
+        done(null, user.oauth_token);
     });
     
-    passport.deserializeUser(async (id: string, done) => {
-        const user = await User.find(id);
+    passport.deserializeUser(async (oauth_token: string, done) => {
+        const user = await User.find(oauth_token);
         if (user !== false) {
             done(null, user);
         } else {
-            done("Failed to find user", id);
+            done("Failed to find user", oauth_token);
         }
     });
 }
@@ -40,6 +40,7 @@ export function configurePassport(passport: PassportStatic): void {
 // Authentication guard, prevents user from advancing if their request is not authenticated
 export const isAuthenticated = (req: Request, res: Response, next: NextFunction): void => {
     if (req.isAuthenticated()) {
+        console.log(req.user);
         return next();
     }
     res.redirect("/login");
