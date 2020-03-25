@@ -28,7 +28,7 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get("/login", (req, res) => {
+app.get("/", (req, res) => {
     res.send("Login page here!");
 });
 
@@ -57,4 +57,7 @@ https.createServer({
     console.log("Bloodhound has begun sniffing");
 });
 
-app.use("/", express.static(path.join(__dirname, "Flattern")));
+app.use(express.static('src/public'));
+app.use(express.static('src/public/views'));
+
+app.use("/", express.static(path.join(__dirname, "src/views")));
