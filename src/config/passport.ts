@@ -43,5 +43,5 @@ export const isAuthenticated = (req: Request, res: Response, next: NextFunction)
         console.log(req.user);
         return next();
     }
-    res.redirect("/login");
+    res.redirect("/");
 };
