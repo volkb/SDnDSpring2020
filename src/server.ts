@@ -9,6 +9,7 @@ import session from "express-session";
 import path from "path";
 import {configurePassport, isAuthenticated} from "./config/passport";
 import {DatabaseManager} from "./models/DatabaseManager";
+import {User} from "./models/User";
 
 dotenv.config();
 
@@ -40,9 +41,21 @@ app.get("/auth/facebook/callback", authenticate("facebook", {
     successRedirect: "/secured_route",
     failureRedirect: "/login"
 }));
+
 app.get("/secured_route", isAuthenticated, (req, res) => {
     res.send("You're logged in!");
 });
+
+app.get("/get_my_profile", isAuthenticated, (req, res) => {
+    res.send(req.user);
+});
+
+app.get("/user", isAuthenticated, async (req, res) => {
+    const token = req.query.token;
+    const user = await User.find(token);
+    res.send(user);
+});
+
 
 /*
  Creates the https server sadly this means you need to use https:// 
