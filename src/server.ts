@@ -30,7 +30,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get("/", (req, res) => {
-    res.send("Login page here!");
+    res.sendFile(path.join(__dirname + '/views/index.html'));
 });
 
 // Requests email and the public profile from facebook
@@ -38,17 +38,42 @@ app.get("/auth/facebook", authenticate("facebook", { scope: ["email", "public_pr
 
 // If you successfully login then you get redirected to the secure route, else back to the login screen
 app.get("/auth/facebook/callback", authenticate("facebook", {
-    successRedirect: "/secured_route",
-    failureRedirect: "/login"
+    successRedirect: "/dashboard",
+    failureRedirect: "/"
 }));
 
-app.get("/secured_route", isAuthenticated, (req, res) => {
-    res.send("You're logged in!");
+app.get("/dashboard", isAuthenticated, (req, res) => {
+    res.sendFile(path.join(__dirname + '/views/dashboard.html'));
 });
 
-app.get("/get_my_profile", isAuthenticated, (req, res) => {
-    res.send(req.user);
+app.get("/edit_profile", isAuthenticated, (req, res) => {
+    res.sendFile(path.join(__dirname + '/views/edit_profile.html'));
 });
+
+app.get("/dashboard", (req, res) => {
+    res.sendFile(path.join(__dirname + '/views/create_account.html'));
+});
+
+app.get("/search", (req, res) => {
+    res.sendFile(path.join(__dirname + '/views/search.html'));
+});
+
+app.get("/get_my_profile", isAuthenticated, async (req, res) => {
+    const user = await User.find(req.user.oauth_token);
+    res.send(user);
+});
+
+app.post("/update_profile", isAuthenticated, (req, res) => {
+    // TODO: Store the user variables sent in the POST
+    console.log("Update profile...");
+    console.log(req.body);
+});
+
+app.post("/create_profile", isAuthenticated, (req, res) => {
+    // TODO: Store the user variables sent in the POST
+    console.log(req.body);
+});
+
 
 app.get("/user", isAuthenticated, async (req, res) => {
     const token = req.query.token;
@@ -71,6 +96,3 @@ https.createServer({
 });
 
 app.use(express.static('src/public'));
-app.use(express.static('src/public/views'));
-
-app.use("/", express.static(path.join(__dirname, "src/views")));
