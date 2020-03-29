@@ -19,7 +19,11 @@ export function configurePassport(passport: PassportStatic): void {
         }
         // Some fields are undefined so ?. is a safe dereference
         const authed_user = await User.findOrCreate(profile.id, profile.name?.givenName, profile.name?.familyName, email);
-        done(null, authed_user);
+        if (authed_user.success) {
+            done(null, authed_user.data);
+        } else {
+            done(authed_user.error);
+        }
     }));
 
     // Serializes and deserializes the user into and out of the cookie
@@ -28,11 +32,11 @@ export function configurePassport(passport: PassportStatic): void {
     });
     
     passport.deserializeUser(async (oauth_token: string, done) => {
-        const user = await User.find(oauth_token);
-        if (user !== false) {
-            done(null, user);
+        const user_response = await User.find(oauth_token);
+        if (user_response.success) {
+            done(null, user_response.data);
         } else {
-            done("Failed to find user", oauth_token);
+            done(user_response.error);
         }
     });
 }
@@ -40,7 +44,6 @@ export function configurePassport(passport: PassportStatic): void {
 // Authentication guard, prevents user from advancing if their request is not authenticated
 export const isAuthenticated = (req: Request, res: Response, next: NextFunction): void => {
     if (req.isAuthenticated()) {
-        console.log(req.user);
         return next();
     }
     res.redirect("/");
