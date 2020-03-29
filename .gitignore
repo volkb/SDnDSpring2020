@@ -108,3 +108,6 @@ data
 node_modules
 database
 *.pem
+
+# Jetbrains IDE files
+.idea/
