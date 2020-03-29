@@ -1,7 +1,7 @@
 import passportFacebook from "passport-facebook";
 import { PassportStatic } from "passport";
 import { NextFunction, Request, Response } from "express";
-import { User } from "../models/User";
+import { User } from "../models/UserAPI";
 
 const FacebookStrategy = passportFacebook.Strategy;
 export function configurePassport(passport: PassportStatic): void {
