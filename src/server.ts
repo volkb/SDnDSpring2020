@@ -78,7 +78,6 @@ app.post("/create_profile", isAuthenticated, (req, res) => {
     console.log(req.body);
 });
 
-
 app.get("/user", isAuthenticated, async (req, res) => {
     const token = req.query.token;
     const user = await User.find(token);
