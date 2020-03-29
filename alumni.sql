@@ -20,7 +20,9 @@ SET time_zone = "+00:00";
 --
 -- Database: `sdd_primary`
 --
+CREATE DATABASE IF NOT EXISTS `sdd_primary` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_bin */ /*!80016 DEFAULT ENCRYPTION='N' */;
 
+USE `sdd_primary`;
 -- --------------------------------------------------------
 
 --

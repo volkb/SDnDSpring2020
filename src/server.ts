@@ -30,7 +30,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname + '/views/index.html'));
+    res.sendFile(path.join(__dirname + "/views/index.html"));
 });
 
 // Requests email and the public profile from facebook
@@ -43,23 +43,23 @@ app.get("/auth/facebook/callback", authenticate("facebook", {
 }));
 
 app.get("/dashboard", isAuthenticated, (req, res) => {
-    res.sendFile(path.join(__dirname + '/views/dashboard.html'));
+    res.sendFile(path.join(__dirname + "/views/dashboard.html"));
 });
 
 app.get("/edit_profile", isAuthenticated, (req, res) => {
-    res.sendFile(path.join(__dirname + '/views/edit_profile.html'));
+    res.sendFile(path.join(__dirname + "/views/edit_profile.html"));
 });
 
 app.get("/dashboard", (req, res) => {
-    res.sendFile(path.join(__dirname + '/views/dashboard.html'));
+    res.sendFile(path.join(__dirname + "/views/dashboard.html"));
 });
 
 app.get("/create_account", (req, res) => {
-    res.sendFile(path.join(__dirname + '/views/create_account.html'));
+    res.sendFile(path.join(__dirname + "/views/create_account.html"));
 });
 
 app.get("/search", (req, res) => {
-    res.sendFile(path.join(__dirname + '/views/search.html'));
+    res.sendFile(path.join(__dirname + "/views/search.html"));
 });
 
 app.get("/get_my_profile", isAuthenticated, async (req, res) => {
@@ -77,7 +77,6 @@ app.post("/create_profile", isAuthenticated, (req, res) => {
     // TODO: Store the user variables sent in the POST
     console.log(req.body);
 });
-
 
 app.get("/user", isAuthenticated, async (req, res) => {
     const token = req.query.token;
@@ -99,4 +98,4 @@ https.createServer({
     console.log("Bloodhound has begun sniffing");
 });
 
-app.use(express.static('src/public'));
+app.use(express.static("src/public"));

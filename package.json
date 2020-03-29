@@ -18,17 +18,12 @@
   },
   "homepage": "https://github.com/volkb/SDnDSpring2020#readme",
   "dependencies": {
-    "bootstrap": "^4.4.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-session": "^1.17.0",
-    "font-awesome": "^4.7.0",
-    "jquery": "^3.4.1",
     "mariadb": "^2.2.0",
     "passport": "^0.4.1",
-    "passport-facebook": "^3.0.0",
-    "popper.js": "^1.16.1",
-    "tabulator-tables": "^4.5.3"
+    "passport-facebook": "^3.0.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.2",
@@ -40,7 +35,6 @@
     "@typescript-eslint/parser": "^2.20.0",
     "eslint": "^6.8.0",
     "ts-node-dev": "^1.0.0-pre.44",
-    "typescript": "^3.7.5",
-    "webpack": "^4.42.1"
+    "typescript": "^3.7.5"
   }
 }
