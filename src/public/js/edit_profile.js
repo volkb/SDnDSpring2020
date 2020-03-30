@@ -105,7 +105,8 @@ tinymce.init({
     menu: {
         favs: {title: "My Favorites", items: "code visualaid | searchreplace | spellchecker | emoticons"}
     },
-    menubar: "favs file edit view insert format tools table help"
+    menubar: "favs file edit view insert format tools table help",
+    oninit: populateFields()
 });
 
 // Get the countries and error check
@@ -154,7 +155,7 @@ async function populateFields() {
     document.getElementById("first_name").value = user_data.first_name;
     document.getElementById("last_name").value = user_data.last_name;
     document.getElementById("email").value = user_data.email;
-    document.getElementById("bio").innerText = user_data.bio;
+    tinymce.get("bio").setContent(user_data.bio);
     document.getElementById("minor").value = user_data.minor;
     document.getElementById("country").value = user_data.country_id;
     document.getElementById("school").value = user_data.school_id;
@@ -193,5 +194,3 @@ function populateSelect(select_id, objects) {
         select.add(object.toSelectOption());
     });
 }
-
-populateFields();

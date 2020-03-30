@@ -2,6 +2,33 @@ import express from "express";
 import { isAuthenticated } from "./config/passport";
 import { DBManager } from "./server";
 import { User } from "./models/UserAPI";
+import { extname, join } from "path";
+import multer from "multer";
+
+const storageHandler = multer.diskStorage({
+    destination: join(__dirname, "../data/pictures"),
+    filename: (req,  file, done) => {
+        if (req.user) {
+            done(null, (req.user as User).oauth_token + extname(file.originalname));
+        } else {
+            done(new Error("File uploadeded from unauthenticated user!"), "ERROR" + file.mimetype);
+        }
+    }
+});
+const uploadHandler = multer({
+    storage: storageHandler,
+    // Limit to 1 10MB photo
+    limits: {fileSize: 10000000, files: 1},
+    fileFilter: (req, file, done) => {
+        const extension = extname(file.originalname);
+        if (extension.toLowerCase() == ".jpg" || extension.toLowerCase() == ".png") {
+            done(null, true);
+        } else {
+            done(null, false);
+        }
+    },
+
+});
 
 export const profileRouter = express.Router();
 
@@ -11,12 +38,18 @@ profileRouter.get("/", isAuthenticated, async (req, res) => {
     res.send(user);
 });
 
-profileRouter.post("/update", isAuthenticated, async (req, res) => {
-    if (req.user) {
+profileRouter.post("/update", isAuthenticated, uploadHandler.single("picture"), async (req, res) => {
+    if (req.user && req.file) {
         const user = req.user as User;
+        console.log(req.file.filename);
+        req.body.picture = req.file.filename;
         user.updateUserProfile(req.body);
+        res.redirect("/edit_profile");
+    } else {
+        // CHANGE TO YOUR ERROR
+        res.redirect("/photo");
     }
-    res.redirect("/edit_profile");
+    
 });
 
 profileRouter.get("/state/:country_id", async (req, res) => {

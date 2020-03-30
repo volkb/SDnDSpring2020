@@ -41,8 +41,13 @@ app.get("/", (req, res) => {
     }
     else
     {
-        res.sendFile(path.join(__dirname + "/views/index.html"));
+        res.sendFile(path.join(__dirname, "/views/index.html"));
     }
+});
+
+// DELETE THIS WHEN DONE
+app.get("/photo", isAuthenticated, (req, res) => {
+    res.sendFile(path.join(__dirname, "../data/pictures", `${req.user.oauth_token}.jpg`));
 });
 
 // Requests email and the public profile from facebook
@@ -60,27 +65,27 @@ app.get("/auth/logout", isAuthenticated, (req, res) => {
 });
 
 app.get("/dashboard", isAuthenticated, (req, res) => {
-    res.sendFile(path.join(__dirname + "/views/dashboard.html"));
+    res.sendFile(path.join(__dirname, "/views/dashboard.html"));
 });
 
 app.get("/privacy_policy", (req, res) => {
-    res.sendFile(path.join(__dirname + "/views/privacy_policy.html"));
+    res.sendFile(path.join(__dirname, "/views/privacy_policy.html"));
 });
 
 app.get("/edit_profile", isAuthenticated, (req, res) => {
-    res.sendFile(path.join(__dirname + "/views/edit_profile.html"));
+    res.sendFile(path.join(__dirname, "/views/edit_profile.html"));
 });
 
 app.get("/dashboard", (req, res) => {
-    res.sendFile(path.join(__dirname + "/views/dashboard.html"));
+    res.sendFile(path.join(__dirname, "/views/dashboard.html"));
 });
 
 app.get("/create_account", (req, res) => {
-    res.sendFile(path.join(__dirname + "/views/create_account.html"));
+    res.sendFile(path.join(__dirname, "/views/create_account.html"));
 });
 
 app.get("/search", (req, res) => {
-    res.sendFile(path.join(__dirname + "/views/search.html"));
+    res.sendFile(path.join(__dirname, "/views/search.html"));
 });
 
 app.post("/update_profile", isAuthenticated, (req, res) => {
