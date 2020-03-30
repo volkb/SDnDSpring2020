@@ -86,11 +86,6 @@ app.post("/update_profile", isAuthenticated, (req, res) => {
     res.send("Test");
 });
 
-app.post("/create_profile", isAuthenticated, (req, res) => {
-    // TODO: Store the user variables sent in the POST
-    console.log(req.body);
-});
-
 app.get("/user", isAuthenticated, async (req, res) => {
     const token = req.query.token;
     const user = await User.find(token);

@@ -92,8 +92,6 @@ class Major {
     }
 }
 
-
-
 tinymce.init({
     selector: "#bio",
     plugins: [
@@ -164,6 +162,7 @@ async function populateFields() {
     await schoolSelectionChange();
     document.getElementById("state").value = user_data.state_id;
     document.getElementById("major").value = user_data.major_id;
+    document.getElementById("grad_date").value = moment(user_data.grad_date).add(1,'days').format('YYYY-MM-DD');
 
 }
 
