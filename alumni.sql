@@ -3,13 +3,15 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Mar 30, 2020 at 03:17 PM
+-- Generation Time: Mar 30, 2020 at 07:34 PM
 -- Server version: 10.1.44-MariaDB-1~bionic
 -- PHP Version: 7.4.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
+
+
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -20,9 +22,11 @@ SET time_zone = "+00:00";
 --
 -- Database: `sdd_primary`
 --
+
 CREATE DATABASE IF NOT EXISTS `sdd_primary` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_bin */ /*!80016 DEFAULT ENCRYPTION='N' */;
 
 USE `sdd_primary`;
+
 -- --------------------------------------------------------
 
 --
@@ -30,9 +34,9 @@ USE `sdd_primary`;
 --
 
 CREATE TABLE `clubs` (
-                         `id` int(11) NOT NULL,
-                         `club_name` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-                         `description` mediumtext COLLATE utf8_bin
+  `id` int(11) NOT NULL,
+  `club_name` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `description` mediumtext COLLATE utf8_bin
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -42,9 +46,9 @@ CREATE TABLE `clubs` (
 --
 
 CREATE TABLE `club_roster` (
-                               `club_id` int(11) NOT NULL,
-                               `user_id` int(11) NOT NULL,
-                               `added_on` datetime DEFAULT NULL
+  `club_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `added_on` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -54,10 +58,10 @@ CREATE TABLE `club_roster` (
 --
 
 CREATE TABLE `country` (
-                           `id` int(11) NOT NULL,
-                           `sortname` varchar(3) NOT NULL,
-                           `name` varchar(150) NOT NULL,
-                           `phonecode` int(11) NOT NULL
+  `id` int(11) NOT NULL,
+  `sortname` varchar(3) NOT NULL,
+  `name` varchar(150) NOT NULL,
+  `phonecode` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -319,9 +323,9 @@ INSERT INTO `country` (`id`, `sortname`, `name`, `phonecode`) VALUES
 --
 
 CREATE TABLE `major` (
-                         `id` int(11) NOT NULL,
-                         `school_id` int(11) NOT NULL,
-                         `label` varchar(255) COLLATE utf8_bin NOT NULL
+  `id` int(11) NOT NULL,
+  `school_id` int(11) NOT NULL,
+  `label` varchar(255) COLLATE utf8_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
@@ -392,9 +396,9 @@ INSERT INTO `major` (`id`, `school_id`, `label`) VALUES
 --
 
 CREATE TABLE `school` (
-                          `id` int(11) NOT NULL,
-                          `label` varchar(255) COLLATE utf8_bin NOT NULL,
-                          `description` text COLLATE utf8_bin NOT NULL
+  `id` int(11) NOT NULL,
+  `label` varchar(255) COLLATE utf8_bin NOT NULL,
+  `description` text COLLATE utf8_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
@@ -416,9 +420,9 @@ INSERT INTO `school` (`id`, `label`, `description`) VALUES
 --
 
 CREATE TABLE `session` (
-                           `id` varchar(255) COLLATE utf8_bin NOT NULL,
-                           `user_id` int(11) NOT NULL,
-                           `expiration` datetime DEFAULT NULL
+  `id` varchar(255) COLLATE utf8_bin NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `expiration` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -428,9 +432,9 @@ CREATE TABLE `session` (
 --
 
 CREATE TABLE `state` (
-                         `id` int(11) NOT NULL,
-                         `name` varchar(30) NOT NULL,
-                         `country_id` int(11) NOT NULL DEFAULT '1'
+  `id` int(11) NOT NULL,
+  `name` varchar(30) NOT NULL,
+  `country_id` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -4519,12 +4523,34 @@ INSERT INTO `state` (`id`, `name`, `country_id`) VALUES
 (4043, 'Zulia', 237),
 (3455, 'Zurich', 212);
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `user`
+-- Table structure for table `user`
 --
 
-INSERT INTO `user` (`id`, `oauth_token`, `email`, `first_name`, `last_name`, `grad_date`, `industry`, `gpa`, `salary`, `picture`, `bio`, `comm_context`, `active`, `last_login`, `last_login_ip`, `major_id`, `minor`, `country_id`, `state_id`, `school_id`) VALUES
-(1, '2779322225497712', 'jmessare46@gmail.com', 'Joseph', 'Messare', '2020-03-24', NULL, NULL, NULL, NULL, '<p>Tstsdf</p>\r\n<p>sdf asdf as df<strong>asdf as dfa sdf ds</strong></p>\r\n<p style=\"text-align: right;\"><strong>&nbsp;asd ds<em>a sdfd fdfd</em></strong></p>', NULL, NULL, NULL, NULL, 120, 'asdfdsf', 231, 3920, 4);
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL,
+  `oauth_token` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `first_name` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `last_name` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `grad_date` date DEFAULT NULL,
+  `industry` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `gpa` float DEFAULT NULL,
+  `salary` float DEFAULT NULL,
+  `picture` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `bio` mediumtext COLLATE utf8_bin,
+  `comm_context` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `active` tinyint(4) DEFAULT NULL,
+  `last_login` datetime DEFAULT NULL,
+  `last_login_ip` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `major_id` int(11) DEFAULT NULL,
+  `minor` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `country_id` int(11) DEFAULT NULL,
+  `state_id` int(11) DEFAULT NULL,
+  `school_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Indexes for dumped tables
@@ -4534,52 +4560,65 @@ INSERT INTO `user` (`id`, `oauth_token`, `email`, `first_name`, `last_name`, `gr
 -- Indexes for table `clubs`
 --
 ALTER TABLE `clubs`
-    ADD PRIMARY KEY (`id`),
-    ADD UNIQUE KEY `club_id` (`id`),
-    ADD UNIQUE KEY `clubs_club_name_uindex` (`club_name`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `club_id` (`id`),
+  ADD UNIQUE KEY `clubs_club_name_uindex` (`club_name`);
 
 --
 -- Indexes for table `club_roster`
 --
 ALTER TABLE `club_roster`
-    ADD PRIMARY KEY (`club_id`,`user_id`),
-    ADD KEY `roster2users` (`user_id`);
+  ADD PRIMARY KEY (`club_id`,`user_id`),
+  ADD KEY `roster2users` (`user_id`);
 
 --
 -- Indexes for table `country`
 --
 ALTER TABLE `country`
-    ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `major`
 --
 ALTER TABLE `major`
-    ADD PRIMARY KEY (`id`),
-    ADD UNIQUE KEY `unique_major_school` (`label`,`school_id`) USING BTREE,
-    ADD KEY `school_fk` (`school_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `unique_major_school` (`label`,`school_id`) USING BTREE,
+  ADD KEY `school_fk` (`school_id`);
 
 --
 -- Indexes for table `school`
 --
 ALTER TABLE `school`
-    ADD PRIMARY KEY (`id`),
-    ADD UNIQUE KEY `unique_school_name` (`label`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `unique_school_name` (`label`);
 
 --
 -- Indexes for table `session`
 --
 ALTER TABLE `session`
-    ADD PRIMARY KEY (`user_id`),
-    ADD UNIQUE KEY `session_id` (`id`);
+  ADD PRIMARY KEY (`user_id`),
+  ADD UNIQUE KEY `session_id` (`id`);
 
 --
 -- Indexes for table `state`
 --
 ALTER TABLE `state`
-    ADD PRIMARY KEY (`id`),
-    ADD UNIQUE KEY `name` (`name`,`country_id`),
-    ADD KEY `country_fk` (`country_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`,`country_id`),
+  ADD KEY `country_fk` (`country_id`);
+
+--
+-- Indexes for table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `user_id_2` (`id`),
+  ADD KEY `user_id` (`id`),
+  ADD KEY `primary_major` (`major_id`),
+  ADD KEY `minor` (`minor`),
+  ADD KEY `user_id_3` (`id`),
+  ADD KEY `state_user_fk` (`state_id`),
+  ADD KEY `country_user_fk` (`country_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -4589,31 +4628,37 @@ ALTER TABLE `state`
 -- AUTO_INCREMENT for table `clubs`
 --
 ALTER TABLE `clubs`
-    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `country`
 --
 ALTER TABLE `country`
-    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=249;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=249;
 
 --
 -- AUTO_INCREMENT for table `major`
 --
 ALTER TABLE `major`
-    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=151;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=151;
 
 --
 -- AUTO_INCREMENT for table `school`
 --
 ALTER TABLE `school`
-    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `state`
 --
 ALTER TABLE `state`
-    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4122;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4122;
+
+--
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
@@ -4623,26 +4668,34 @@ ALTER TABLE `state`
 -- Constraints for table `club_roster`
 --
 ALTER TABLE `club_roster`
-    ADD CONSTRAINT `club_roster_clubs_id_fk` FOREIGN KEY (`club_id`) REFERENCES `clubs` (`id`),
-    ADD CONSTRAINT `club_roster_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+  ADD CONSTRAINT `club_roster_clubs_id_fk` FOREIGN KEY (`club_id`) REFERENCES `clubs` (`id`),
+  ADD CONSTRAINT `club_roster_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
 --
 -- Constraints for table `major`
 --
 ALTER TABLE `major`
-    ADD CONSTRAINT `school_fk` FOREIGN KEY (`school_id`) REFERENCES `school` (`id`);
+  ADD CONSTRAINT `school_fk` FOREIGN KEY (`school_id`) REFERENCES `school` (`id`);
 
 --
 -- Constraints for table `session`
 --
 ALTER TABLE `session`
-    ADD CONSTRAINT `sessions_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+  ADD CONSTRAINT `sessions_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
 --
 -- Constraints for table `state`
 --
 ALTER TABLE `state`
-    ADD CONSTRAINT `country_fk` FOREIGN KEY (`country_id`) REFERENCES `country` (`id`);
+  ADD CONSTRAINT `country_fk` FOREIGN KEY (`country_id`) REFERENCES `country` (`id`);
+
+--
+-- Constraints for table `user`
+--
+ALTER TABLE `user`
+  ADD CONSTRAINT `country_user_fk` FOREIGN KEY (`country_id`) REFERENCES `country` (`id`),
+  ADD CONSTRAINT `major_fk` FOREIGN KEY (`major_id`) REFERENCES `major` (`id`),
+  ADD CONSTRAINT `state_user_fk` FOREIGN KEY (`state_id`) REFERENCES `state` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
