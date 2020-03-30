@@ -35,7 +35,19 @@ app.use(passport.session());
 app.use("/profile", profileRouter);
 
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname + "/views/index.html"));
+    if(req.isAuthenticated())
+    {
+        res.redirect("/dashboard"); // If user is already logged in send them to the dashboard
+    }
+    else
+    {
+        res.sendFile(path.join(__dirname, "/views/index.html"));
+    }
+});
+
+// DELETE THIS WHEN DONE
+app.get("/photo", isAuthenticated, (req, res) => {
+    res.sendFile(path.join(__dirname, "../data/pictures", `${req.user.oauth_token}.jpg`));
 });
 
 // Requests email and the public profile from facebook
@@ -47,24 +59,33 @@ app.get("/auth/facebook/callback", authenticate("facebook", {
     failureRedirect: "/"
 }));
 
+app.get("/auth/logout", isAuthenticated, (req, res) => {
+    req.logout();
+    res.redirect("/");
+});
+
 app.get("/dashboard", isAuthenticated, (req, res) => {
-    res.sendFile(path.join(__dirname + "/views/dashboard.html"));
+    res.sendFile(path.join(__dirname, "/views/dashboard.html"));
+});
+
+app.get("/privacy_policy", (req, res) => {
+    res.sendFile(path.join(__dirname, "/views/privacy_policy.html"));
 });
 
 app.get("/edit_profile", isAuthenticated, (req, res) => {
-    res.sendFile(path.join(__dirname + "/views/edit_profile.html"));
+    res.sendFile(path.join(__dirname, "/views/edit_profile.html"));
 });
 
 app.get("/dashboard", (req, res) => {
-    res.sendFile(path.join(__dirname + "/views/dashboard.html"));
+    res.sendFile(path.join(__dirname, "/views/dashboard.html"));
 });
 
 app.get("/create_account", (req, res) => {
-    res.sendFile(path.join(__dirname + "/views/create_account.html"));
+    res.sendFile(path.join(__dirname, "/views/create_account.html"));
 });
 
 app.get("/search", (req, res) => {
-    res.sendFile(path.join(__dirname + "/views/search.html"));
+    res.sendFile(path.join(__dirname, "/views/search.html"));
 });
 
 app.post("/update_profile", isAuthenticated, (req, res) => {
@@ -72,11 +93,6 @@ app.post("/update_profile", isAuthenticated, (req, res) => {
     console.log("Update profile...");
     console.log(req.body);
     res.send("Test");
-});
-
-app.post("/create_profile", isAuthenticated, (req, res) => {
-    // TODO: Store the user variables sent in the POST
-    console.log(req.body);
 });
 
 app.get("/user", isAuthenticated, async (req, res) => {
