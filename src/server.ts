@@ -9,7 +9,8 @@ import session from "express-session";
 import path from "path";
 import {configurePassport, isAuthenticated} from "./config/passport";
 import {DatabaseManager} from "./models/DatabaseManager";
-import {User} from "./models/User";
+import {User} from "./models/UserAPI";
+import { profileRouter } from "./profile";
 
 dotenv.config();
 
@@ -25,9 +26,13 @@ app.use(session({
     saveUninitialized: true,
     cookie: {maxAge: 3 * 24 * 60 * 60 * 1000}
 }));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
+
+// ROUTERS
+app.use("/profile", profileRouter);
 
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname + "/views/index.html"));
@@ -62,15 +67,11 @@ app.get("/search", (req, res) => {
     res.sendFile(path.join(__dirname + "/views/search.html"));
 });
 
-app.get("/get_my_profile", isAuthenticated, async (req, res) => {
-    const user = await User.find(req.user.oauth_token);
-    res.send(user);
-});
-
 app.post("/update_profile", isAuthenticated, (req, res) => {
     // TODO: Store the user variables sent in the POST
     console.log("Update profile...");
     console.log(req.body);
+    res.send("Test");
 });
 
 app.post("/create_profile", isAuthenticated, (req, res) => {

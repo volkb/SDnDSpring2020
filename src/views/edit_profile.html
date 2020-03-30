@@ -17,7 +17,7 @@
         <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="navbar-collapse collapse" id="navbarsExampleDefault" style="">
+    <div class="navbar-collapse collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
                 <a class="nav-link" href="/dashboard">Dashboard</a>
@@ -35,7 +35,7 @@
 </nav>
 
 <div class="container" style="padding-top: 100px;">
-    <form method="POST" action="/update_profile">
+    <form method="POST" action="/profile/update">
         <h4 class="mb-3">General Information</h4>
 
         <div class="row">
@@ -63,26 +63,26 @@
         <div class="row">
             <div class="col-md-5 mb-3">
                 <label for="country">Country</label>
-                <select class="custom-select d-block w-100" id="country" required>
+                <select class="custom-select d-block w-100" id="country" name="country" required onchange="countrySelectionChange()">
                     <option value="">Choose...</option>
                 </select>
             </div>
             <div class="col-md-4 mb-3">
                 <label for="state">State</label>
-                <select class="custom-select d-block w-100" id="state">
+                <select class="custom-select d-block w-100" id="state" name="state">
                     <option value="">Choose...</option>
                 </select>
             </div>
             <div class="col-md-3 mb-3">
                 <label for="zip">Zip</label>
-                <input type="text" class="form-control" id="zip" placeholder="">
+                <input type="text" class="form-control" id="zip" placeholder="" name="zip">
             </div>
         </div>
 
         <h4 class="mb-3">Education</h4>
         <div class="mb-3">
             <label for="school">School</label>
-            <select name="school" id="school" class="form-control">
+            <select name="school" id="school" class="form-control" onchange="schoolSelectionChange()">
                 <option value="">Choose...</option>
             </select>
         </div>
@@ -95,7 +95,7 @@
             </div>
             <div class="col-md-6 mb-3">
                 <label for="minor">Minor</label>
-                <input type="text" class="form-control" id="minor" placeholder="">
+                <input type="text" class="form-control" id="minor" placeholder="" name="minor">
             </div>
         </div>
         <div class="mb-3">

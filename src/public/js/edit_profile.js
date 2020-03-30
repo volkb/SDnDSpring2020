@@ -1,3 +1,99 @@
+// Global as we we need the country objects and school objects for profile editing
+var countries = [];
+var schools = [];
+
+class Country {
+    constructor(id, sortname, name, phonecode) {
+        this.id = id;
+        this.sortname = sortname;
+        this.name = name;
+        this.phonecode = phonecode;
+        this.states = [];
+    }
+    // Fetches the states for this particular country from the backend
+    async getStates() {
+        if (this.states.length == 0) {
+            let states = await fetch(`/profile/state/${this.id}`);
+            states = await states.json();
+            if (states.success) {
+                for (let state of states.data) {
+                    this.states.push(new State(state.id, state.name, state.country_id));
+                }
+            }
+            return this.states;
+        } else {
+            return this.states;
+        }
+    }
+    // Converts the country to a select option
+    toSelectOption() {
+        const option = document.createElement("option");
+        option.value = this.id;
+        option.text = this.name;
+        return option;
+    }
+}
+
+class State {
+    constructor(id, name, country_id) {
+        this.id = id;
+        this.name = name;
+        this.country_id = country_id;
+    }
+    toSelectOption() {
+        const option = document.createElement("option");
+        option.value = this.id;
+        option.text = this.name;
+        return option;
+    }
+}
+
+class School {
+    constructor(id, name) {
+        this.id = id;
+        this.name = name;
+        this.majors = [];
+    }
+    // Fetches the majors for this particular school from the backend
+    async getMajors() {
+        if (this.majors.length == 0) {
+            let majors = await fetch(`/profile/major/${this.id}`);
+            majors = await majors.json();
+            if (majors.success) {
+                for (let major of majors.data) {
+                    this.majors.push(new Major(major.id, major.label, major.school_id));
+                }
+            }
+            return this.majors;
+        } else {
+            return this.majors;
+        }
+    }
+    // Converts the country to a select option
+    toSelectOption() {
+        const option = document.createElement("option");
+        option.value = this.id;
+        option.text = this.name;
+        return option;
+    }
+}
+
+class Major {
+    constructor(id, name, school_id) {
+        this.id = id;
+        this.name = name;
+        this.school_id = school_id;
+    }
+    toSelectOption() {
+        const option = document.createElement("option");
+        option.value = this.id;
+        option.text = this.name;
+        return option;
+    }
+}
+
+
+
 tinymce.init({
     selector: "#bio",
     plugins: [
@@ -14,15 +110,81 @@ tinymce.init({
     menubar: "favs file edit view insert format tools table help"
 });
 
-// Populates your profile with your current information
-fetch("/get_my_profile")
-    .then((response) => {
-        return response.json();
-    })
-    .then((data) => {
-        console.log(data);
-        document.getElementById("first_name").setAttribute("value", data.first_name);
-        document.getElementById("last_name").setAttribute("value", data.last_name);
-        document.getElementById("email").setAttribute("value", data.email);
-        document.getElementById("bio").setAttribute("text", data.bio);
+// Get the countries and error check
+async function getCountries() {
+    let countries = await fetch("/profile/country");
+    countries = await countries.json();
+    if (countries.success) {
+        countries = countries.data;
+    } else {
+        countries = [];
+    }
+    country_objects = [];
+    for (let country of countries) {
+        country_objects.push(new Country(country.id, country.sortname, country.name, country.phonecode));
+    }
+    return country_objects;
+}
+
+
+// Get the Schools and error check
+async function getSchools() {
+    let schools = await fetch("/profile/school");
+    schools = await schools.json();
+    if (schools.success) {
+        schools = schools.data;
+    } else {
+        schools = [];
+    }
+    school_objects = [];
+    for (let school of schools) {
+        school_objects.push(new School(school.id, school.label));
+    }
+    return school_objects;
+}
+
+async function populateFields() {
+    let user_data = await fetch("/profile");
+    user_data = await user_data.json();
+    user_data = user_data.data;
+    document.getElementById("first_name").setAttribute("value", user_data.first_name);
+    document.getElementById("last_name").setAttribute("value", user_data.last_name);
+    document.getElementById("email").setAttribute("value", user_data.email);
+    document.getElementById("bio").setAttribute("text", user_data.bio);
+    countries = await getCountries();
+    populateSelect("country", countries);
+    schools = await getSchools();
+    populateSelect("school", schools);
+}
+
+function countrySelectionChange() {
+    const select = document.getElementById("country");
+    if (select.value != "") {
+        countries[select.value-1].getStates().then((states) => {
+            populateSelect("state", states);
+        });
+    }
+}
+
+function schoolSelectionChange() {
+    const select = document.getElementById("school");
+    if (select.value != "") {
+        schools[select.value-1].getMajors().then((majors) => {
+            populateSelect("major", majors);
+        });
+    }
+}
+
+function populateSelect(select_id, objects) {
+    const select = document.getElementById(select_id);
+    select.innerHTML = "";
+    const choose = document.createElement("option");
+    choose.value = "";
+    choose.text = "Choose...";
+    select.add(choose);
+    objects.forEach(object => {
+        select.add(object.toSelectOption());
     });
+}
+
+populateFields();
