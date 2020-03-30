@@ -16,7 +16,7 @@ profileRouter.post("/update", isAuthenticated, async (req, res) => {
         const user = req.user as User;
         user.updateUserProfile(req.body);
     }
-    res.send("Success!");
+    res.redirect("/edit_profile");
 });
 
 profileRouter.get("/state/:country_id", async (req, res) => {

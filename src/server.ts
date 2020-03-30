@@ -35,7 +35,14 @@ app.use(passport.session());
 app.use("/profile", profileRouter);
 
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname + "/views/index.html"));
+    if(req.isAuthenticated())
+    {
+        res.redirect("/dashboard"); // If user is already logged in send them to the dashboard
+    }
+    else
+    {
+        res.sendFile(path.join(__dirname + "/views/index.html"));
+    }
 });
 
 // Requests email and the public profile from facebook
@@ -46,6 +53,11 @@ app.get("/auth/facebook/callback", authenticate("facebook", {
     successRedirect: "/dashboard",
     failureRedirect: "/"
 }));
+
+app.get("/auth/logout", isAuthenticated, (req, res) => {
+    req.logout();
+    res.redirect("/");
+});
 
 app.get("/dashboard", isAuthenticated, (req, res) => {
     res.sendFile(path.join(__dirname + "/views/dashboard.html"));

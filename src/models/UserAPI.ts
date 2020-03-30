@@ -121,10 +121,10 @@ export class User implements UserDB{
     async updateUserProfile(updated_info: ProfileUpdate): Promise<UserAPIResponse> {
         const response = {success: true, data: undefined, error: ""};
         const result = await DBManager.executeQuery("UPDATE user SET first_name = ?, last_name = ?, email = ?,\
-                        bio = ?, grad_date = ?, major_id = ?, minor = ?, country_id = ?, state_id = ? WHERE oauth_token = ?",
+                        bio = ?, grad_date = ?, major_id = ?, minor = ?, country_id = ?, state_id = ?, school_id = ? WHERE oauth_token = ?",
                         [updated_info.first_name, updated_info.last_name, updated_info.email, updated_info.bio,
                         updated_info.grad_date, updated_info.major, updated_info.minor, updated_info.country,
-                        updated_info.state, this.oauth_token]);
+                        updated_info.state, updated_info.school, this.oauth_token]);
         if (!result.success) {
             response.success = false;
             response.error = "Unable to update user profile!";

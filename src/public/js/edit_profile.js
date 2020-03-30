@@ -147,31 +147,39 @@ async function populateFields() {
     let user_data = await fetch("/profile");
     user_data = await user_data.json();
     user_data = user_data.data;
-    document.getElementById("first_name").setAttribute("value", user_data.first_name);
-    document.getElementById("last_name").setAttribute("value", user_data.last_name);
-    document.getElementById("email").setAttribute("value", user_data.email);
-    document.getElementById("bio").setAttribute("text", user_data.bio);
+    console.log(user_data);
     countries = await getCountries();
     populateSelect("country", countries);
     schools = await getSchools();
     populateSelect("school", schools);
+
+    document.getElementById("first_name").value = user_data.first_name;
+    document.getElementById("last_name").value = user_data.last_name;
+    document.getElementById("email").value = user_data.email;
+    document.getElementById("bio").innerText = user_data.bio;
+    document.getElementById("minor").value = user_data.minor;
+    document.getElementById("country").value = user_data.country_id;
+    document.getElementById("school").value = user_data.school_id;
+    await countrySelectionChange();
+    await schoolSelectionChange();
+    document.getElementById("state").value = user_data.state_id;
+    document.getElementById("major").value = user_data.major_id;
+
 }
 
-function countrySelectionChange() {
+async function countrySelectionChange() {
     const select = document.getElementById("country");
-    if (select.value != "") {
-        countries[select.value-1].getStates().then((states) => {
-            populateSelect("state", states);
-        });
+    if (select.value !== "") {
+        const states = await countries[select.value-1].getStates();
+        populateSelect("state", states);
     }
 }
 
-function schoolSelectionChange() {
+async function schoolSelectionChange() {
     const select = document.getElementById("school");
-    if (select.value != "") {
-        schools[select.value-1].getMajors().then((majors) => {
-            populateSelect("major", majors);
-        });
+    if (select.value !== "") {
+        const majors = await schools[select.value-1].getMajors();
+        populateSelect("major", majors);
     }
 }
 
