@@ -21,7 +21,7 @@ const uploadHandler = multer({
     limits: {fileSize: 10000000, files: 1},
     fileFilter: (req, file, done) => {
         const extension = extname(file.originalname);
-        if (extension.toLowerCase() == ".jpg" || extension.toLowerCase() == ".png") {
+        if (extension.toLowerCase() == ".jpg" || extension.toLowerCase() == ".png" || extension.toLocaleLowerCase() == ".jpeg") {
             done(null, true);
         } else {
             done(null, false);
@@ -47,7 +47,8 @@ profileRouter.post("/update", isAuthenticated, uploadHandler.single("picture"), 
         res.redirect("/edit_profile");
     } else {
         // CHANGE TO YOUR ERROR
-        res.redirect("/photo");
+        const message = "Something went wrong uploading your profile picture";
+        res.redirect(`/edit_profile?err=${encodeURIComponent(message)}`);
     }
     
 });

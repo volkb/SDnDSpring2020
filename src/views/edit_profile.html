@@ -43,13 +43,16 @@
     <form method="POST" action="/profile/update" enctype="multipart/form-data">
         <!-- The general information about the user -->
         <h4 class="mb-3">General Information</h4>
+        <div class="alert alert-warning" role="alert" id="picture_err_message"></div>
         <div class="row">
-            <div class="col-md-6 mb-3">
+            <div class="col-md-12 mb-3">
                 <label for="profile_picture">Profile Picture</label>
                 <input type="file" class="form-control" name="picture" id="profile_picture">
             </div>
-            <div class="col-md-6 mb-3">
-                <img style="width: 100%;height: 400px;" src="/images/logo.png" alt="Profile Picture">
+        </div>
+        <div class="row">
+            <div class="col-md-12 mb-3" style="height: 400px;">
+                <img style="max-height: 100%; display: block;margin-left: auto; margin-right: auto;" id="profile_image" src="/images/logo.png" alt="Profile Picture">
             </div>
         </div>
         <div class="row">
