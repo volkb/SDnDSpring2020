@@ -116,3 +116,4 @@ https.createServer({
 });
 
 app.use(express.static("src/public"));
+app.use("/profile_pictures", express.static(path.join(__dirname, "../data/pictures")));
