@@ -11,6 +11,7 @@ import {configurePassport, isAuthenticated} from "./config/passport";
 import {DatabaseManager} from "./models/DatabaseManager";
 import {User} from "./models/UserAPI";
 import { profileRouter } from "./profile";
+import { searchRouter } from "./search";
 
 dotenv.config();
 
@@ -33,6 +34,7 @@ app.use(passport.session());
 
 // ROUTERS
 app.use("/profile", profileRouter);
+app.use("/search", searchRouter);
 
 app.get("/", (req, res) => {
     if(req.isAuthenticated())
@@ -43,11 +45,6 @@ app.get("/", (req, res) => {
     {
         res.sendFile(path.join(__dirname, "/views/index.html"));
     }
-});
-
-// DELETE THIS WHEN DONE
-app.get("/photo", isAuthenticated, (req, res) => {
-    res.sendFile(path.join(__dirname, "../data/pictures", `${req.user.oauth_token}.jpg`));
 });
 
 // Requests email and the public profile from facebook
@@ -82,17 +79,6 @@ app.get("/dashboard", (req, res) => {
 
 app.get("/create_account", (req, res) => {
     res.sendFile(path.join(__dirname, "/views/create_account.html"));
-});
-
-app.get("/search", (req, res) => {
-    res.sendFile(path.join(__dirname, "/views/search.html"));
-});
-
-app.post("/update_profile", isAuthenticated, (req, res) => {
-    // TODO: Store the user variables sent in the POST
-    console.log("Update profile...");
-    console.log(req.body);
-    res.send("Test");
 });
 
 app.get("/user", isAuthenticated, async (req, res) => {
