@@ -1,3 +1,13 @@
+let query = '';
+const filter_list = [
+    "first_name",
+    "last_name",
+    "major_label",
+    "country_label",
+    "state_label",
+    "school_label"
+];
+
 // Creates the user search table
 const table = new Tabulator("#search_table", {
     height:"550px",
@@ -37,6 +47,7 @@ const table = new Tabulator("#search_table", {
         {title:"Major", field:"major_label", visible:false},
         {title:"Country", field:"country_label", visible:false},
         {title:"State", field:"state_label", visible:false},
+        {title:"School", field:"school_label", visible:false},
     ],
     rowFormatter:format_row,
     rowClick:function(e, row){
@@ -79,7 +90,7 @@ function format_row(row){
     cellContents += "<td><div><strong>Name:</strong> " + data.first_name + " " + data.last_name +
         "</div><div><strong>Major:</strong> " + data.major_label +
         "</div><div><strong>Grad Year:</strong> " + moment(data.grad_date).format("YYYY") +
-        "</div><div><strong>Country:</strong> 1</div></td>";
+        "</div><div><strong>Country:</strong> " + data.country_label + "</div></td>";
 
     rowTabletr.innerHTML = cellContents;
     rowTable.appendChild(rowTabletr);
@@ -88,19 +99,46 @@ function format_row(row){
     element.append(rowTable);
 }
 
-
 /**
  * Searches the user table.
  */
-function search_table(query) {
-    //TODO: Use tabulator filters here in combination with the side bar options to search the table
-    console.log(query);
+function search_table(query_string) {
+    query = query_string;
+    update_filters();
 }
 
 /**
  * Selects a user type to search from.
  */
 function select_user_type(user_type) {
-    //TODO: Make this set the data with the alumni or student search query
-    console.log(user_type);
+    // TODO: Make this work to reset the table
+    if(user_type === 'alumni')
+    {
+        table.replaceData("/search/users?alumni=1");
+    }
+    else
+    {
+        table.replaceData("/search/users?alumni=0");
+    }
+}
+
+/**
+ * Sets the filter in the database.
+ */
+function update_filters() {
+    table.clearFilter();
+    let updated_filters = [];
+    for(let x = 0; x < filter_list.length; x++)
+    {
+        if($("#" + filter_list[x]).prop("checked"))
+        {
+            updated_filters.push({
+                field: filter_list[x],
+                type: 'like',
+                value: query
+            });
+        }
+    }
+
+    table.setFilter([updated_filters]);
 }
