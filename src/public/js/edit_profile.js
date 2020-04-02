@@ -2,6 +2,9 @@
 var countries = [];
 var schools = [];
 
+// Instantiates the multiple select plugin for the club input
+$('#clubs').selectize();
+
 /**
  * A class to represent a country
  */

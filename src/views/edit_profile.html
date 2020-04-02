@@ -3,6 +3,7 @@
 
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/selectize.css">
 
     <script src="https://kit.fontawesome.com/8a0c87cb9a.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -10,6 +11,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <script src="https://cdn.tiny.cloud/1/ij0h6vcxvcacvu1l56udgaairzb672xtq1kktiizh2cpf4fe/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script src="/js/moment.js"></script>
+    <script src="/js/selectize.js"></script>
 
     <title>Edit Profile</title>
 </head>
@@ -116,6 +118,12 @@
         <div class="mb-3">
             <label for="grad_date">Graduation / Projected Graduation</label>
             <input type="date" id="grad_date" name="grad_date" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="clubs">Clubs</label>
+            <select id="clubs" name="clubs">
+                <option value="">Choose...</option>
+            </select>
         </div>
         <hr class="mb-4">
         <button class="btn btn-primary btn-lg btn-block" type="submit">Update Account</button>
