@@ -51,6 +51,10 @@ app.get("/dashboard", isAuthenticated, (req, res) => {
     res.sendFile(path.join(__dirname + "/views/dashboard.html"));
 });
 
+app.get("/admin_page", isAuthenticated, (req, res) => {
+    res.sendFile(path.join(__dirname + "/views/admin_page.html"));
+});
+
 app.get("/edit_profile", isAuthenticated, (req, res) => {
     res.sendFile(path.join(__dirname + "/views/edit_profile.html"));
 });

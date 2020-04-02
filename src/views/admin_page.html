@@ -8,7 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
-    <title>Dashboard</title>
+    <title>Admin Page</title>
 </head>
 
 <body>
@@ -20,7 +20,7 @@
 
     <div class="navbar-collapse collapse" id="navbarsExampleDefault" style="">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="/dashboard">Dashboard</a>
             </li>
             <li class="nav-item">
@@ -32,7 +32,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="/search">Search Students</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="/admin_page">Admin Page</a>
             </li>
         </ul>
@@ -41,8 +41,57 @@
     </div>
 </nav>
 
-<main role="main" style="margin-top: 56px;">
-
+<main role="main" style="margin-top: 100px;">
+    <h4 class="pl-3">
+        Clubs
+    </h4>
+        <form>
+            <div class="input-group pl-3 pr-3 mb-4">
+              <input type="text" class="form-control" placeholder="Club name" aria-label="Recipient's username" aria-describedby="basic-addon2">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button">Add</button>
+                <button class="btn btn-outline-secondary" type="button">Edit</button>
+                <button class="btn btn-outline-secondary" type="button">Delete</button>
+              </div>
+            </div>
+        </form>
+    <h4 class="pl-3">
+        Majors
+    </h4>
+        <form>
+            <div class="input-group pl-3 pr-3 mb-4">
+              <input type="text" class="form-control" placeholder="Major name" aria-label="Recipient's username" aria-describedby="basic-addon2">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button">Add</button>
+                <button class="btn btn-outline-secondary" type="button">Edit</button>
+                <button class="btn btn-outline-secondary" type="button">Delete</button>
+              </div>
+            </div>
+        </form>
+    <h4 class="pl-3">
+        Schools
+    </h4>
+        <form>
+            <div class="input-group pl-3 pr-3 mb-4">
+              <input type="text" class="form-control" placeholder="School name" aria-label="Recipient's username" aria-describedby="basic-addon2">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button">Add</button>
+                <button class="btn btn-outline-secondary" type="button">Edit</button>
+                <button class="btn btn-outline-secondary" type="button">Delete</button>
+              </div>
+            </div>
+        </form>
+    <h4 class="pl-3">
+        Users
+    </h4>
+        <form>
+            <div class="input-group pl-3 pr-3 mb-4">
+              <input type="text" class="form-control" placeholder="Search user" aria-label="Recipient's username" aria-describedby="basic-addon2">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button">Search</button>
+              </div>
+            </div>
+        </form>
 </main>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script>window.jQuery || document.write('<script src="/docs/4.4/assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="/docs/4.4/dist/js/bootstrap.bundle.min.js" integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm" crossorigin="anonymous"></script>
