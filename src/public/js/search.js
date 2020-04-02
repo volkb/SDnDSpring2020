@@ -8,6 +8,22 @@ const filter_list = [
     "school_label"
 ];
 
+let columns = [
+    {title:"ID", field:"id", visible:false},
+    {title:"School ID", field:"school_id", visible:false},
+    {title:"First Name", field:"first_name", visible:false},
+    {title:"Last Name", field:"last_name", visible:false},
+    {title:"Email", field:"email", visible:false},
+    {title:"Bio", field:"bio", visible:false},
+    {title:"Major ID", field:"major_id", visible:false},
+    {title:"Country ID", field:"country_id", visible:false},
+    {title:"Graduation Date", field:"grad_date", visible:false},
+    {title:"Major", field:"major_label", visible:false},
+    {title:"Country", field:"country_label", visible:false},
+    {title:"State", field:"state_label", visible:false},
+    {title:"School", field:"school_label", visible:false},
+];
+
 // Creates the user search table
 const table = new Tabulator("#search_table", {
     height:"550px",
@@ -34,35 +50,30 @@ const table = new Tabulator("#search_table", {
         return response.data; //return the tableData property of a response json object
     },
     resizableColumns:false,
-    columns:[
-        {title:"ID", field:"id", visible:false},
-        {title:"School ID", field:"school_id", visible:false},
-        {title:"First Name", field:"first_name", visible:false},
-        {title:"Last Name", field:"last_name", visible:false},
-        {title:"Email", field:"email", visible:false},
-        {title:"Bio", field:"bio", visible:false},
-        {title:"Major ID", field:"major_id", visible:false},
-        {title:"Country ID", field:"country_id", visible:false},
-        {title:"Graduation Date", field:"grad_date", visible:false},
-        {title:"Major", field:"major_label", visible:false},
-        {title:"Country", field:"country_label", visible:false},
-        {title:"State", field:"state_label", visible:false},
-        {title:"School", field:"school_label", visible:false},
-    ],
+    columns: columns,
     rowFormatter:format_row,
-    rowClick:function(e, row){
-        //e - the click event object
-        //row - row component
-        let data = row.getData();
-        $('#user_modal').modal('show');
-        $('#user_modal_title').text(data.first_name + " " + data.last_name + "'s Profile");
-        $('#user_email').text(data.email);
-        $('#user_location').text(data.state_label + ", " + data.country_label);
-        $('#user_bio').html(data.bio);
-        $('#user_grad_date').text(moment(data.grad_date).format("MM/DD/YYYY"));
-        $('#user_profile_image').prop("src", "/profile_pictures/" + data.picture);
-    },
+    rowClick:show_profile,
 });
+
+
+/**
+ * Shows the user's profile in a modal.
+ *
+ * @param e
+ * @param row
+ */
+function show_profile(e, row){
+    //e - the click event object
+    //row - row component
+    let data = row.getData();
+    $('#user_modal').modal('show');
+    $('#user_modal_title').text(data.first_name + " " + data.last_name + "'s Profile");
+    $('#user_email').text(data.email);
+    $('#user_location').text(data.state_label + ", " + data.country_label);
+    $('#user_bio').html(data.bio);
+    $('#user_grad_date').text(moment(data.grad_date).format("MM/DD/YYYY"));
+    $('#user_profile_image').prop("src", "/profile_pictures/" + data.picture);
+}
 
 /**
  * Styles the row in the table.
@@ -114,11 +125,11 @@ function select_user_type(user_type) {
     // TODO: Make this work to reset the table
     if(user_type === 'alumni')
     {
-        table.replaceData("/search/users?alumni=1");
+        table.setData("/search/users?alumni=1");
     }
     else
     {
-        table.replaceData("/search/users?alumni=0");
+        table.setData("/search/users?alumni=0");
     }
 }
 
