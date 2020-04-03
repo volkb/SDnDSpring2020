@@ -1,4 +1,4 @@
-let query = '';
+let query = "";
 const filter_list = [
     "first_name",
     "last_name",
@@ -123,7 +123,7 @@ function search_table(query_string) {
  */
 function select_user_type(user_type) {
     // TODO: Make this work to reset the table
-    if(user_type === 'alumni')
+    if(user_type === "alumni")
     {
         table.setData("/search/users?alumni=1");
     }
@@ -145,7 +145,7 @@ function update_filters() {
         {
             updated_filters.push({
                 field: filter_list[x],
-                type: 'like',
+                type: "like",
                 value: query
             });
         }
