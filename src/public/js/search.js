@@ -1,59 +1,156 @@
-// Define some test data
-const cheeseData = [
-    {id:1, type:"Brie", rind:"mould", age:"4 weeks", color:"white", image:"brie.jpg"},
-    {id:2, type:"Cheddar", rind:"none", age:"1 year", color:"yellow", image:"cheddar.jpg"},
-    {id:3, type:"Gouda", rind:"wax", age:"6 months", color:"cream", image:"gouda.jpg"},
-    {id:4, type:"Swiss", rind:"none", age:"9 months", color:"yellow", image:"swiss.jpg"},
+let query = "";
+const filter_list = [
+    "first_name",
+    "last_name",
+    "major_label",
+    "country_label",
+    "state_label",
+    "school_label"
 ];
 
-const alumniTestData = [
-    {id: 1, first_name: "Escher", last_name: "Campanella", grad_date: 2021, industry: "Computer Science", email: "campae@rpi.edu", picture: "https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-9/53435153_2278030889101425_1097496257322024960_n.jpg?_nc_cat=103&_nc_sid=85a577&_nc_oc=AQnbtAoUfHlPxFHAvzHc-6s1U513-GI7jDoVZg0mXCC_FWD9A9NSk71-VMAIBdWjK8Q&_nc_ht=scontent-lga3-1.xx&oh=fcbe4d99951474b1dc2a3dd73189dbf3&oe=5EA759D3", country_id: 231, state_id: 3927},
-    {id: 2, first_name: "Ben", last_name: "Volk", grad_date: 3000, industry: "Computer Science", email: "ben@ben.ben", picture: "https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-9/p960x960/73080791_2526422740726382_8740518533399576576_o.jpg?_nc_cat=109&_nc_sid=85a577&_nc_oc=AQkbCbD39kXmjXYUPBZrm_6BH95tu6_16cCaQUd75j3ZuftPikQJJ72C7Z0ahbcRVCE&_nc_ht=scontent-lga3-1.xx&_nc_tp=6&oh=be65f43cee63510dc7964824b0b9f5e3&oe=5EA76013", country_id: 231, state_id: 3953},
-    {id: 3, first_name: "Leo", last_name: "Campanella", grad_date: 2030, industry: "cat", email: "cats@meow.com", picture: "/images/rpi_logo.jpg", country_id: 1, state_id: 3927}
+
+const columns = [
+    {title:"ID", field:"id", visible:false},
+    {title:"School ID", field:"school_id", visible:false},
+    {title:"First Name", field:"first_name", visible:false},
+    {title:"Last Name", field:"last_name", visible:false},
+    {title:"Email", field:"email", visible:false},
+    {title:"Bio", field:"bio", visible:false},
+    {title:"Major ID", field:"major_id", visible:false},
+    {title:"Country ID", field:"country_id", visible:false},
+    {title:"Graduation Date", field:"grad_date", visible:false},
+    {title:"Major", field:"major_label", visible:false},
+    {title:"Country", field:"country_label", visible:false},
+    {title:"State", field:"state_label", visible:false},
+    {title:"School", field:"school_label", visible:false},
 ];
 
-//define Tabulator
+// Creates the user search table
 const table = new Tabulator("#search_table", {
-    ajaxURL:"", //ajax URL
-    ajaxConfig:"POST", //ajax HTTP request type
-    height:"500px",
+    height:"550px",
     layout:"fitColumns",
-    resizableColumns:false,
-    columns:[
-        {title:"Alumni", field:"type", sorter:"string"}
-    ],
-    rowFormatter:function(row){
-        const element = row.getElement();
-        const width = element.offsetWidth;
-        //const height = element.offsetHeight;
-        const data = row.getData();
-        let rowTable;
+    ajaxURL: "/search/users",
+    ajaxConfig:"GET", //ajax HTTP request type
+    ajaxContentType:"json", // send parameters to the server as a JSON encoded string
+    ajaxResponse:function(url, params, response){
+        //url - the URL of the request
+        //params - the parameters passed with the request
+        //response - the JSON object returned in the body of the response.
 
-        //clear current row data
-        while(element.firstChild) element.removeChild(element.firstChild);
+        if(response.success)
+        {
+            document.getElementById("search_err_message").style.display = "none";
+        }
+        else
+        {
+            document.getElementById("search_err_message").innerText = response.error;
+            document.getElementById("search_err_message").style.display = "block";
+        }
 
-        //define a table layout structure and set width of row
-        rowTable = document.createElement("table");
-        rowTable.style.width = (width - 18) + "px";
-        const rowTabletr = document.createElement("tr");
-
-        //add image on left of row
-        let cellContents = "<td width ='10%'><img src='" + data.picture + "' class='img-fluid' alt='Responsive image'></td>";
-
-        //add row data on right hand side
-        cellContents += "<td width='15%'><h4>" + data.first_name + " " + data.last_name + "</h4></td>";
-        cellContents += "<td width='15%'><div><strong>" + data.industry + "</strong></div></td>";
-        cellContents += "<td width='15%'><div>Class of " + data.grad_date + "</div></td>";
-        cellContents += "<td width='15%'><div>" + data.state_id + ", "+ data.country_id + "</div></td>";
-
-        cellContents += "<td width='15%'><div><a href='mailto:" + data.email + "'>" + data.email + "</a></div></td>"
-
-        rowTabletr.innerHTML = cellContents;
-        rowTable.appendChild(rowTabletr);
-
-        //append newly formatted contents to the row
-        element.append(rowTable);
+        console.log(response);
+        return response.data; //return the tableData property of a response json object
     },
+    resizableColumns:false,
+    columns: columns,
+    rowFormatter:format_row,
+    rowClick:show_profile,
 });
 
-table.addData(alumniTestData);
+
+/**
+ * Shows the user's profile in a modal.
+ *
+ * @param e
+ * @param row
+ */
+function show_profile(e, row){
+    //e - the click event object
+    //row - row component
+    const data = row.getData();
+    $('#user_modal').modal('show');
+    $('#user_modal_title').text(data.first_name + " " + data.last_name + "'s Profile");
+    $('#user_email').text(data.email);
+    $('#user_location').text(data.state_label + ", " + data.country_label);
+    $('#user_bio').html(data.bio);
+    $('#user_grad_date').text(moment(data.grad_date).format("MM/DD/YYYY"));
+    $('#user_profile_image').prop("src", "/profile_pictures/" + data.picture);
+}
+
+/**
+ * Styles the row in the table.
+ *
+ * @param row The row object that is being styled
+ */
+function format_row(row){
+    const element = row.getElement();
+    const width = element.offsetParent.offsetParent.offsetParent.offsetWidth;
+    const data = row.getData();
+    let rowTable;
+
+    //clear current row data
+    while(element.firstChild) element.removeChild(element.firstChild);
+
+    //define a table layout structure and set width of row
+    rowTable = document.createElement("table");
+    rowTable.style.width = (width - 3) + "px";
+    const rowTabletr = document.createElement("tr");
+
+    //add image on left of row
+    let cellContents = "<td><img style='max-height: 200px;' src='/profile_pictures/" + data.picture + "'></td>";
+
+    //add row data on right hand side
+    cellContents += "<td><div><strong>Name:</strong> " + data.first_name + " " + data.last_name +
+        "</div><div><strong>Major:</strong> " + data.major_label +
+        "</div><div><strong>Grad Year:</strong> " + moment(data.grad_date).format("YYYY") +
+        "</div><div><strong>Country:</strong> " + data.country_label + "</div></td>";
+
+    rowTabletr.innerHTML = cellContents;
+    rowTable.appendChild(rowTabletr);
+
+    //append newly formatted contents to the row
+    element.append(rowTable);
+}
+
+/**
+ * Searches the user table.
+ */
+function search_table(query_string) {
+    query = query_string;
+    update_filters();
+}
+
+/**
+ * Selects a user type to search from.
+ */
+function select_user_type(user_type) {
+    // TODO: Make this work to reset the table
+    if(user_type === "alumni")
+    {
+        table.setData("/search/users?alumni=1");
+    }
+    else
+    {
+        table.setData("/search/users?alumni=0");
+    }
+}
+
+/**
+ * Sets the filter in the database.
+ */
+function update_filters() {
+    table.clearFilter();
+    const updated_filters = [];
+    for(let x = 0; x < filter_list.length; x++)
+    {
+        if($("#" + filter_list[x]).prop("checked"))
+        {
+            updated_filters.push({
+                field: filter_list[x],
+                type: "like",
+                value: query
+            });
+        }
+    }
+
+    table.setFilter([updated_filters]);
+}

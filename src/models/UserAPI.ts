@@ -3,7 +3,7 @@ import {DBManager} from "../server";
 // Type to describe what a response from a User API would look like
 interface UserAPIResponse {
     success: boolean;
-    data: User | undefined;
+    data: User[] | User | undefined;
     error: string;
 }
 
@@ -16,6 +16,7 @@ type ProfileUpdate  = {
     zip: string;
     bio: string;
     school: string;
+    picture: string;
     major: string;
     minor: string;
     grad_date: string;
@@ -121,13 +122,46 @@ export class User implements UserDB{
     async updateUserProfile(updated_info: ProfileUpdate): Promise<UserAPIResponse> {
         const response = {success: true, data: undefined, error: ""};
         const result = await DBManager.executeQuery("UPDATE user SET first_name = ?, last_name = ?, email = ?,\
-                        bio = ?, grad_date = ?, major_id = ?, minor = ?, country_id = ?, state_id = ? WHERE oauth_token = ?",
+                        bio = ?, grad_date = ?, major_id = ?, minor = ?, country_id = ?, state_id = ?, school_id = ?, picture = ? WHERE oauth_token = ?",
                         [updated_info.first_name, updated_info.last_name, updated_info.email, updated_info.bio,
                         updated_info.grad_date, updated_info.major, updated_info.minor, updated_info.country,
-                        updated_info.state, this.oauth_token]);
+                        updated_info.state, updated_info.school, updated_info.picture, this.oauth_token]);
         if (!result.success) {
             response.success = false;
             response.error = "Unable to update user profile!";
+        }
+        return response;
+    }
+    // Searches all users either for alumni or students 
+    async searchAllUsers(alumni = false): Promise<UserAPIResponse> {
+        const response: UserAPIResponse = {success: true, data: undefined, error: ""};
+        let query = "SELECT user.*, major.label as major_label, country.name as country_label, state.name as state_label, school.label as school_label \
+            FROM user \
+            JOIN major ON major_id = major.id  \
+            JOIN country ON country_id = country.id \
+            JOIN state ON state_id = state.id \
+            JOIN school ON user.school_id = school.id \
+            WHERE grad_date";
+        // They're an alumni if their graduation date is in the past
+        if (alumni) {
+            query = query + " < NOW();"; 
+        } else {
+            query = query + " > NOW();";
+        }
+        const result = await DBManager.executeQuery(query, []);
+        if (result.success) {
+            response.data = [];
+            // Goes through all the users returned in the search and created User objects from the database
+            for (const user of result.data) {
+                // No point including yourself in a search
+                if (user.oauth_token !== this.oauth_token) {
+                    response.data.push(new User(user));
+                }
+            }
+        } else {
+            console.error("Error in searchAllUsers!");
+            response.success = false;
+            response.error = "DB failed during search all users";
         }
         return response;
     }

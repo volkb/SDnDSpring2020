@@ -11,6 +11,7 @@ import {configurePassport, isAuthenticated} from "./config/passport";
 import {DatabaseManager} from "./models/DatabaseManager";
 import {User} from "./models/UserAPI";
 import { profileRouter } from "./profile";
+import { searchRouter } from "./search";
 
 dotenv.config();
 
@@ -33,9 +34,17 @@ app.use(passport.session());
 
 // ROUTERS
 app.use("/profile", profileRouter);
+app.use("/search", searchRouter);
 
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname + "/views/index.html"));
+    if(req.isAuthenticated())
+    {
+        res.redirect("/dashboard"); // If user is already logged in send them to the dashboard
+    }
+    else
+    {
+        res.sendFile(path.join(__dirname, "/views/index.html"));
+    }
 });
 
 // Requests email and the public profile from facebook
@@ -47,9 +56,11 @@ app.get("/auth/facebook/callback", authenticate("facebook", {
     failureRedirect: "/"
 }));
 
-app.get("/dashboard", isAuthenticated, (req, res) => {
-    res.sendFile(path.join(__dirname + "/views/dashboard.html"));
+app.get("/auth/logout", isAuthenticated, (req, res) => {
+    req.logout();
+    res.redirect("/");
 });
+
 
 app.get("/admin_page", isAuthenticated, (req, res) => {
     res.sendFile(path.join(__dirname + "/views/admin_page.html"));
@@ -63,24 +74,20 @@ app.get("/dashboard", (req, res) => {
     res.sendFile(path.join(__dirname + "/views/dashboard.html"));
 });
 
+app.get("/privacy_policy", (req, res) => {
+    res.sendFile(path.join(__dirname, "/views/privacy_policy.html"));
+});
+
+app.get("/edit_profile", isAuthenticated, (req, res) => {
+    res.sendFile(path.join(__dirname, "/views/edit_profile.html"));
+});
+
+app.get("/dashboard", (req, res) => {
+    res.sendFile(path.join(__dirname, "/views/dashboard.html"));
+});
+
 app.get("/create_account", (req, res) => {
-    res.sendFile(path.join(__dirname + "/views/create_account.html"));
-});
-
-app.get("/search", (req, res) => {
-    res.sendFile(path.join(__dirname + "/views/search.html"));
-});
-
-app.post("/update_profile", isAuthenticated, (req, res) => {
-    // TODO: Store the user variables sent in the POST
-    console.log("Update profile...");
-    console.log(req.body);
-    res.send("Test");
-});
-
-app.post("/create_profile", isAuthenticated, (req, res) => {
-    // TODO: Store the user variables sent in the POST
-    console.log(req.body);
+    res.sendFile(path.join(__dirname, "/views/create_account.html"));
 });
 
 app.get("/user", isAuthenticated, async (req, res) => {
@@ -104,3 +111,4 @@ https.createServer({
 });
 
 app.use(express.static("src/public"));
+app.use("/profile_pictures", express.static(path.join(__dirname, "../data/pictures")));

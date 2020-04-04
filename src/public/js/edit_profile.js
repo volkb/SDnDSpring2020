@@ -2,6 +2,9 @@
 var countries = [];
 var schools = [];
 
+/**
+ * A class to represent a country
+ */
 class Country {
     constructor(id, sortname, name, phonecode) {
         this.id = id;
@@ -34,6 +37,9 @@ class Country {
     }
 }
 
+/**
+ * A class to represent a state.
+ */
 class State {
     constructor(id, name, country_id) {
         this.id = id;
@@ -48,6 +54,9 @@ class State {
     }
 }
 
+/**
+ * A class to represent a school at RPI.
+ */
 class School {
     constructor(id, name) {
         this.id = id;
@@ -78,6 +87,9 @@ class School {
     }
 }
 
+/**
+ * A class to represent a user's major.
+ */
 class Major {
     constructor(id, name, school_id) {
         this.id = id;
@@ -92,8 +104,7 @@ class Major {
     }
 }
 
-
-
+// Creates the WYSIWYG editor
 tinymce.init({
     selector: "#bio",
     plugins: [
@@ -107,10 +118,15 @@ tinymce.init({
     menu: {
         favs: {title: "My Favorites", items: "code visualaid | searchreplace | spellchecker | emoticons"}
     },
-    menubar: "favs file edit view insert format tools table help"
+    menubar: "favs file edit view insert format tools table help",
+    oninit: populateFields()
 });
 
-// Get the countries and error check
+/**
+ * Get the countries and error check
+ *
+ * @returns {Promise<[]|*[]>}
+ */
 async function getCountries() {
     let countries = await fetch("/profile/country");
     countries = await countries.json();
@@ -126,8 +142,11 @@ async function getCountries() {
     return country_objects;
 }
 
-
-// Get the Schools and error check
+/**
+ * Get the Schools and error check.
+ *
+ * @returns {Promise<[]|*[]>}
+ */
 async function getSchools() {
     let schools = await fetch("/profile/school");
     schools = await schools.json();
@@ -143,38 +162,91 @@ async function getSchools() {
     return school_objects;
 }
 
+/**
+ * Populates the user's profile fields with their current information.
+ *
+ * @returns {Promise<void>}
+ */
 async function populateFields() {
+    check_for_errors();
     let user_data = await fetch("/profile");
     user_data = await user_data.json();
     user_data = user_data.data;
-    document.getElementById("first_name").setAttribute("value", user_data.first_name);
-    document.getElementById("last_name").setAttribute("value", user_data.last_name);
-    document.getElementById("email").setAttribute("value", user_data.email);
-    document.getElementById("bio").setAttribute("text", user_data.bio);
+    console.log(user_data);
     countries = await getCountries();
     populateSelect("country", countries);
     schools = await getSchools();
     populateSelect("school", schools);
+
+    document.getElementById("first_name").value = user_data.first_name;
+    document.getElementById("last_name").value = user_data.last_name;
+    document.getElementById("email").value = user_data.email;
+    document.getElementById('bio').innerText = user_data.bio;
+    tinymce.get("bio").setContent(user_data.bio);
+    document.getElementById("minor").value = user_data.minor;
+    document.getElementById("country").value = user_data.country_id;
+    document.getElementById("school").value = user_data.school_id;
+    await countrySelectionChange();
+    await schoolSelectionChange();
+    document.getElementById("state").value = user_data.state_id;
+    document.getElementById("major").value = user_data.major_id;
+    document.getElementById("profile_image").src = "/profile_pictures/" + user_data.picture;
+    document.getElementById("grad_date").value = moment(user_data.grad_date).add(1,'days').format('YYYY-MM-DD');
 }
 
-function countrySelectionChange() {
+/**
+ * If there was an error uploading your profile picture displays the message on the front end.
+ */
+function check_for_errors()
+{
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const error_message = urlParams.get('err');
+
+    if(error_message !== null)
+    {
+        document.getElementById("picture_err_message").style.display = 'block';
+    }
+    else
+    {
+        document.getElementById("picture_err_message").style.display = 'none';
+    }
+
+    document.getElementById("picture_err_message").innerText = error_message;
+}
+
+/**
+ * Listener function that gets lazy loads all of the states for a given country.
+ *
+ * @returns {Promise<void>}
+ */
+async function countrySelectionChange() {
     const select = document.getElementById("country");
-    if (select.value != "") {
-        countries[select.value-1].getStates().then((states) => {
-            populateSelect("state", states);
-        });
+    if (select.value !== "") {
+        const states = await countries[select.value-1].getStates();
+        populateSelect("state", states);
     }
 }
 
-function schoolSelectionChange() {
+/**
+ * Listener function that lazy loads all of the majors for a selected school at RPI.
+ *
+ * @returns {Promise<void>}
+ */
+async function schoolSelectionChange() {
     const select = document.getElementById("school");
-    if (select.value != "") {
-        schools[select.value-1].getMajors().then((majors) => {
-            populateSelect("major", majors);
-        });
+    if (select.value !== "") {
+        const majors = await schools[select.value-1].getMajors();
+        populateSelect("major", majors);
     }
 }
 
+/**
+ * A helper function that populates a select field.
+ *
+ * @param select_id The id of the select element to populate
+ * @param objects The objects to populate in the select
+ */
 function populateSelect(select_id, objects) {
     const select = document.getElementById(select_id);
     select.innerHTML = "";
@@ -186,5 +258,3 @@ function populateSelect(select_id, objects) {
         select.add(object.toSelectOption());
     });
 }
-
-populateFields();

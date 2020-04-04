@@ -22,12 +22,14 @@
     "express": "^4.17.1",
     "express-session": "^1.17.0",
     "mariadb": "^2.2.0",
+    "multer": "^1.4.2",
     "passport": "^0.4.1",
     "passport-facebook": "^3.0.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.2",
     "@types/express-session": "^1.15.16",
+    "@types/multer": "^1.4.2",
     "@types/node": "^13.7.2",
     "@types/passport": "^1.0.2",
     "@types/passport-facebook": "^2.1.9",
