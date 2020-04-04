@@ -135,7 +135,13 @@ export class User implements UserDB{
     // Searches all users either for alumni or students 
     async searchAllUsers(alumni = false): Promise<UserAPIResponse> {
         const response: UserAPIResponse = {success: true, data: undefined, error: ""};
-        let query = "SELECT * from user WHERE grad_date ";
+        let query = "SELECT user.*, major.label as major_label, country.name as country_label, state.name as state_label, school.label as school_label \
+            FROM user \
+            JOIN major ON major_id = major.id  \
+            JOIN country ON country_id = country.id \
+            JOIN state ON state_id = state.id \
+            JOIN school ON user.school_id = school.id \
+            WHERE grad_date";
         // They're an alumni if their graduation date is in the past
         if (alumni) {
             query = query + " < NOW();"; 
