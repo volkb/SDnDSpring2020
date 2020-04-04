@@ -1,5 +1,4 @@
-let query = '';
-let current_table = 'student';
+let query = "";
 const filter_list = [
     "first_name",
     "last_name",
@@ -9,7 +8,7 @@ const filter_list = [
     "school_label"
 ];
 
-let columns = [
+const columns = [
     {title:"ID", field:"id", visible:false},
     {title:"School ID", field:"school_id", visible:false},
     {title:"First Name", field:"first_name", visible:false},
@@ -87,7 +86,7 @@ function handle_response(url, params, response){
 function show_profile(e, row){
     //e - the click event object
     //row - row component
-    let data = row.getData();
+    const data = row.getData();
     $('#user_modal').modal('show');
     $('#user_modal_title').text(data.first_name + " " + data.last_name + "'s Profile");
     $('#user_email').text(data.email);
@@ -179,7 +178,7 @@ function update_filters() {
         {
             updated_filters.push({
                 field: filter_list[x],
-                type: 'like',
+                type: "like",
                 value: query
             });
         }
