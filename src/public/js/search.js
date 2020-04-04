@@ -1,4 +1,5 @@
 let query = '';
+let current_table = 'student';
 const filter_list = [
     "first_name",
     "last_name",
@@ -25,35 +26,56 @@ let columns = [
 ];
 
 // Creates the user search table
-const table = new Tabulator("#search_table", {
+const alumni_table = new Tabulator("#alumni_search_table", {
     height:"550px",
     layout:"fitColumns",
-    ajaxURL: "/search/users",
+    ajaxURL: "/search/users?alumni=1",
     ajaxConfig:"GET", //ajax HTTP request type
     ajaxContentType:"json", // send parameters to the server as a JSON encoded string
-    ajaxResponse:function(url, params, response){
-        //url - the URL of the request
-        //params - the parameters passed with the request
-        //response - the JSON object returned in the body of the response.
-
-        if(response.success)
-        {
-            document.getElementById("search_err_message").style.display = "none";
-        }
-        else
-        {
-            document.getElementById("search_err_message").innerText = response.error;
-            document.getElementById("search_err_message").style.display = "block";
-        }
-
-        console.log(response);
-        return response.data; //return the tableData property of a response json object
-    },
+    ajaxResponse:handle_response,
     resizableColumns:false,
     columns: columns,
     rowFormatter:format_row,
     rowClick:show_profile,
 });
+
+// Creates the user search table
+const student_table = new Tabulator("#student_search_table", {
+    height:"550px",
+    layout:"fitColumns",
+    ajaxURL: "/search/users?alumni=0",
+    ajaxConfig:"GET", //ajax HTTP request type
+    ajaxContentType:"json", // send parameters to the server as a JSON encoded string
+    ajaxResponse:handle_response,
+    resizableColumns:false,
+    columns: columns,
+    rowFormatter:format_row,
+    rowClick:show_profile,
+});
+
+/**
+ * Handles the ajax requests response.
+ *
+ * @param url the URL of the request
+ * @param params the parameters passed with the request
+ * @param response the JSON object returned in the body of the response.
+ *
+ * @returns {*} Returns the formatted JSON
+ */
+function handle_response(url, params, response){
+    if(response.success)
+    {
+        document.getElementById("search_err_message").style.display = "none";
+    }
+    else
+    {
+        document.getElementById("search_err_message").innerText = response.error;
+        document.getElementById("search_err_message").style.display = "block";
+    }
+
+    console.log(response);
+    return response.data; //return the tableData property of a response json object
+}
 
 
 /**
@@ -95,7 +117,13 @@ function format_row(row){
     const rowTabletr = document.createElement("tr");
 
     //add image on left of row
-    let cellContents = "<td><img style='max-height: 200px;' src='/profile_pictures/" + data.picture + "'></td>";
+    let image_string = "<img style='max-height: 200px;max-width:200px;' src='/images/logo.png'>";
+    if(data.picture !== null)
+    {
+        image_string = "<img style='max-height: 200px;max-width:200px;' src='/profile_pictures/" + data.picture + "'>";
+    }
+
+    let cellContents = "<td>" + image_string + "</td>";
 
     //add row data on right hand side
     cellContents += "<td><div><strong>Name:</strong> " + data.first_name + " " + data.last_name +
@@ -122,14 +150,19 @@ function search_table(query_string) {
  * Selects a user type to search from.
  */
 function select_user_type(user_type) {
-    // TODO: Make this work to reset the table
     if(user_type === 'alumni')
     {
-        table.setData("/search/users?alumni=1");
+        $('#alumni_search_table').removeClass('d-none');
+        $('#student_search_table').addClass('d-none');
+        current_table = "alumni";
+        update_filters();
     }
     else
     {
-        table.setData("/search/users?alumni=0");
+        $('#alumni_search_table').addClass('d-none');
+        $('#student_search_table').removeClass('d-none');
+        current_table = "student";
+        update_filters();
     }
 }
 
@@ -137,7 +170,8 @@ function select_user_type(user_type) {
  * Sets the filter in the database.
  */
 function update_filters() {
-    table.clearFilter();
+    student_table.clearFilter();
+    alumni_table.clearFilter();
     let updated_filters = [];
     for(let x = 0; x < filter_list.length; x++)
     {
@@ -151,5 +185,12 @@ function update_filters() {
         }
     }
 
-    table.setFilter([updated_filters]);
+    if(current_table === "student")
+    {
+        student_table.setFilter([updated_filters]);
+    }
+    else
+    {
+        alumni_table.setFilter([updated_filters]);
+    }
 }
