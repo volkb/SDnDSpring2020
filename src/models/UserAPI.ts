@@ -21,6 +21,9 @@ type ProfileUpdate  = {
     major: string;
     minor: string;
     grad_date: string;
+    clubs: string[];
+    club_start: string[];
+    club_end: string[];
 }
 
 interface UserDB {
@@ -115,11 +118,24 @@ export class User implements UserDB{
     }
     async updateUserProfile(updated_info: ProfileUpdate): Promise<UserAPIResponse> {
         const response = {success: true, data: undefined, error: ""};
-        const result = await DBManager.executeQuery("UPDATE user SET first_name = ?, last_name = ?, email = ?,\
+        let result = await DBManager.executeQuery("UPDATE user SET first_name = ?, last_name = ?, email = ?,\
                         bio = ?, grad_date = ?, major_id = ?, minor = ?, country_id = ?, state_id = ?, school_id = ?, picture = ? WHERE oauth_token = ?",
                         [updated_info.first_name, updated_info.last_name, updated_info.email, updated_info.bio,
                         updated_info.grad_date, updated_info.major, updated_info.minor, updated_info.country,
                         updated_info.state, updated_info.school, updated_info.picture, this.oauth_token]);
+        for(let i = 0; i < updated_info.clubs.length; i++) {
+            if (updated_info.clubs[i] === "") {
+                continue;
+            }
+            result = await DBManager.executeQuery("INSERT INTO club_roster VALUES(?, ?, ?, ?)\
+                         ON DUPLICATE KEY UPDATE start = ?, end = ?;", 
+                         [updated_info.clubs[i], this.id.toString(), updated_info.club_start[i], updated_info.club_end[i],
+                         updated_info.club_start[i], updated_info.club_end[i]]);
+            if (!result.success) {
+                response.success = false;
+                break;
+            }
+        }
         if (!result.success) {
             response.success = false;
             response.error = "Unable to update user profile!";
@@ -162,7 +178,7 @@ export class User implements UserDB{
     // Gets all the clubs which a user has (this is called privately in User.find so that all users retrieved have their clubs)
     private async getClubs(): Promise<Club[]> {
         const result = await DBManager.executeQuery("SELECT clubs.*, start, end FROM club_roster\
-                             JOIN clubs on club_id = clubs.id WHERE user_id = ?", [this.id as unknown as string]);
+                             JOIN clubs on club_id = clubs.id WHERE user_id = ?", [this.id.toString()]);
         if (result.success) {
             const clubs: Club[] = [];
             for (const club of result.data) {

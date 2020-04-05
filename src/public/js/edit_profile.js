@@ -1,10 +1,8 @@
-// Global as we we need the country objects and school objects for profile editing
+// Global as we we need the country objects, school objects, and club objects for profile editing
 var countries = [];
 var schools = [];
-
-// Instantiates the multiple select plugin for the club input
-$('#clubs').selectize();
-
+var clubs = [];
+var selected_clubs = new Map();
 /**
  * A class to represent a country
  */
@@ -107,6 +105,23 @@ class Major {
     }
 }
 
+/**
+ * A class to represent a club.
+ * Description was left out as it doesn't help in select
+ */
+class Club {
+    constructor(id, name) {
+        this.id = id;
+        this.name = name;
+    }
+    toSelectOption() {
+        const option = document.createElement("option");
+        option.value = this.id;
+        option.text = this.name;
+        return option;
+    }
+}
+
 // Creates the WYSIWYG editor
 tinymce.init({
     selector: "#bio",
@@ -165,6 +180,21 @@ async function getSchools() {
     return school_objects;
 }
 
+async function getClubs() {
+    let clubs = await fetch("/profile/club");
+    clubs = await clubs.json();
+    if (clubs.success) {
+        clubs = clubs.data
+    } else {
+        clubs = []
+    }
+    club_objects = [];
+    for (let club of clubs) {
+        club_objects.push(new Club(club.id, club.club_name));
+    }
+    return club_objects;
+}
+
 /**
  * Populates the user's profile fields with their current information.
  *
@@ -180,6 +210,8 @@ async function populateFields() {
     populateSelect("country", countries);
     schools = await getSchools();
     populateSelect("school", schools);
+    clubs = await getClubs();
+    populateSelect("clubs_0", clubs);
 
     document.getElementById("first_name").value = user_data.first_name;
     document.getElementById("last_name").value = user_data.last_name;
@@ -260,4 +292,31 @@ function populateSelect(select_id, objects) {
     objects.forEach(object => {
         select.add(object.toSelectOption());
     });
+}
+
+function addClubRow(event) {
+    // No point in making more rows if we don't have anymore clubs
+    if (selected_clubs.size === clubs.length) {
+        return;
+    }
+    // We get rid of the "clubs_" before storing the selection in the map
+    const section_id = Number(event.id.slice(6));
+    selected_clubs.set(section_id, event.value);
+    full = true;
+    for (let value of selected_clubs.values()) {
+        if (value === "") {
+            full = false;
+            break;
+        }
+    }
+    // If a club has been selected for all visible club rows we want to add another one
+    if (full) {
+        const row = event.parentElement.parentElement.cloneNode(true);
+        row.children[0].children[0].id = `clubs_${selected_clubs.size}`;
+        // Made it so close without jquery, but this would've been an extra function in pure JS
+        // and we're already using jquery so I caved
+        $("#form_bottom").before(row);
+        // That way the map know about the new select box
+        selected_clubs.set(selected_clubs.size, "");
+    }
 }
