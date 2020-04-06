@@ -12,6 +12,7 @@ import {DatabaseManager} from "./models/DatabaseManager";
 import {User} from "./models/UserAPI";
 import { profileRouter } from "./profile";
 import { searchRouter } from "./search";
+import { adminRouter } from "./admin";
 
 dotenv.config();
 
@@ -35,6 +36,7 @@ app.use(passport.session());
 // ROUTERS
 app.use("/profile", profileRouter);
 app.use("/search", searchRouter);
+app.use("/admin", adminRouter);
 
 app.get("/", (req, res) => {
     if(req.isAuthenticated())
@@ -61,16 +63,16 @@ app.get("/auth/logout", isAuthenticated, (req, res) => {
     res.redirect("/");
 });
 
-app.get("/dashboard", isAuthenticated, (req, res) => {
-    res.sendFile(path.join(__dirname, "/views/dashboard.html"));
+app.get("/edit_profile", isAuthenticated, (req, res) => {
+    res.sendFile(path.join(__dirname + "/views/edit_profile.html"));
+});
+
+app.get("/dashboard", (req, res) => {
+    res.sendFile(path.join(__dirname + "/views/dashboard.html"));
 });
 
 app.get("/privacy_policy", (req, res) => {
     res.sendFile(path.join(__dirname, "/views/privacy_policy.html"));
-});
-
-app.get("/edit_profile", isAuthenticated, (req, res) => {
-    res.sendFile(path.join(__dirname, "/views/edit_profile.html"));
 });
 
 app.get("/dashboard", (req, res) => {
