@@ -3,13 +3,14 @@
 
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css">
+
     <script src="https://kit.fontawesome.com/8a0c87cb9a.js" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <script src="https://cdn.tiny.cloud/1/ij0h6vcxvcacvu1l56udgaairzb672xtq1kktiizh2cpf4fe/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script src="/js/moment.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"></script>
 
     <title>Edit Profile</title>
 </head>
@@ -117,21 +118,13 @@
             <label for="grad_date">Graduation / Projected Graduation</label>
             <input type="date" id="grad_date" name="grad_date" class="form-control" required>
         </div>
-        <label for="clubs">Clubs</label>
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <select name="clubs" class="form-control" id="clubs_0" onchange="addClubRow(this)">
-                    <option value="">Choose...</option>
-                </select>
-            </div>
-            <div class="col-md-3">
-                <input type="date" name="club_start" class="form-control"/>
-            </div>
-            <div class="col-md-3">
-                <input type="date" name="club_end" class="form-control"/>
-            </div>
+        <div class="mb-3">
+            <label for="clubs">Clubs</label>
+            <select id="clubs" name="clubs">
+                <option value="">Choose...</option>
+            </select>
         </div>
-        <hr class="mb-4" id="form_bottom">
+        <hr class="mb-4">
         <button class="btn btn-primary btn-lg btn-block" type="submit">Update Account</button>
     </form>
     <footer class="my-5 pt-5 text-muted text-center text-small">
