@@ -199,6 +199,28 @@ async function getClubs() {
     return club_objects;
 }
 
+document.getElementById("profile_picture").onchange = function () {
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+        // get loaded data and render thumbnail.
+        let file_type = document.getElementById("profile_picture").files[0].type;
+        if(file_type === "image/png" || file_type === "image/jpeg" || file_type === "image/jpg")
+        {
+            document.getElementById("profile_image").src = e.target.result;
+        }
+        else
+        {
+            // TODO: Set up the file to not upload if this error state is reached
+            $("#picture_err_message").html("The file you selected is not one of the following acceptable file types:<br><br>- jpeg<br>- jpg<br>- png");
+            $("#picture_err_message").css("display","block");
+        }
+    };
+
+    // read the image file as a data URL.
+    reader.readAsDataURL(this.files[0]);
+};
+
 /**
  * Populates the user's profile fields with their current information.
  *
