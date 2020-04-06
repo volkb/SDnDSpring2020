@@ -7,7 +7,7 @@ export const adminRouter = express.Router();
 
 // Authentication guard, prevents user from advancing if their request isn't an admin
 export const isAdmin = (req: Request, res: Response, next: NextFunction): void => {
-    if ((req.user as User)) {
+    if (!((req.user as User).isadmin)) {
         return next();
     }
     res.redirect("/");
