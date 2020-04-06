@@ -42,60 +42,154 @@
 </nav>
 
 <main role="main" style="margin-top: 100px;">
-    <h4 class="pl-3">
-        Clubs
-    </h4>
-        <form>
-            <div class="input-group pl-3 pr-3 mb-4">
-              <input type="text" class="form-control" placeholder="Club name" aria-label="Recipient's username" aria-describedby="basic-addon2">
-              <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button">Add</button>
-                <button class="btn btn-outline-secondary" type="button">Edit</button>
-                <button class="btn btn-outline-secondary" type="button">Delete</button>
-              </div>
-            </div>
-        </form>
-    <h4 class="pl-3">
-        Majors
-    </h4>
-        <form>
-            <div class="input-group pl-3 pr-3 mb-4">
-              <input type="text" class="form-control" placeholder="Major name" aria-label="Recipient's username" aria-describedby="basic-addon2">
-              <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button">Add</button>
-                <button class="btn btn-outline-secondary" type="button">Edit</button>
-                <button class="btn btn-outline-secondary" type="button">Delete</button>
-              </div>
-            </div>
-        </form>
-    <h4 class="pl-3">
-        Schools
-    </h4>
-        <form>
-            <div class="input-group pl-3 pr-3 mb-4">
-              <input type="text" class="form-control" placeholder="School name" aria-label="Recipient's username" aria-describedby="basic-addon2">
-              <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button">Add</button>
-                <button class="btn btn-outline-secondary" type="button">Edit</button>
-                <button class="btn btn-outline-secondary" type="button">Delete</button>
-              </div>
-            </div>
-        </form>
-    <h4 class="pl-3">
-        Users
-    </h4>
-        <form>
-            <div class="input-group pl-3 pr-3 mb-4">
-              <input type="text" class="form-control" placeholder="Search user" aria-label="Recipient's username" aria-describedby="basic-addon2">
-              <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button">Search</button>
-              </div>
-            </div>
-        </form>
-</main>
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-<script>window.jQuery || document.write('<script src="/docs/4.4/assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="/docs/4.4/dist/js/bootstrap.bundle.min.js" integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm" crossorigin="anonymous"></script>
+    <div class="shadow m-3 p-3 bg-white rounded" style="overflow: auto;">
 
+        <h1>Administrative Tools</h1>
+        <div class="accordion" id="accordionExample">
+            <div class="card">
+                <div class="card-header" id="headingOne">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            Modify Clubs
+                        </button>
+                    </h2>
+                </div>
+
+                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                    <div class="card-body">
+                        <h6>Add Club</h6>
+                        <form>
+                            <div class="form-group">
+                                <label for="club_label">Label</label>
+                                <input type="text" id="club_label" class="form-control" name="label" placeholder="Enter the club title..." required>
+                            </div>
+                            <div class="form-group">
+                                <label for="club_desc">Description</label>
+                                <textarea id="club_desc" name="description" rows="6" class="form-control" required placeholder="Enter a description of the club..."></textarea>
+                            </div>
+                        </form>
+
+                        <h6>Edit/Delete Club</h6>
+                        <form>
+                            <button type="button" class="btn btn-danger float-right">Delete</button>
+                            <br>
+                            <div class="form-group">
+                                <label for="select_club">Select Club</label>
+                                <select id="select_club" name="club_id" class="form-control" required>
+                                    <option value="">Choose...</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit_club_label">Label</label>
+                                <input type="text" id="edit_club_label" class="form-control" name="label" placeholder="Enter the club title..." required>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit_club_desc">Description</label>
+                                <textarea id="edit_club_desc" name="description" rows="6" class="form-control" required placeholder="Enter a description of the club..."></textarea>
+                            </div>
+                            <button class="btn btn-primary float-right ml-2" type="submit">Update</button>
+                            <button class="btn btn-secondary float-right" type="reset">Reset</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="headingTwo">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseOne">
+                            Modify Majors
+                        </button>
+                    </h2>
+                </div>
+
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                    <div class="card-body">
+                        <h6>Add Major</h6>
+                        <form>
+                            <div class="form-group">
+                                <label for="major_label">Label</label>
+                                <input type="text" id="major_label" class="form-control" name="label" placeholder="Enter the major title..." required>
+                            </div>
+                            <div class="form-group">
+                                <label for="major_desc">Description</label>
+                                <textarea id="major_desc" name="description" rows="6" class="form-control" required placeholder="Enter a description of the major..."></textarea>
+                            </div>
+                        </form>
+
+                        <h6>Edit/Delete Major</h6>
+                        <form>
+                            <button type="button" class="btn btn-danger float-right">Delete</button>
+                            <br>
+                            <div class="form-group">
+                                <label for="select_major">Select major</label>
+                                <select id="select_major" name="major_id" class="form-control" required>
+                                    <option value="">Choose...</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit_major_label">Label</label>
+                                <input type="text" id="edit_major_label" class="form-control" name="label" placeholder="Enter the major title..." required>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit_major_desc">Description</label>
+                                <textarea id="edit_major_desc" name="description" rows="6" class="form-control" required placeholder="Enter a description of the major..."></textarea>
+                            </div>
+                            <button class="btn btn-primary float-right ml-2" type="submit">Update</button>
+                            <button class="btn btn-secondary float-right" type="reset">Reset</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="headingThree">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseOne">
+                            Modify Schools
+                        </button>
+                    </h2>
+                </div>
+
+                <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                    <div class="card-body">
+                        <h6>Add Schools</h6>
+                        <form>
+                            <div class="form-group">
+                                <label for="school_label">Label</label>
+                                <input type="text" id="school_label" class="form-control" name="label" placeholder="Enter the school title..." required>
+                            </div>
+                            <div class="form-group">
+                                <label for="school_desc">Description</label>
+                                <textarea id="school_desc" name="description" rows="6" class="form-control" required placeholder="Enter a description of the school..."></textarea>
+                            </div>
+                        </form>
+
+                        <h6>Edit/Delete Schools</h6>
+                        <form>
+                            <button type="button" class="btn btn-danger float-right">Delete</button>
+                            <br>
+                            <div class="form-group">
+                                <label for="select_school">Select school</label>
+                                <select id="select_school" name="school_id" class="form-control" required>
+                                    <option value="">Choose...</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit_school_label">Label</label>
+                                <input type="text" id="edit_school_label" class="form-control" name="label" placeholder="Enter the school title..." required>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit_school_desc">Description</label>
+                                <textarea id="edit_school_desc" name="description" rows="6" class="form-control" required placeholder="Enter a description of the school..."></textarea>
+                            </div>
+                            <button class="btn btn-primary float-right ml-2" type="submit">Update</button>
+                            <button class="btn btn-secondary float-right" type="reset">Reset</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
 </body>
 
 </html>
