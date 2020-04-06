@@ -1,4 +1,5 @@
 import {DBManager} from "../server";
+import { Club } from "./Club";
 
 // Type to describe what a response from a User API would look like
 interface UserAPIResponse {
@@ -20,6 +21,9 @@ type ProfileUpdate  = {
     major: string;
     minor: string;
     grad_date: string;
+    clubs: string[];
+    club_start: string[];
+    club_end: string[];
 }
 
 interface UserDB {
@@ -30,14 +34,9 @@ interface UserDB {
     last_name: string;
     grad_date?: string;
     industry?: string;
-    gpa?: number;
-    salary?: number;
     picture?: string;
     bio?: string;
-    comm_context?: string;
-    active?: number;
-    last_login?: string;
-    last_login_ip?: string;
+    isadmin?: number;
     major_id?: number;
     minor?: string;
     country_id?: number;
@@ -53,18 +52,14 @@ export class User implements UserDB{
     last_name: string;
     grad_date?: string;
     industry?: string;
-    gpa?: number;
-    salary?: number;
     picture?: string;
     bio?: string;
-    comm_context?: string;
-    active?: number;
-    last_login?: string;
-    last_login_ip?: string;
+    isadmin?: number;
     major_id?: number;
     minor?: string;
     country_id?: number;
     state_id?: number;
+    clubs: Club[];
     
     constructor(creation_object: UserDB) {
         Object.assign(this, creation_object);
@@ -73,6 +68,7 @@ export class User implements UserDB{
         this.email = creation_object.email;
         this.first_name = creation_object.first_name;
         this.last_name = creation_object.last_name;
+        this.clubs = [];
     }
     // Given an access code finds the user in the database
     static async find(accessToken: string): Promise<UserAPIResponse> {
@@ -83,6 +79,7 @@ export class User implements UserDB{
                 const user_obj = result.data[0];
                 response.success = true;
                 response.data = new User(user_obj);
+                response.data.clubs = await response.data.getClubs();
             } else {
                 response.success = false;
                 response.error = "No user found!";
@@ -121,11 +118,23 @@ export class User implements UserDB{
     }
     async updateUserProfile(updated_info: ProfileUpdate): Promise<UserAPIResponse> {
         const response = {success: true, data: undefined, error: ""};
-        const result = await DBManager.executeQuery("UPDATE user SET first_name = ?, last_name = ?, email = ?,\
+        let result = await DBManager.executeQuery("UPDATE user SET first_name = ?, last_name = ?, email = ?,\
                         bio = ?, grad_date = ?, major_id = ?, minor = ?, country_id = ?, state_id = ?, school_id = ?, picture = ? WHERE oauth_token = ?",
                         [updated_info.first_name, updated_info.last_name, updated_info.email, updated_info.bio,
                         updated_info.grad_date, updated_info.major, updated_info.minor, updated_info.country,
                         updated_info.state, updated_info.school, updated_info.picture, this.oauth_token]);
+        await DBManager.executeQuery("DELETE FROM club_roster WHERE user_id=?", [this.id.toString()]);
+        for(let i = 0; i < updated_info.clubs.length; i++) {
+            if (updated_info.clubs[i] === "") {
+                continue;
+            }
+            result = await DBManager.executeQuery("INSERT INTO club_roster VALUES(?, ?);", 
+                         [updated_info.clubs[i], this.id.toString()]);
+            if (!result.success) {
+                response.success = false;
+                break;
+            }
+        }
         if (!result.success) {
             response.success = false;
             response.error = "Unable to update user profile!";
@@ -164,5 +173,19 @@ export class User implements UserDB{
             response.error = "DB failed during search all users";
         }
         return response;
+    }
+    // Gets all the clubs which a user has (this is called privately in User.find so that all users retrieved have their clubs)
+    private async getClubs(): Promise<Club[]> {
+        const result = await DBManager.executeQuery("SELECT clubs.* FROM club_roster\
+                             JOIN clubs on club_id = clubs.id WHERE user_id = ?", [this.id.toString()]);
+        if (result.success) {
+            const clubs: Club[] = [];
+            for (const club of result.data) {
+                clubs.push(new Club(club));
+            }
+            return clubs;
+        } else {
+            return [];
+        }
     }
 }

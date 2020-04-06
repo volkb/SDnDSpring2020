@@ -1,6 +1,7 @@
 // Global as we we need the country objects and school objects for profile editing
 var countries = [];
 var schools = [];
+var clubs = [];
 
 /**
  * A class to represent a country
@@ -50,6 +51,22 @@ class State {
         const option = document.createElement("option");
         option.value = this.id;
         option.text = this.name;
+        return option;
+    }
+}
+
+/**
+ * A class to represent a club.
+ */
+class Club {
+    constructor(id, label) {
+        this.id = id;
+        this.label = label;
+    }
+    toSelectOption() {
+        const option = document.createElement("option");
+        option.value = this.id;
+        option.text = this.label;
         return option;
     }
 }
@@ -163,6 +180,26 @@ async function getSchools() {
 }
 
 /**
+ * Get the club and error check.
+ *
+ * @returns {Promise<[]|*[]>}
+ */
+async function getClubs() {
+    let clubs = await fetch("/profile/club");
+    clubs = await clubs.json();
+    if (clubs.success) {
+        clubs = clubs.data;
+    } else {
+        clubs = [];
+    }
+    club_objects = [];
+    for (let club of clubs) {
+        club_objects.push(new Club(club.id, club.club_name));
+    }
+    return club_objects;
+}
+
+/**
  * Populates the user's profile fields with their current information.
  *
  * @returns {Promise<void>}
@@ -177,6 +214,22 @@ async function populateFields() {
     populateSelect("country", countries);
     schools = await getSchools();
     populateSelect("school", schools);
+
+    // Instantiates the multiple select plugin for the club input
+    clubs = await getClubs();
+    let club_ids = [];
+    for(let x = 0; x < user_data.clubs.length; x++)
+    {
+        club_ids.push(user_data.clubs[x].id);
+    }
+    populateSelect("clubs", clubs);
+
+    let $select = $('#clubs').selectize({
+        plugins: ['remove_button'],
+        maxItems: null
+    });
+    let selectize = $select[0].selectize;
+    selectize.setValue(club_ids);
 
     document.getElementById("first_name").value = user_data.first_name;
     document.getElementById("last_name").value = user_data.last_name;

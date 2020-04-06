@@ -1,4 +1,5 @@
 import express from "express";
+import { NextFunction, Request, Response } from "express";
 import { isAuthenticated } from "./config/passport";
 import { DBManager } from "./server";
 import { User } from "./models/UserAPI";
@@ -24,7 +25,7 @@ const uploadHandler = multer({
         if (extension.toLowerCase() == ".jpg" || extension.toLowerCase() == ".png" || extension.toLocaleLowerCase() == ".jpeg") {
             done(null, true);
         } else {
-            done(null, false);
+            return done(new Error("Invalid file type"));
         }
     },
 
@@ -38,18 +39,28 @@ profileRouter.get("/", isAuthenticated, async (req, res) => {
     res.send(user);
 });
 
-profileRouter.post("/update", isAuthenticated, uploadHandler.single("picture"), async (req, res) => {
-    if (req.user && req.file) {
-        const user = req.user as User;
-        console.log(req.file.filename);
+// This handles error checking to see if the picture is of the correct type
+function profileUpload(req: Request, res: Response, next: NextFunction): void {
+    const handler = uploadHandler.single("picture");
+    handler(req, res, (err) => {
+        if (err) {
+            const message = "Incorrect file type! Only images are allowed";
+            res.redirect(`/edit_profile?err=${encodeURIComponent(message)}`);
+        } else {
+            next();
+        }
+    });
+}
+
+profileRouter.post("/update", isAuthenticated, profileUpload, async (req, res) => {
+    const user = req.user as User;
+    if (req.file) {
         req.body.picture = req.file.filename;
-        user.updateUserProfile(req.body);
-        res.redirect("/edit_profile");
     } else {
-        // CHANGE TO YOUR ERROR
-        const message = "Something went wrong uploading your profile picture";
-        res.redirect(`/edit_profile?err=${encodeURIComponent(message)}`);
+        req.body.picture = user.picture;
     }
+    user.updateUserProfile(req.body);
+    res.redirect("/edit_profile");
     
 });
 
@@ -76,4 +87,11 @@ profileRouter.get("/school", async (req, res) => {
 profileRouter.get("/major/:school_id", async (req, res) => {
     const majors = await DBManager.executeQuery("SELECT * FROM major WHERE school_id=?;", [req.params.school_id]);
     res.send(majors);
+});
+
+// Gets all the clubs in the DB
+profileRouter.get("/club", async (req, res) => {
+    const clubs = await DBManager.executeQuery("SELECT * from clubs;", []);
+    // Maybe convert this to Club objects at some point? Doesn't really matter as it immediately turns back to JSON
+    res.send(clubs);
 });
