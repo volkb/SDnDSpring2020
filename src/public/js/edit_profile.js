@@ -217,11 +217,19 @@ async function populateFields() {
 
     // Instantiates the multiple select plugin for the club input
     clubs = await getClubs();
+    let club_ids = [];
+    for(let x = 0; x < user_data.clubs.length; x++)
+    {
+        club_ids.push(user_data.clubs[x].id);
+    }
     populateSelect("clubs", clubs);
-    $('#clubs').selectize({
+
+    let $select = $('#clubs').selectize({
         plugins: ['remove_button'],
         maxItems: null
     });
+    let selectize = $select[0].selectize;
+    selectize.setValue(club_ids);
 
     document.getElementById("first_name").value = user_data.first_name;
     document.getElementById("last_name").value = user_data.last_name;
