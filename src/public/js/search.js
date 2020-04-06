@@ -8,7 +8,6 @@ const filter_list = [
     "school_label"
 ];
 
-
 const columns = [
     {title:"ID", field:"id", visible:false},
     {title:"School ID", field:"school_id", visible:false},
