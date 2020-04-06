@@ -123,11 +123,12 @@ export class User implements UserDB{
                         [updated_info.first_name, updated_info.last_name, updated_info.email, updated_info.bio,
                         updated_info.grad_date, updated_info.major, updated_info.minor, updated_info.country,
                         updated_info.state, updated_info.school, updated_info.picture, this.oauth_token]);
+        await DBManager.executeQuery("DELETE FROM club_roster WHERE user_id=?", [this.id.toString()]);
         for(let i = 0; i < updated_info.clubs.length; i++) {
             if (updated_info.clubs[i] === "") {
                 continue;
             }
-            result = await DBManager.executeQuery("INSERT IGNORE INTO club_roster VALUES(?, ?);", 
+            result = await DBManager.executeQuery("INSERT INTO club_roster VALUES(?, ?);", 
                          [updated_info.clubs[i], this.id.toString()]);
             if (!result.success) {
                 response.success = false;
