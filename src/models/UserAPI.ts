@@ -127,10 +127,8 @@ export class User implements UserDB{
             if (updated_info.clubs[i] === "") {
                 continue;
             }
-            result = await DBManager.executeQuery("INSERT INTO club_roster VALUES(?, ?, ?, ?)\
-                         ON DUPLICATE KEY UPDATE start = ?, end = ?;", 
-                         [updated_info.clubs[i], this.id.toString(), updated_info.club_start[i], updated_info.club_end[i],
-                         updated_info.club_start[i], updated_info.club_end[i]]);
+            result = await DBManager.executeQuery("INSERT IGNORE INTO club_roster VALUES(?, ?);", 
+                         [updated_info.clubs[i], this.id.toString()]);
             if (!result.success) {
                 response.success = false;
                 break;
@@ -177,7 +175,7 @@ export class User implements UserDB{
     }
     // Gets all the clubs which a user has (this is called privately in User.find so that all users retrieved have their clubs)
     private async getClubs(): Promise<Club[]> {
-        const result = await DBManager.executeQuery("SELECT clubs.*, start, end FROM club_roster\
+        const result = await DBManager.executeQuery("SELECT clubs.* FROM club_roster\
                              JOIN clubs on club_id = clubs.id WHERE user_id = ?", [this.id.toString()]);
         if (result.success) {
             const clubs: Club[] = [];

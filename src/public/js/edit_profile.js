@@ -219,6 +219,7 @@ async function populateFields() {
     clubs = await getClubs();
     populateSelect("clubs", clubs);
     $('#clubs').selectize({
+        plugins: ['remove_button'],
         maxItems: null
     });
 
