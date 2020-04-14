@@ -67,16 +67,12 @@ app.get("/edit_profile", isAuthenticated, (req, res) => {
     res.sendFile(path.join(__dirname + "/views/edit_profile.html"));
 });
 
-app.get("/dashboard", (req, res) => {
-    res.sendFile(path.join(__dirname + "/views/dashboard.html"));
-});
-
 app.get("/privacy_policy", (req, res) => {
     res.sendFile(path.join(__dirname, "/views/privacy_policy.html"));
 });
 
 app.get("/dashboard", (req, res) => {
-    res.sendFile(path.join(__dirname, "/views/dashboard.html"));
+    res.sendFile(path.join(__dirname, "/views/index.html"));
 });
 
 app.get("/create_account", (req, res) => {

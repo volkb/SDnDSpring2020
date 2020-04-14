@@ -44,279 +44,202 @@
         <h1>Administrative Tools</h1>
         <div class="accordion" id="accordionExample">
             <div class="card">
-                <div class="card-header" id="headingOne">
+                <div class="card-header" id="modify_clubs">
                     <h2 class="mb-0">
-                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne" style="font-size:smaller;">
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#modify_clubs_target" aria-expanded="false" aria-controls="collapseOne" style="font-size:smaller;">
                             Modify Clubs
                         </button>
                     </h2>
                 </div>
 
-                <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div id="modify_clubs_target" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                     <div class="card-body">
-                        <div id="accordion" role="tablist">
-                          <div class="card">
-                            <div class="card-header" role="tab" id="headingOne">
-                              <h5 class="mb-0">
-                                <a data-toggle="collapse" href="#collapseOneAddClub" aria-expanded="false" aria-controls="collapseOneAddClub">
-                                  Add Club
-                                </a>
-                              </h5>
-                            </div>
+                        <div id="modify_clubs_accordion" role="tablist">
+                            <div class="card">
+                                <div class="card-header" role="tab" id="modify_clubs_add">
+                                    <h5 class="mb-0">
+                                        <a data-toggle="collapse" href="#modify_clubs_add_target" aria-expanded="false" aria-controls="collapseOneAddClub">
+                                            Add Club
+                                        </a>
+                                    </h5>
+                                </div>
 
-                            <div id="collapseOneAddClub" class="collapse" role="tabpanel" aria-labelledby="headingOne">
-                              <div class="card-body">
-                                <form>
-                                    <div class="form-group">
-                                        <label for="club_label">Label</label>
-                                        <input type="text" id="club_label" class="form-control" name="label" placeholder="Enter the club title..." required>
+                                <div id="modify_clubs_add_target" class="collapse" role="tabpanel" aria-labelledby="headingOne">
+                                    <div class="card-body">
+                                        <!--TODO: Need a route for this-->
+                                        <form method="POST" action="/add_club">
+                                            <div class="form-group">
+                                                <label for="club_label">Label</label>
+                                                <input type="text" id="club_label" class="form-control" name="label" placeholder="Enter the club title..." required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="club_desc">Description</label>
+                                                <textarea id="club_desc" name="description" rows="6" class="form-control" required placeholder="Enter a description of the club..."></textarea>
+                                            </div>
+                                            <button class="btn btn-primary float-right ml-2 mb-2" type="submit">Update</button>
+                                            <button class="btn btn-secondary float-right" type="reset">Reset</button>
+                                        </form>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="club_desc">Description</label>
-                                        <textarea id="club_desc" name="description" rows="6" class="form-control" required placeholder="Enter a description of the club..."></textarea>
-                                    </div>
-                                    <button class="btn btn-primary float-right ml-2 mb-2" type="submit">Update</button>
-                                    <button class="btn btn-secondary float-right" type="reset">Reset</button>
-                                </form>
-                              </div>
+                                </div>
                             </div>
-                          </div>
-                          <div class="card">
-                            <div class="card-header" role="tab" id="headingTwo">
-                              <h5 class="mb-0">
-                                <a class="collapsed" data-toggle="collapse" href="#collapseOneDeleteClub" aria-expanded="false" aria-controls="collapseOneDeleteClub">
-                                  Delete Club
-                                </a>
-                              </h5>
-                            </div>
-                            <div id="collapseOneDeleteClub" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
-                              <div class="card-body">
-                                <form>
-                                    <div class="form-group">
-                                        <label for="select_club">Select Club</label>
-                                        <select id="select_club" name="club_id" class="form-control" required>
-                                            <option value="">Choose...</option>
-                                        </select>
+                            <div class="card">
+                                <div class="card-header" role="tab" id="delete_club">
+                                    <h5 class="mb-0">
+                                        <a class="collapsed" data-toggle="collapse" href="#collapse_delete_club" aria-expanded="false" aria-controls="collapseOneDeleteClub">
+                                            Delete Club
+                                        </a>
+                                    </h5>
+                                </div>
+                                <div id="collapse_delete_club" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                    <div class="card-body">
+                                        <!--                                  TODO: Need a route for this-->
+                                        <form method="POST" action="/delete_club">
+                                            <div class="form-group">
+                                                <label for="select_delete_club">Select Club</label>
+                                                <select id="select_delete_club" name="club_id" class="form-control" required>
+                                                    <option value="">Choose...</option>
+                                                </select>
+                                            </div>
+                                            <button type="button" class="btn btn-danger float-right mb-2">Delete</button>
+                                        </form>
                                     </div>
-                                    <button type="button" class="btn btn-danger float-right mb-2">Delete</button>
-                                </form>
-                              </div>
+                                </div>
                             </div>
-                          </div>
-                          <div class="card">
-                            <div class="card-header" role="tab" id="headingTwo">
-                              <h5 class="mb-0">
-                                <a class="collapsed" data-toggle="collapse" href="#collapseOneEditClub" aria-expanded="false" aria-controls="collapseOneEditClub">
-                                  Edit Club
-                                </a>
-                              </h5>
+                            <div class="card">
+                                <div class="card-header" role="tab" id="edit_club">
+                                    <h5 class="mb-0">
+                                        <a class="collapsed" data-toggle="collapse" href="#collapse_edit_club" aria-expanded="false" aria-controls="collapseOneEditClub">
+                                            Edit Club
+                                        </a>
+                                    </h5>
+                                </div>
+                                <div id="collapse_edit_club" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                    <div class="card-body">
+                                        <!--TODO: Need a route for this-->
+                                        <form method="POST" action="/edit_club">
+                                            <div class="form-group">
+                                                <label for="select_edit_club">Select Club</label>
+                                                <select id="select_edit_club" name="club_id" class="form-control" onchange="select_club(this.value)" required>
+                                                    <option value="">Choose...</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="edit_club_label">Label</label>
+                                                <input type="text" id="edit_club_label" class="form-control" name="label" placeholder="Enter the club title..." required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="edit_club_desc">Description</label>
+                                                <textarea id="edit_club_desc" name="description" rows="6" class="form-control" required placeholder="Enter a description of the club..."></textarea>
+                                            </div>
+                                            <button class="btn btn-primary float-right ml-2 mb-2" type="submit">Update</button>
+                                            <button class="btn btn-secondary float-right" type="reset">Reset</button>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
-                            <div id="collapseOneEditClub" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
-                              <div class="card-body">
-                                <form>
-                                    <div class="form-group">
-                                        <label for="select_club">Select Club</label>
-                                        <select id="select_club" name="club_id" class="form-control" required>
-                                            <option value="">Choose...</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="edit_club_label">Label</label>
-                                        <input type="text" id="edit_club_label" class="form-control" name="label" placeholder="Enter the club title..." required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="edit_club_desc">Description</label>
-                                        <textarea id="edit_club_desc" name="description" rows="6" class="form-control" required placeholder="Enter a description of the club..."></textarea>
-                                    </div>
-                                    <button class="btn btn-primary float-right ml-2 mb-2" type="submit">Update</button>
-                                    <button class="btn btn-secondary float-right" type="reset">Reset</button>
-                                </form>
-                              </div>
-                            </div>
-                          </div>
                         </div>
-
-
-<!-- 
-                        <h6>Add Club</h6>
-                        <form>
-                            <div class="form-group">
-                                <label for="club_label">Label</label>
-                                <input type="text" id="club_label" class="form-control" name="label" placeholder="Enter the club title..." required>
-                            </div>
-                            <div class="form-group">
-                                <label for="club_desc">Description</label>
-                                <textarea id="club_desc" name="description" rows="6" class="form-control" required placeholder="Enter a description of the club..."></textarea>
-                            </div>
-                        </form>
-
-                        <h6>Edit/Delete Club</h6>
-                        <form>
-                            <button type="button" class="btn btn-danger float-right">Delete</button>
-                            <br>
-                            <div class="form-group">
-                                <label for="select_club">Select Club</label>
-                                <select id="select_club" name="club_id" class="form-control" required>
-                                    <option value="">Choose...</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="edit_club_label">Label</label>
-                                <input type="text" id="edit_club_label" class="form-control" name="label" placeholder="Enter the club title..." required>
-                            </div>
-                            <div class="form-group">
-                                <label for="edit_club_desc">Description</label>
-                                <textarea id="edit_club_desc" name="description" rows="6" class="form-control" required placeholder="Enter a description of the club..."></textarea>
-                            </div>
-                            <button class="btn btn-primary float-right ml-2" type="submit">Update</button>
-                            <button class="btn btn-secondary float-right" type="reset">Reset</button>
-                        </form>
- -->
-
-
-
-
-
                     </div>
                 </div>
             </div>
             <div class="card">
-                <div class="card-header" id="headingTwo">
+                <div class="card-header">
                     <h2 class="mb-0">
-                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseOne" style="font-size:smaller;">
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse_majors" aria-expanded="true" aria-controls="collapseOne" style="font-size:smaller;">
                             Modify Majors
                         </button>
                     </h2>
                 </div>
 
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div id="collapse_majors" class="collapse" aria-labelledby="headingOne" data-parent="#collapse_majors">
                     <div class="card-body">
-                        <div id="accordion" role="tablist">
-                          <div class="card">
-                            <div class="card-header" role="tab" id="headingOne">
-                              <h5 class="mb-0">
-                                <a data-toggle="collapse" href="#collapseTwoAddMajor" aria-expanded="false" aria-controls="collapseTwoAddMajor">
-                                  Add Major
-                                </a>
-                              </h5>
-                            </div>
+                        <div id="majors_accordion" role="tablist">
+                            <div class="card">
+                                <div class="card-header" role="tab">
+                                    <h5 class="mb-0">
+                                        <a data-toggle="collapse" href="#collapse_add_major" aria-expanded="false" aria-controls="collapseTwoAddMajor">
+                                            Add Major
+                                        </a>
+                                    </h5>
+                                </div>
 
-                            <div id="collapseTwoAddMajor" class="collapse" role="tabpanel" aria-labelledby="headingOne">
-                              <div class="card-body">
-                                <form>
-                                    <div class="form-group">
-                                        <label for="major_label">Label</label>
-                                        <input type="text" id="major_label" class="form-control" name="label" placeholder="Enter the major title..." required>
+                                <div id="collapse_add_major" class="collapse" role="tabpanel" aria-labelledby="headingOne">
+                                    <div class="card-body">
+                                        <!--TODO: Need a route for this-->
+                                        <form action="/add_major" method="POST">
+                                            <div class="form-group">
+                                                <label for="add_major_label">Label</label>
+                                                <input type="text" id="add_major_label" class="form-control" name="label" placeholder="Enter the major title..." required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="add_major_select_school">School</label>
+                                                <select id="add_major_select_school" name="school_id" class="form-control" required>
+                                                    <option value="">Choose...</option>
+                                                </select>
+                                            </div>
+                                            <button class="btn btn-primary float-right ml-2 mb-2" type="submit">Update</button>
+                                            <button class="btn btn-secondary float-right" type="reset">Reset</button>
+                                        </form>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="select_major">School</label>
-                                        <select id="select_major" name="major_id" class="form-control" required>
-                                            <option value="">Choose...</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="major_desc">Description</label>
-                                        <textarea id="major_desc" name="description" rows="6" class="form-control" required placeholder="Enter a description of the major..."></textarea>
-                                    </div>
-                                    <button class="btn btn-primary float-right ml-2 mb-2" type="submit">Update</button>
-                                    <button class="btn btn-secondary float-right" type="reset">Reset</button>
-                                </form>
-                              </div>
+                                </div>
                             </div>
-                          </div>
-                          <div class="card">
-                            <div class="card-header" role="tab" id="headingTwo">
-                              <h5 class="mb-0">
-                                <a class="collapsed" data-toggle="collapse" href="#collapseTwoDeleteMajor" aria-expanded="false" aria-controls="collapseTwoDeleteMajor">
-                                  Delete Major
-                                </a>
-                              </h5>
-                            </div>
-                            <div id="collapseTwoDeleteMajor" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
-                              <div class="card-body">
-                                <form>
-                                    <div class="form-group">
-                                        <label for="select_major">Select major</label>
-                                        <select id="select_major" name="major_id" class="form-control" required>
-                                            <option value="">Choose...</option>
-                                        </select>
+                            <div class="card">
+                                <div class="card-header" role="tab">
+                                    <h5 class="mb-0">
+                                        <a class="collapsed" data-toggle="collapse" href="#collapse_delete_major" aria-expanded="false" aria-controls="collapseTwoDeleteMajor">
+                                            Delete Major
+                                        </a>
+                                    </h5>
+                                </div>
+                                <div id="collapse_delete_major" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                    <div class="card-body">
+                                        <!--TODO: Need a route for this-->
+                                        <form method="POST" action="/delete_major">
+                                            <div class="form-group">
+                                                <label for="delete_select_major">Select major</label>
+                                                <select id="delete_select_major" name="major_id" class="form-control" required>
+                                                    <option value="">Choose...</option>
+                                                </select>
+                                            </div>
+                                            <button type="button" class="btn btn-danger float-right mb-2">Delete</button>
+                                        </form>
                                     </div>
-                                    <button type="button" class="btn btn-danger float-right mb-2">Delete</button>
-                                </form>
-                              </div>
+                                </div>
                             </div>
-                          </div>
-                          <div class="card">
-                            <div class="card-header" role="tab" id="headingTwo">
-                              <h5 class="mb-0">
-                                <a class="collapsed" data-toggle="collapse" href="#collapseTwoEditMajor" aria-expanded="false" aria-controls="collapseTwoEditMajor">
-                                  Edit Major
-                                </a>
-                              </h5>
+                            <div class="card">
+                                <div class="card-header" role="tab">
+                                    <h5 class="mb-0">
+                                        <a class="collapsed" data-toggle="collapse" href="#collapse_edit_major" aria-expanded="false" aria-controls="collapseTwoEditMajor">
+                                            Edit Major
+                                        </a>
+                                    </h5>
+                                </div>
+                                <div id="collapse_edit_major" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                    <div class="card-body">
+                                        <!--TODO: Need a route for this-->
+                                        <form method="POST" action="/edit_major">
+                                            <div class="form-group">
+                                                <label for="edit_select_major">Select major</label>
+                                                <select id="edit_select_major" name="major_id" class="form-control" required>
+                                                    <option value="">Choose...</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="edit_major_label">Label</label>
+                                                <input type="text" id="edit_major_label" class="form-control" name="label" placeholder="Enter the major title..." required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="edit_major_select_school">School</label>
+                                                <select id="edit_major_select_school" name="school_id" class="form-control" required>
+                                                    <option value="">Choose...</option>
+                                                </select>
+                                            </div>
+                                            <button class="btn btn-primary float-right ml-2" type="submit">Update</button>
+                                            <button class="btn btn-secondary float-right" type="reset">Reset</button>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
-                            <div id="collapseTwoEditMajor" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
-                              <div class="card-body">
-                                <form>
-                                    <div class="form-group">
-                                        <label for="select_major">Select major</label>
-                                        <select id="select_major" name="major_id" class="form-control" required>
-                                            <option value="">Choose...</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="edit_major_label">Label</label>
-                                        <input type="text" id="edit_major_label" class="form-control" name="label" placeholder="Enter the major title..." required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="edit_major_desc">Description</label>
-                                        <textarea id="edit_major_desc" name="description" rows="6" class="form-control" required placeholder="Enter a description of the major..."></textarea>
-                                    </div>
-                                    <button class="btn btn-primary float-right ml-2" type="submit">Update</button>
-                                    <button class="btn btn-secondary float-right" type="reset">Reset</button>
-                                </form>
-                              </div>
-                            </div>
-                          </div>
                         </div>
-                        <!-- <h6>Add Major</h6>
-                        <form>
-                            <div class="form-group">
-                                <label for="major_label">Label</label>
-                                <input type="text" id="major_label" class="form-control" name="label" placeholder="Enter the major title..." required>
-                            </div>
-                            <div class="form-group">
-                                <label for="select_major">School</label>
-                                <select id="select_major" name="major_id" class="form-control" required>
-                                    <option value="">Choose...</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="major_desc">Description</label>
-                                <textarea id="major_desc" name="description" rows="6" class="form-control" required placeholder="Enter a description of the major..."></textarea>
-                            </div>
-                        </form>
-
-                        <h6>Edit/Delete Major</h6>
-                        <form>
-                            <button type="button" class="btn btn-danger float-right">Delete</button>
-                            <br>
-                            <div class="form-group">
-                                <label for="select_major">Select major</label>
-                                <select id="select_major" name="major_id" class="form-control" required>
-                                    <option value="">Choose...</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="edit_major_label">Label</label>
-                                <input type="text" id="edit_major_label" class="form-control" name="label" placeholder="Enter the major title..." required>
-                            </div>
-                            <div class="form-group">
-                                <label for="edit_major_desc">Description</label>
-                                <textarea id="edit_major_desc" name="description" rows="6" class="form-control" required placeholder="Enter a description of the major..."></textarea>
-                            </div>
-                            <button class="btn btn-primary float-right ml-2" type="submit">Update</button>
-                            <button class="btn btn-secondary float-right" type="reset">Reset</button>
-                        </form> -->
                     </div>
                 </div>
             </div>
@@ -332,126 +255,96 @@
                 <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
                     <div class="card-body">
                         <div id="accordion" role="tablist">
-                          <div class="card">
-                            <div class="card-header" role="tab" id="headingOne">
-                              <h5 class="mb-0">
-                                <a data-toggle="collapse" href="#collapseThreeAddSchool" aria-expanded="false" aria-controls="collapseThreeAddSchool">
-                                  Add School
-                                </a>
-                              </h5>
-                            </div>
+                            <div class="card">
+                                <div class="card-header" role="tab" id="headingOne">
+                                    <h5 class="mb-0">
+                                        <a data-toggle="collapse" href="#collapse_add_school" aria-expanded="false" aria-controls="collapseThreeAddSchool">
+                                            Add School
+                                        </a>
+                                    </h5>
+                                </div>
 
-                            <div id="collapseThreeAddSchool" class="collapse" role="tabpanel" aria-labelledby="headingOne">
-                              <div class="card-body">
-                                <form>
-                                    <div class="form-group">
-                                        <label for="school_label">Label</label>
-                                        <input type="text" id="school_label" class="form-control" name="label" placeholder="Enter the school title..." required>
+                                <div id="collapse_add_school" class="collapse" role="tabpanel" aria-labelledby="headingOne">
+                                    <div class="card-body">
+                                        <!--TODO: Need a route for this-->
+                                        <form method="POST" action="/add_school">
+                                            <div class="form-group">
+                                                <label for="add_school_label">Label</label>
+                                                <input type="text" id="add_school_label" class="form-control" name="label" placeholder="Enter the school title..." required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="add_school_desc">Description</label>
+                                                <textarea id="add_school_desc" name="description" rows="6" class="form-control" required placeholder="Enter a description of the school..."></textarea>
+                                            </div>
+                                            <button class="btn btn-primary float-right ml-2 mb-2" type="submit">Update</button>
+                                            <button class="btn btn-secondary float-right" type="reset">Reset</button>
+                                        </form>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="school_desc">Description</label>
-                                        <textarea id="school_desc" name="description" rows="6" class="form-control" required placeholder="Enter a description of the school..."></textarea>
-                                    </div>
-                                    <button class="btn btn-primary float-right ml-2 mb-2" type="submit">Update</button>
-                                    <button class="btn btn-secondary float-right" type="reset">Reset</button>
-                                </form>
-                              </div>
+                                </div>
                             </div>
-                          </div>
-                          <div class="card">
-                            <div class="card-header" role="tab" id="headingTwo">
-                              <h5 class="mb-0">
-                                <a class="collapsed" data-toggle="collapse" href="#collapseThreeDeleteSchool" aria-expanded="false" aria-controls="collapseThreeDeleteSchool">
-                                  Delete School
-                                </a>
-                              </h5>
-                            </div>
-                            <div id="collapseThreeDeleteSchool" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
-                              <div class="card-body">
-                                <form>
-                                    <div class="form-group">
-                                        <label for="select_school">Select School</label>
-                                        <select id="select_school" name="school_id" class="form-control" required>
-                                            <option value="">Choose...</option>
-                                        </select>
+                            <div class="card">
+                                <div class="card-header" role="tab">
+                                    <h5 class="mb-0">
+                                        <a class="collapsed" data-toggle="collapse" href="#collapse_delete_school" aria-expanded="false" aria-controls="collapseThreeDeleteSchool">
+                                            Delete School
+                                        </a>
+                                    </h5>
+                                </div>
+                                <div id="collapse_delete_school" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                    <div class="card-body">
+                                        <!--TODO: Need a route for this-->
+                                        <form method="POST" action="/delete_school">
+                                            <div class="form-group">
+                                                <label for="delete_select_school">Select School</label>
+                                                <select id="delete_select_school" name="school_id" class="form-control" required>
+                                                    <option value="">Choose...</option>
+                                                </select>
+                                            </div>
+                                            <button type="button" class="btn btn-danger float-right mb-2">Delete</button>
+                                        </form>
                                     </div>
-                                    <button type="button" class="btn btn-danger float-right mb-2">Delete</button>
-                                </form>
-                              </div>
+                                </div>
                             </div>
-                          </div>
-                          <div class="card">
-                            <div class="card-header" role="tab" id="headingTwo">
-                              <h5 class="mb-0">
-                                <a class="collapsed" data-toggle="collapse" href="#collapseThreeEditSchool" aria-expanded="false" aria-controls="collapseThreeEditSchool">
-                                  Edit School
-                                </a>
-                              </h5>
+                            <div class="card">
+                                <div class="card-header" role="tab">
+                                    <h5 class="mb-0">
+                                        <a class="collapsed" data-toggle="collapse" href="#collapse_edit_school" aria-expanded="false" aria-controls="collapseThreeEditSchool">
+                                            Edit School
+                                        </a>
+                                    </h5>
+                                </div>
+                                <div id="collapse_edit_school" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                    <div class="card-body">
+                                        <!--TODO: Need a route for this-->
+                                        <form method="POST" action="/edit_school">
+                                            <div class="form-group">
+                                                <label for="select_school">Select school</label>
+                                                <select id="select_school" name="school_id" class="form-control" required>
+                                                    <option value="">Choose...</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="edit_school_label">Label</label>
+                                                <input type="text" id="edit_school_label" class="form-control" name="label" placeholder="Enter the school title..." required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="edit_school_desc">Description</label>
+                                                <textarea id="edit_school_desc" name="description" rows="6" class="form-control" required placeholder="Enter a description of the school..."></textarea>
+                                            </div>
+                                            <button class="btn btn-primary float-right ml-2 mb-2" type="submit">Update</button>
+                                            <button class="btn btn-secondary float-right" type="reset">Reset</button>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
-                            <div id="collapseThreeEditSchool" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
-                              <div class="card-body">
-                                <form>
-                                    <div class="form-group">
-                                        <label for="select_school">Select school</label>
-                                        <select id="select_school" name="school_id" class="form-control" required>
-                                            <option value="">Choose...</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="edit_school_label">Label</label>
-                                        <input type="text" id="edit_school_label" class="form-control" name="label" placeholder="Enter the school title..." required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="edit_school_desc">Description</label>
-                                        <textarea id="edit_school_desc" name="description" rows="6" class="form-control" required placeholder="Enter a description of the school..."></textarea>
-                                    </div>
-                                    <button class="btn btn-primary float-right ml-2 mb-2" type="submit">Update</button>
-                                    <button class="btn btn-secondary float-right" type="reset">Reset</button>
-                                </form>
-                              </div>
-                            </div>
-                          </div>
                         </div>
-
-                        <!-- <h6>Add Schools</h6>
-                        <form>
-                            <div class="form-group">
-                                <label for="school_label">Label</label>
-                                <input type="text" id="school_label" class="form-control" name="label" placeholder="Enter the school title..." required>
-                            </div>
-                            <div class="form-group">
-                                <label for="school_desc">Description</label>
-                                <textarea id="school_desc" name="description" rows="6" class="form-control" required placeholder="Enter a description of the school..."></textarea>
-                            </div>
-                        </form>
-
-                        <h6>Edit/Delete Schools</h6>
-                        <form>
-                            <button type="button" class="btn btn-danger float-right">Delete</button>
-                            <br>
-                            <div class="form-group">
-                                <label for="select_school">Select school</label>
-                                <select id="select_school" name="school_id" class="form-control" required>
-                                    <option value="">Choose...</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="edit_school_label">Label</label>
-                                <input type="text" id="edit_school_label" class="form-control" name="label" placeholder="Enter the school title..." required>
-                            </div>
-                            <div class="form-group">
-                                <label for="edit_school_desc">Description</label>
-                                <textarea id="edit_school_desc" name="description" rows="6" class="form-control" required placeholder="Enter a description of the school..."></textarea>
-                            </div>
-                            <button class="btn btn-primary float-right ml-2" type="submit">Update</button>
-                            <button class="btn btn-secondary float-right" type="reset">Reset</button>
-                        </form> -->
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </main>
+<script src="/js/admin_page.js" rel="script" type="text/javascript"></script>
 </body>
 
 </html>
