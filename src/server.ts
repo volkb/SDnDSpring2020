@@ -72,7 +72,7 @@ app.get("/privacy_policy", (req, res) => {
 });
 
 app.get("/dashboard", (req, res) => {
-    res.sendFile(path.join(__dirname, "/views/index.html"));
+    res.sendFile(path.join(__dirname, "/views/dashboard.html"));
 });
 
 app.get("/create_account", (req, res) => {

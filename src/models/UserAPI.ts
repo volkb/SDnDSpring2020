@@ -26,7 +26,7 @@ type ProfileUpdate  = {
     club_end: string[];
 }
 
-interface UserDB {
+export interface UserDB {
     id: number;
     oauth_token: string;
     email: string;

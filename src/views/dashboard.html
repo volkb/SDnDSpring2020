@@ -13,12 +13,31 @@
 
 <body style="min-width:300px;">
 
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <div style="width: 100%;">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <img class="navbar-brand" src="/images/logo.png" style="height: 50px;width: 100px;">
-        <a href="/auth/facebook" class="btn btn-primary float-right">Sign In <i class="fab fa-facebook-square"></i></a>
-    </div>
-</nav>
+        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="navbar-collapse collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/dashboard">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/edit_profile">Edit Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/search">Search</a>
+                </li>
+                <li class="nav-item" id="admin-nav">
+                    <a class="nav-link" href="/admin">Admin Page</a>
+                </li>
+            </ul>
+
+            <a class="btn btn-secondary" href="/auth/logout">Sign Out <i class="fas fa-sign-out-alt"></i></a>
+        </div>
+    </nav>
 
 <main role="main" style="margin-top: 56px;">
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -64,5 +83,6 @@
     </footer>
 </main>
 
+<script src="/js/admin_nav.js" type="text/javascript" rel="script"></script>
 </body>
 </html>
