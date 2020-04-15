@@ -163,8 +163,7 @@
 
                                 <div id="collapse_add_major" class="collapse" role="tabpanel" aria-labelledby="headingOne">
                                     <div class="card-body">
-                                        <!--TODO: Need a route for this-->
-                                        <form action="/add_major" method="POST">
+                                        <form action="/admin/major/add" method="POST">
                                             <div class="form-group">
                                                 <label for="add_major_label">Label</label>
                                                 <input type="text" id="add_major_label" class="form-control" name="label" placeholder="Enter the major title..." required>
@@ -191,15 +190,14 @@
                                 </div>
                                 <div id="collapse_delete_major" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
                                     <div class="card-body">
-                                        <!--TODO: Need a route for this-->
-                                        <form method="POST" action="/delete_major">
+                                        <form method="POST" action="/admin/major/delete">
                                             <div class="form-group">
                                                 <label for="delete_select_major">Select major</label>
                                                 <select id="delete_select_major" name="major_id" class="form-control" required>
                                                     <option value="">Choose...</option>
                                                 </select>
                                             </div>
-                                            <button type="button" class="btn btn-danger float-right mb-2">Delete</button>
+                                            <button type="submit" class="btn btn-danger float-right mb-2">Delete</button>
                                         </form>
                                     </div>
                                 </div>
@@ -214,8 +212,7 @@
                                 </div>
                                 <div id="collapse_edit_major" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
                                     <div class="card-body">
-                                        <!--TODO: Need a route for this-->
-                                        <form method="POST" action="/edit_major">
+                                        <form method="POST" action="/admin/major/edit">
                                             <div class="form-group">
                                                 <label for="edit_select_major">Select major</label>
                                                 <select id="edit_select_major" name="major_id" class="form-control" required>
@@ -312,11 +309,10 @@
                                 </div>
                                 <div id="collapse_edit_school" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
                                     <div class="card-body">
-                                        <!--TODO: Need a route for this-->
                                         <form method="POST" action="/admin/school/edit">
                                             <div class="form-group">
                                                 <label for="select_school">Select school</label>
-                                                <select id="select_school" name="school_id" class="form-control" onchange="select_school(this.value)" required>
+                                                <select id="select_school" name="school_id" class="form-control" onchange="schoolSelect(this.value)" required>
                                                     <option value="">Choose...</option>
                                                 </select>
                                             </div>

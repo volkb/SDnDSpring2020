@@ -184,6 +184,26 @@ async function getClubs() {
 }
 
 /**
+ * Get all majors and error check.
+ *
+ * @returns {Promise<[]|*[]>}
+ */
+async function getAllMajors() {
+    let majors = await fetch("/profile/major");
+    majors = await majors.json();
+    if (majors.success) {
+        majors = majors.data;
+    } else {
+        majors = [];
+    }
+    major_objects = [];
+    for (let major of majors) {
+        major_objects.push(new Major(major.id, major.label, major.school_id));
+    }
+    return major_objects;
+}
+
+/**
  * Listener function that gets lazy loads all of the states for a given country.
  *
  * @returns {Promise<void>}

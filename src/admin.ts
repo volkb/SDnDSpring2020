@@ -96,7 +96,50 @@ adminRouter.post("/school/edit", isAuthenticated, isAdmin, async (req, res) => {
     // simple casting doesn't allow us to access the methods in admin as it is just a JSON object currently
     // we construct a new admin object from the user
     const admin = new Admin(req.user as UserDB);
-    const response = await admin.updateClub(req.body.school_id, req.body.name, req.body.description);
+    const response = await admin.updateSchool(req.body.school_id, req.body.name, req.body.description);
+    if (!response.success) {
+        res.redirect(`/admin?error=${encodeURIComponent(response.error)}`);
+    } else {
+        res.redirect("/admin");
+    }
+});
+
+adminRouter.post("/major/add", isAuthenticated, isAdmin, async (req, res) => {
+    // simple casting doesn't allow us to access the methods in admin as it is just a JSON object currently
+    // we construct a new admin object from the user
+    const admin = new Admin(req.user as UserDB);
+    const response = await admin.createMajor(req.body.school_id, req.body.label);
+    if (!response.success) {
+        res.redirect(`/admin?error=${encodeURIComponent(response.error)}`);
+    } else {
+        res.redirect("/admin");
+    }
+});
+
+adminRouter.post("/major/delete", isAuthenticated, isAdmin, async (req, res) => {
+    if (req.body.major_id == "") {
+        res.redirect("/admin");
+    }
+    // simple casting doesn't allow us to access the methods in admin as it is just a JSON object currently
+    // we construct a new admin object from the user
+    const admin = new Admin(req.user as UserDB);
+    const response = await admin.deleteMajor(req.body.major_id);
+    if (!response.success) {
+        res.redirect(`/admin?error=${encodeURIComponent(response.error)}`);
+    } else {
+        res.redirect("/admin");
+    }
+});
+
+adminRouter.post("/major/edit", isAuthenticated, isAdmin, async (req, res) => {
+    // simple casting doesn't allow us to access the methods in admin as it is just a JSON object currently
+    // we construct a new admin object from the user
+    if (req.body.school_id == "") {
+        res.redirect(`/admin?error=${encodeURIComponent("A major must have a school associated with it.")}`);
+        return;
+    }
+    const admin = new Admin(req.user as UserDB);
+    const response = await admin.updateMajor(req.body.major_id, req.body.school_id, req.body.label);
     if (!response.success) {
         res.redirect(`/admin?error=${encodeURIComponent(response.error)}`);
     } else {

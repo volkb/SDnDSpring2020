@@ -3,11 +3,17 @@
     populateSelect("edit_major_select_school", schools);
     populateSelect("delete_select_school", schools);
     populateSelect("select_school", schools);
+    populateSelect("add_major_select_school", schools);
 
     // Instantiates the multiple select plugin for the club input
     clubs = await getClubs();
     populateSelect("select_delete_club", clubs);
     populateSelect("select_edit_club", clubs);
+
+    majors = await getAllMajors();
+    populateSelect("delete_select_major", majors);
+    populateSelect("edit_select_major", majors);
+
 })().catch(err => {
     console.error(err);
 });
@@ -30,7 +36,7 @@ function select_club(club_id)
  *
  * @param school_id The id of the selected school
  */
-function select_school(school_id)
+function schoolSelect(school_id)
 {
     let school = schools[school_id - 1];
     document.getElementById('edit_school_label').value = school.name;

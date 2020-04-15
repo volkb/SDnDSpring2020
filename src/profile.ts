@@ -89,6 +89,11 @@ profileRouter.get("/major/:school_id", async (req, res) => {
     res.send(majors);
 });
 
+profileRouter.get("/major", async(req, res) => {
+    const majors = await DBManager.executeQuery("SELECT * from major;", []);
+    res.send(majors);
+});
+
 // Gets all the clubs in the DB
 profileRouter.get("/club", async (req, res) => {
     const clubs = await DBManager.executeQuery("SELECT * from clubs;", []);

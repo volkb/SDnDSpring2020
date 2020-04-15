@@ -1,6 +1,7 @@
 import { User, UserDB } from "./UserAPI";
 import { Club } from "./Club";
 import { School } from "./School";
+import { Major } from "./Major";
 
 interface GenericAPIResponse {
     success: boolean;
@@ -53,5 +54,27 @@ export class Admin extends User {
     async createSchool(school_label: string, school_desc: string): Promise<GenericAPIResponse> {
         // Should we check if the school already exists or was the admin smart enough to?
         return (await School.create(school_label, school_desc));
+    }
+
+    // utilizes the admin user to delete a specific major
+    async deleteMajor(major_id: number): Promise<GenericAPIResponse>{
+        const major_found = await Major.find(major_id);
+        if (major_found.id === -1) {
+            return {success: false, error: "Unable to find major!"};
+        }
+        return (await major_found.delete());
+    }
+    // utilizes the admin user to update a specific major
+    async updateMajor(major_id: number, school_id: number, major_name: string): Promise<GenericAPIResponse>{
+        const major_found = await Major.find(major_id);
+        if (major_found.id === -1) {
+            return {success: false, error:"Unable to find major!"};
+        }
+        return (await major_found.update(school_id, major_name));
+    }
+    // utilizes the admin user to create a major
+    async createMajor(school_id: number, major_name: string): Promise<GenericAPIResponse> {
+        // Should we check if the major already exists or was the admin smart enough to?
+        return (await Major.create(school_id, major_name));
     }
 }
