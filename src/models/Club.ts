@@ -37,7 +37,7 @@ export class Club implements ClubDB {
     // TODO: Centralize Interfaces (GenericAPIResponse would be good here)
     async delete(): Promise<{success: boolean; error: string}> {
         const returned = {success: true, error: ""};
-        const response = await DBManager.executeQuery("DELETE * FROM clubs WHERE id = ?", [this.id.toString()]);
+        const response = await DBManager.executeQuery("DELETE FROM clubs WHERE id = ?", [this.id.toString()]);
         returned.success = response.success;
         response.success ? returned.error = "" : returned.error = "Failed to delete!";
         return returned;

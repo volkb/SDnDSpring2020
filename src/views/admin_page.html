@@ -68,8 +68,7 @@
 
                                 <div id="modify_clubs_add_target" class="collapse" role="tabpanel" aria-labelledby="headingOne">
                                     <div class="card-body">
-                                        <!--TODO: Need a route for this-->
-                                        <form method="POST" action="/add_club">
+                                        <form method="POST" action="/admin/club/add">
                                             <div class="form-group">
                                                 <label for="club_label">Label</label>
                                                 <input type="text" id="club_label" class="form-control" name="label" placeholder="Enter the club title..." required>
@@ -94,15 +93,14 @@
                                 </div>
                                 <div id="collapse_delete_club" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
                                     <div class="card-body">
-                                        <!--                                  TODO: Need a route for this-->
-                                        <form method="POST" action="/delete_club">
+                                        <form method="POST" action="/admin/club/delete">
                                             <div class="form-group">
                                                 <label for="select_delete_club">Select Club</label>
                                                 <select id="select_delete_club" name="club_id" class="form-control" required>
                                                     <option value="">Choose...</option>
                                                 </select>
                                             </div>
-                                            <button type="button" class="btn btn-danger float-right mb-2">Delete</button>
+                                            <button type="submit" class="btn btn-danger float-right mb-2">Delete</button>
                                         </form>
                                     </div>
                                 </div>
@@ -117,8 +115,7 @@
                                 </div>
                                 <div id="collapse_edit_club" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
                                     <div class="card-body">
-                                        <!--TODO: Need a route for this-->
-                                        <form method="POST" action="/edit_club">
+                                        <form method="POST" action="/admin/club/edit">
                                             <div class="form-group">
                                                 <label for="select_edit_club">Select Club</label>
                                                 <select id="select_edit_club" name="club_id" class="form-control" onchange="select_club(this.value)" required>
@@ -268,8 +265,7 @@
 
                                 <div id="collapse_add_school" class="collapse" role="tabpanel" aria-labelledby="headingOne">
                                     <div class="card-body">
-                                        <!--TODO: Need a route for this-->
-                                        <form method="POST" action="/add_school">
+                                        <form method="POST" action="/admin/school/add">
                                             <div class="form-group">
                                                 <label for="add_school_label">Name</label>
                                                 <input type="text" id="add_school_label" class="form-control" name="name" placeholder="Enter the school title..." required>
@@ -294,15 +290,14 @@
                                 </div>
                                 <div id="collapse_delete_school" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
                                     <div class="card-body">
-                                        <!--TODO: Need a route for this-->
-                                        <form method="POST" action="/delete_school">
+                                        <form method="POST" action="/admin/school/delete">
                                             <div class="form-group">
                                                 <label for="delete_select_school">Select School</label>
                                                 <select id="delete_select_school" name="school_id" class="form-control" required>
                                                     <option value="">Choose...</option>
                                                 </select>
                                             </div>
-                                            <button type="button" class="btn btn-danger float-right mb-2">Delete</button>
+                                            <button type="submit" class="btn btn-danger float-right mb-2">Delete</button>
                                         </form>
                                     </div>
                                 </div>
@@ -318,7 +313,7 @@
                                 <div id="collapse_edit_school" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
                                     <div class="card-body">
                                         <!--TODO: Need a route for this-->
-                                        <form method="POST" action="/edit_school">
+                                        <form method="POST" action="/admin/school/edit">
                                             <div class="form-group">
                                                 <label for="select_school">Select school</label>
                                                 <select id="select_school" name="school_id" class="form-control" onchange="select_school(this.value)" required>
