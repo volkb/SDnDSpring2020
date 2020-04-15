@@ -84,7 +84,7 @@
         <div class="row">
             <div class="col-md-6 mb-3">
                 <label for="country">Country</label>
-                <select class="custom-select d-block w-100" id="country" name="country" required onchange="countrySelectionChange()">
+                <select class="custom-select d-block w-100" id="country" name="country" required onchange="countrySelectionChange('country', 'state')">
                     <option value="">Choose...</option>
                 </select>
             </div>
@@ -100,7 +100,7 @@
         <h4 class="mb-3">Education</h4>
         <div class="mb-3">
             <label for="school">School</label>
-            <select name="school" id="school" class="form-control" onchange="schoolSelectionChange()" required>
+            <select name="school" id="school" class="form-control" onchange="schoolSelectionChange('school', 'major')" required>
                 <option value="">Choose...</option>
             </select>
         </div>
@@ -137,6 +137,7 @@
     </footer>
 </div>
 
+<script type="text/javascript" rel="script" src="/js/object_functions.js"></script>
 <script type="text/javascript" rel="script" src="/js/edit_profile.js"></script>
 <script src="/js/admin_nav.js" type="text/javascript" rel="script"></script>
 </body>

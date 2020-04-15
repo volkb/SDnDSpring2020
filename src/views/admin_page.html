@@ -3,11 +3,13 @@
 
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script src="https://kit.fontawesome.com/8a0c87cb9a.js" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css">
 
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://cdn.tiny.cloud/1/ij0h6vcxvcacvu1l56udgaairzb672xtq1kktiizh2cpf4fe/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="/js/moment.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"></script>
     <title>Admin Page</title>
 </head>
 
@@ -269,8 +271,8 @@
                                         <!--TODO: Need a route for this-->
                                         <form method="POST" action="/add_school">
                                             <div class="form-group">
-                                                <label for="add_school_label">Label</label>
-                                                <input type="text" id="add_school_label" class="form-control" name="label" placeholder="Enter the school title..." required>
+                                                <label for="add_school_label">Name</label>
+                                                <input type="text" id="add_school_label" class="form-control" name="name" placeholder="Enter the school title..." required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="add_school_desc">Description</label>
@@ -319,13 +321,13 @@
                                         <form method="POST" action="/edit_school">
                                             <div class="form-group">
                                                 <label for="select_school">Select school</label>
-                                                <select id="select_school" name="school_id" class="form-control" required>
+                                                <select id="select_school" name="school_id" class="form-control" onchange="select_school(this.value)" required>
                                                     <option value="">Choose...</option>
                                                 </select>
                                             </div>
                                             <div class="form-group">
-                                                <label for="edit_school_label">Label</label>
-                                                <input type="text" id="edit_school_label" class="form-control" name="label" placeholder="Enter the school title..." required>
+                                                <label for="edit_school_label">Name</label>
+                                                <input type="text" id="edit_school_label" class="form-control" name="name" placeholder="Enter the school title..." required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="edit_school_desc">Description</label>
@@ -344,7 +346,9 @@
         </div>
     </div>
 </main>
-<script src="/js/admin_page.js" rel="script" type="text/javascript"></script>
-</body>
 
+<script src="/js/object_functions.js" rel="script" type="text/javascript"></script>
+<script src="/js/admin_page.js" rel="script" type="text/javascript"></script>
+
+</body>
 </html>

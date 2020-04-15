@@ -1,35 +1,38 @@
+(async () => {
+    schools = await getSchools();
+    populateSelect("edit_major_select_school", schools);
+    populateSelect("delete_select_school", schools);
+    populateSelect("select_school", schools);
+
+    // Instantiates the multiple select plugin for the club input
+    clubs = await getClubs();
+    populateSelect("select_delete_club", clubs);
+    populateSelect("select_edit_club", clubs);
+})().catch(err => {
+    console.error(err);
+});
+
 /**
- * Gets a clubs information and populates it on the edit club form.
- *
+ * Populates the edit club fields.
+ * 
  * @param club_id The id of the selected club
  */
-async function select_club(club_id) {
-    // TODO: Need a route for this
-    let club = await fetch("/get_club");
-    $("#edit_club_label").val(club.label);
-    $("#edit_club_desc").val(club.description);
+function select_club(club_id)
+{
+    let club = clubs[club_id - 1];
+    document.getElementById('edit_club_label').value = club.label;
+    document.getElementById('edit_club_desc').value = club.description;
 }
 
+//TODO: For some reason the select school function is not visible the the admin page
 /**
- * Gets a majors information and populates it on the edit major form.
- *
- * @param major_id The id of the selected major
- */
-async function select_major(major_id) {
-    // TODO: Need a route for this
-    let major = await fetch("/get_major");
-    $("#edit_major_label").val(major.label);
-    $("#edit_major_select_school").val(major.school_id);
-}
-
-/**
- * Gets a schools information and populates it on the edit school form.
+ * Populates the edit school fields.
  *
  * @param school_id The id of the selected school
  */
-async function select_school(school_id) {
-    // TODO: Need a route for this
-    let school = await fetch("/get_school");
-    $("#edit_school_label").val(school.label);
-    $("#edit_school_desc").val(school.description);
+function select_school(school_id)
+{
+    let school = schools[school_id - 1];
+    document.getElementById('edit_school_label').value = school.name;
+    document.getElementById('edit_school_desc').value = school.description;
 }
