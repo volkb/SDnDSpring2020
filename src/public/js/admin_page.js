@@ -1,3 +1,4 @@
+var gloabl_users = {};
 (async () => {
     schools = await getSchools();
     populateSelect("edit_major_select_school", schools);
@@ -13,6 +14,8 @@
     let local_majors = await getAllMajors();
     populateSelect("delete_select_major", local_majors);
     populateSelect("edit_select_major", local_majors);
+
+    populateUserSelect();
 
 })().catch(err => {
     console.error(err);
@@ -53,3 +56,48 @@ function majorSelect(major_id)
     document.getElementById('edit_major_label').value = major.name;
     document.getElementById('edit_major_select_school').value = major.school_id;
 }
+
+/**
+ * Populates the edit major fields.
+ *
+ * @param oauth_token The oauth_token of the selected user
+ */
+function userSelect(oauth_token)
+{
+    let user = gloabl_users[oauth_token];
+    if(user.isadmin === 1)
+    {
+        $("#admin").prop("checked", true);
+    }
+    else
+    {
+        $("#non_admin").prop("checked", true);
+    }
+}
+
+/**
+ * Get the countries and error check
+ *
+ * @returns {Promise<[]|*[]>}
+ */
+async function populateUserSelect() {
+    let users = await fetch("/profile/users");
+    users = await users.json();
+    if (users.success) {
+        users = users.data;
+    } else {
+        users = [];
+    }
+
+    let html = "<option value=''>Choose...</option>";
+    for(let x = 0; x < users.length; x++)
+    {
+        html += "<option value='" + users[x].oauth_token + "'>" + users[x].first_name + " " + users[x].last_name + "</option>";
+        gloabl_users[users[x].oauth_token] = users[x];
+    }
+
+    $("#edit_admin_user").html(html);
+    return users;
+}
+
+
