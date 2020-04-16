@@ -2,6 +2,7 @@
 var countries = [];
 var schools = [];
 var clubs = [];
+var global_majors = {};
 
 /**
  * A class to represent a country
@@ -198,7 +199,9 @@ async function getAllMajors() {
     }
     major_objects = [];
     for (let major of majors) {
-        major_objects.push(new Major(major.id, major.label, major.school_id));
+        let major_object = new Major(major.id, major.label, major.school_id);
+        global_majors[major.id] = major_object;
+        major_objects.push(major_object);
     }
     return major_objects;
 }

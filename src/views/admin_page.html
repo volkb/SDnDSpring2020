@@ -118,7 +118,7 @@
                                         <form method="POST" action="/admin/club/edit">
                                             <div class="form-group">
                                                 <label for="select_edit_club">Select Club</label>
-                                                <select id="select_edit_club" name="club_id" class="form-control" onchange="select_club(this.value)" required>
+                                                <select id="select_edit_club" name="club_id" class="form-control" onchange="clubSelect(this.value)" required>
                                                     <option value="">Choose...</option>
                                                 </select>
                                             </div>
@@ -215,7 +215,7 @@
                                         <form method="POST" action="/admin/major/edit">
                                             <div class="form-group">
                                                 <label for="edit_select_major">Select major</label>
-                                                <select id="edit_select_major" name="major_id" class="form-control" required>
+                                                <select id="edit_select_major" name="major_id" class="form-control" onchange="majorSelect(this.value)" required>
                                                     <option value="">Choose...</option>
                                                 </select>
                                             </div>
