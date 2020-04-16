@@ -10,47 +10,48 @@ const filter_list = [
 ];
 
 const columns = [
-    {title:"ID", field:"id", visible:false},
-    {title:"School ID", field:"school_id", visible:false},
-    {title:"First Name", field:"first_name", visible:false},
-    {title:"Last Name", field:"last_name", visible:false},
-    {title:"Email", field:"email", visible:false},
-    {title:"Bio", field:"bio", visible:false},
-    {title:"Major ID", field:"major_id", visible:false},
-    {title:"Country ID", field:"country_id", visible:false},
-    {title:"Graduation Date", field:"grad_date", visible:false},
-    {title:"Major", field:"major_label", visible:false},
-    {title:"Country", field:"country_label", visible:false},
-    {title:"State", field:"state_label", visible:false},
-    {title:"School", field:"school_label", visible:false},
+    { title: "ID", field: "id", visible: false },
+    { title: "School ID", field: "school_id", visible: false },
+    { title: "First Name", field: "first_name", visible: false },
+    { title: "Last Name", field: "last_name", visible: false },
+    { title: "Email", field: "email", visible: false },
+    { title: "Bio", field: "bio", visible: false },
+    { title: "Major ID", field: "major_id", visible: false },
+    { title: "Country ID", field: "country_id", visible: false },
+    { title: "Graduation Date", field: "grad_date", visible: false },
+    { title: "Major", field: "major_label", visible: false },
+    { title: "Country", field: "country_label", visible: false },
+    { title: "State", field: "state_label", visible: false },
+    { title: "School", field: "school_label", visible: false },
+    { title: "Clubs", field: "clubs", visible: false },
 ];
 
 // Creates the user search table
 const alumni_table = new Tabulator("#alumni_search_table", {
-    height:"550px",
-    layout:"fitColumns",
+    height: "550px",
+    layout: "fitColumns",
     ajaxURL: "/search/users?alumni=1",
-    ajaxConfig:"GET", //ajax HTTP request type
-    ajaxContentType:"json", // send parameters to the server as a JSON encoded string
-    ajaxResponse:handle_response,
-    resizableColumns:false,
+    ajaxConfig: "GET", //ajax HTTP request type
+    ajaxContentType: "json", // send parameters to the server as a JSON encoded string
+    ajaxResponse: handle_response,
+    resizableColumns: false,
     columns: columns,
-    rowFormatter:format_row,
-    rowClick:show_profile,
+    rowFormatter: format_row,
+    rowClick: show_profile,
 });
 
 // Creates the user search table
 const student_table = new Tabulator("#student_search_table", {
-    height:"550px",
-    layout:"fitColumns",
+    height: "550px",
+    layout: "fitColumns",
     ajaxURL: "/search/users?alumni=0",
-    ajaxConfig:"GET", //ajax HTTP request type
-    ajaxContentType:"json", // send parameters to the server as a JSON encoded string
-    ajaxResponse:handle_response,
-    resizableColumns:false,
+    ajaxConfig: "GET", //ajax HTTP request type
+    ajaxContentType: "json", // send parameters to the server as a JSON encoded string
+    ajaxResponse: handle_response,
+    resizableColumns: false,
     columns: columns,
-    rowFormatter:format_row,
-    rowClick:show_profile,
+    rowFormatter: format_row,
+    rowClick: show_profile,
 });
 
 /**
@@ -62,13 +63,11 @@ const student_table = new Tabulator("#student_search_table", {
  *
  * @returns {*} Returns the formatted JSON
  */
-function handle_response(url, params, response){
-    if(response.success)
-    {
+function handle_response(url, params, response) {
+    if (response.success) {
         document.getElementById("search_err_message").style.display = "none";
     }
-    else
-    {
+    else {
         document.getElementById("search_err_message").innerText = response.error;
         document.getElementById("search_err_message").style.display = "block";
     }
@@ -84,7 +83,7 @@ function handle_response(url, params, response){
  * @param e
  * @param row
  */
-function show_profile(e, row){
+function show_profile(e, row) {
     //e - the click event object
     //row - row component
     const data = row.getData();
@@ -94,7 +93,19 @@ function show_profile(e, row){
     $('#user_location').text(data.state_label + ", " + data.country_label);
     $('#user_bio').html(data.bio);
     $('#user_grad_date').text(moment(data.grad_date).format("MM/DD/YYYY"));
-    $('#user_profile_image').prop("src", "/profile_pictures/" + data.picture);
+
+    if (data.picture === null) {
+        $('#user_profile_image').prop("src", "/images/logo.png");
+    }
+    else {
+        $('#user_profile_image').prop("src", "/profile_pictures/" + data.picture);
+    }
+
+    let html = "";
+    for (let x = 0; x < data.clubs.length; x++) {
+        html += '<button class="badge badge-secondary">' + data.clubs[x].club_name + '</button>';
+    }
+    $("#user_clubs").html(html);
 }
 
 /**
@@ -102,14 +113,14 @@ function show_profile(e, row){
  *
  * @param row The row object that is being styled
  */
-function format_row(row){
+function format_row(row) {
     const element = row.getElement();
     const width = element.offsetParent.offsetParent.offsetParent.offsetWidth;
     const data = row.getData();
     let rowTable;
 
     //clear current row data
-    while(element.firstChild) element.removeChild(element.firstChild);
+    while (element.firstChild) element.removeChild(element.firstChild);
 
     //define a table layout structure and set width of row
     rowTable = document.createElement("table");
@@ -118,8 +129,7 @@ function format_row(row){
 
     //add image on left of row
     let image_string = "<img style='max-height: 200px;max-width:200px;' src='/images/logo.png'>";
-    if(data.picture !== null)
-    {
+    if (data.picture !== null) {
         image_string = "<img style='max-height: 200px;max-width:200px;' src='/profile_pictures/" + data.picture + "'>";
     }
 
@@ -150,15 +160,13 @@ function search_table(query_string) {
  * Selects a user type to search from.
  */
 function select_user_type(user_type) {
-    if(user_type === 'alumni')
-    {
+    if (user_type === 'alumni') {
         $('#alumni_search_table').removeClass('d-none');
         $('#student_search_table').addClass('d-none');
         current_table = "alumni";
         update_filters();
     }
-    else
-    {
+    else {
         $('#alumni_search_table').addClass('d-none');
         $('#student_search_table').removeClass('d-none');
         current_table = "student";
@@ -173,10 +181,8 @@ function update_filters() {
     student_table.clearFilter();
     alumni_table.clearFilter();
     let updated_filters = [];
-    for(let x = 0; x < filter_list.length; x++)
-    {
-        if($("#" + filter_list[x]).prop("checked"))
-        {
+    for (let x = 0; x < filter_list.length; x++) {
+        if ($("#" + filter_list[x]).prop("checked")) {
             updated_filters.push({
                 field: filter_list[x],
                 type: "like",
@@ -185,12 +191,10 @@ function update_filters() {
         }
     }
 
-    if(current_table === "student")
-    {
+    if (current_table === "student") {
         student_table.setFilter([updated_filters]);
     }
-    else
-    {
+    else {
         alumni_table.setFilter([updated_filters]);
     }
 }

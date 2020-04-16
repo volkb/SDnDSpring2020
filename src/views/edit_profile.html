@@ -2,144 +2,159 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css">
 
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <script src="https://cdn.tiny.cloud/1/ij0h6vcxvcacvu1l56udgaairzb672xtq1kktiizh2cpf4fe/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.tiny.cloud/1/ij0h6vcxvcacvu1l56udgaairzb672xtq1kktiizh2cpf4fe/tinymce/5/tinymce.min.js"
+        referrerpolicy="origin"></script>
     <script src="/js/moment.js"></script>
+    <script src="https://kit.fontawesome.com/8a0c87cb9a.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"></script>
 
     <title>Edit Profile</title>
 </head>
 
 <body>
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <img class="navbar-brand" src="/images/logo.png" style="height: 50px;width: 100px;">
-    <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <img class="navbar-brand" src="/images/logo.png" style="height: 50px;width: 100px;">
+        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse"
+            data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <div class="navbar-collapse collapse" id="navbarsExampleDefault">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="/dashboard">Dashboard</a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="/edit_profile">Edit Profile</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/search">Search</a>
-            </li>
-            <li class="nav-item" id="admin-nav">
-                <a class="nav-link" href="/admin">Admin Page</a>
-            </li>
-        </ul>
+        <div class="navbar-collapse collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboard">Dashboard</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/edit_profile">Edit Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/search">Search</a>
+                </li>
+                <li class="nav-item" id="admin-nav">
+                    <a class="nav-link" href="/admin">Admin Page</a>
+                </li>
+            </ul>
 
-        <a class="btn btn-secondary" href="/auth/logout">Sign Out <i class="fas fa-sign-out-alt"></i></a>
+            <a class="btn btn-secondary" href="/auth/logout">Sign Out <i class="fas fa-sign-out-alt"></i></a>
+        </div>
+    </nav>
+
+    <!-- Here is the main body of the page -->
+    <div class="container" style="padding-top: 100px;">
+        <form method="POST" action="/profile/update" enctype="multipart/form-data">
+            <!-- The general information about the user -->
+            <h4 class="mb-3">General Information</h4>
+            <div class="alert alert-warning" role="alert" id="picture_err_message"></div>
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <label for="profile_picture">Profile Picture</label>
+                    <input type="file" class="form-control" name="picture" accept=".png, .jpeg, .jpg"
+                        id="profile_picture">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 mb-3" style="height: 400px;">
+                    <img style="max-height: 100%; display: block;margin-left: auto; margin-right: auto;"
+                        id="profile_image" src="/images/logo.png" alt="Profile Picture">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="first_name">First name</label>
+                    <input type="text" class="form-control" name="first_name" id="first_name" placeholder="" value=""
+                        required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="last_name">Last name</label>
+                    <input type="text" class="form-control" id="last_name" name="last_name" placeholder="" value=""
+                        required>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="bio">Bio</label>
+                <textarea id="bio" name="bio"></textarea>
+            </div>
+
+            <!-- The location about the user -->
+            <h4 class="mb-3">Location</h4>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="country">Country</label>
+                    <select class="custom-select d-block w-100" id="country" name="country" required
+                        onchange="countrySelectionChange('country', 'state')">
+                        <option value="">Choose...</option>
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="state">State</label>
+                    <select class="custom-select d-block w-100" id="state" name="state" required>
+                        <option value="">Choose...</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- The RPI school information about the user -->
+            <h4 class="mb-3">Education</h4>
+            <div class="mb-3">
+                <label for="school">School</label>
+                <select name="school" id="school" class="form-control"
+                    onchange="schoolSelectionChange('school', 'major')" required>
+                    <option value="">Choose...</option>
+                </select>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="major">Major</label>
+                    <select name="major" id="major" class="form-control" required>
+                        <option value="">Choose...</option>
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="minor">Minor</label>
+                    <input type="text" class="form-control" id="minor" placeholder="" name="minor">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="grad_date">Graduation / Projected Graduation</label>
+                <input type="date" id="grad_date" name="grad_date" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="clubs">Clubs</label>
+                <select id="clubs" name="clubs">
+                    <option value="">Choose...</option>
+                </select>
+            </div>
+            <hr class="mb-4">
+            <button class="btn btn-primary btn-lg btn-block" type="submit">Update Account</button>
+        </form>
+        <footer class="my-5 pt-5 text-muted text-center text-small">
+            <p class="mb-1">©2020 Software Design & Documentation</p>
+            <ul class="list-inline">
+                <li class="list-inline-item"><a href="/privacy_policy">Privacy</a></li>
+            </ul>
+        </footer>
     </div>
-</nav>
 
-<!-- Here is the main body of the page -->
-<div class="container" style="padding-top: 100px;">
-    <form method="POST" action="/profile/update" enctype="multipart/form-data">
-        <!-- The general information about the user -->
-        <h4 class="mb-3">General Information</h4>
-        <div class="alert alert-warning" role="alert" id="picture_err_message"></div>
-        <div class="row">
-            <div class="col-md-12 mb-3">
-                <label for="profile_picture">Profile Picture</label>
-                <input type="file" class="form-control" name="picture" accept=".png, .jpeg, .jpg" id="profile_picture">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12 mb-3" style="height: 400px;">
-                <img style="max-height: 100%; display: block;margin-left: auto; margin-right: auto;" id="profile_image" src="/images/logo.png" alt="Profile Picture">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <label for="first_name">First name</label>
-                <input type="text" class="form-control" name="first_name" id="first_name" placeholder="" value="" required>
-            </div>
-            <div class="col-md-6 mb-3">
-                <label for="last_name">Last name</label>
-                <input type="text" class="form-control" id="last_name" name="last_name" placeholder="" value="" required>
-            </div>
-        </div>
-
-        <div class="mb-3">
-            <label for="email">Email</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="bio">Bio</label>
-            <textarea id="bio" name="bio"></textarea>
-        </div>
-
-        <!-- The location about the user -->
-        <h4 class="mb-3">Location</h4>
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <label for="country">Country</label>
-                <select class="custom-select d-block w-100" id="country" name="country" required onchange="countrySelectionChange('country', 'state')">
-                    <option value="">Choose...</option>
-                </select>
-            </div>
-            <div class="col-md-6 mb-3">
-                <label for="state">State</label>
-                <select class="custom-select d-block w-100" id="state" name="state" required>
-                    <option value="">Choose...</option>
-                </select>
-            </div>
-        </div>
-
-        <!-- The RPI school information about the user -->
-        <h4 class="mb-3">Education</h4>
-        <div class="mb-3">
-            <label for="school">School</label>
-            <select name="school" id="school" class="form-control" onchange="schoolSelectionChange('school', 'major')" required>
-                <option value="">Choose...</option>
-            </select>
-        </div>
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <label for="major">Major</label>
-                <select name="major" id="major" class="form-control" required>
-                    <option value="">Choose...</option>
-                </select>
-            </div>
-            <div class="col-md-6 mb-3">
-                <label for="minor">Minor</label>
-                <input type="text" class="form-control" id="minor" placeholder="" name="minor">
-            </div>
-        </div>
-        <div class="mb-3">
-            <label for="grad_date">Graduation / Projected Graduation</label>
-            <input type="date" id="grad_date" name="grad_date" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label for="clubs">Clubs</label>
-            <select id="clubs" name="clubs">
-                <option value="">Choose...</option>
-            </select>
-        </div>
-        <hr class="mb-4">
-        <button class="btn btn-primary btn-lg btn-block" type="submit">Update Account</button>
-    </form>
-    <footer class="my-5 pt-5 text-muted text-center text-small">
-        <p class="mb-1">©2020 Software Design & Documentation</p>
-        <ul class="list-inline">
-            <li class="list-inline-item"><a href="/privacy_policy">Privacy</a></li>
-        </ul>
-    </footer>
-</div>
-
-<script type="text/javascript" rel="script" src="/js/object_functions.js"></script>
-<script type="text/javascript" rel="script" src="/js/edit_profile.js"></script>
-<script src="/js/admin_nav.js" type="text/javascript" rel="script"></script>
+    <script type="text/javascript" rel="script" src="/js/object_functions.js"></script>
+    <script type="text/javascript" rel="script" src="/js/edit_profile.js"></script>
+    <script src="/js/admin_nav.js" type="text/javascript" rel="script"></script>
 </body>
 
 </html>

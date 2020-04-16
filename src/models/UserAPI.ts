@@ -1,4 +1,4 @@
-import {DBManager} from "../server";
+import { DBManager } from "../server";
 import { Club } from "./Club";
 
 // Type to describe what a response from a User API would look like
@@ -8,7 +8,7 @@ interface UserAPIResponse {
     error: string;
 }
 
-type ProfileUpdate  = {
+type ProfileUpdate = {
     first_name: string;
     last_name: string;
     email: string;
@@ -44,7 +44,7 @@ export interface UserDB {
 }
 
 // The class representing our generic user. Will need alumni and student subclasses
-export class User implements UserDB{
+export class User implements UserDB {
     id: number;
     oauth_token: string;
     email: string;
@@ -60,7 +60,7 @@ export class User implements UserDB{
     country_id?: number;
     state_id?: number;
     clubs: Club[];
-    
+
     constructor(creation_object: UserDB) {
         Object.assign(this, creation_object);
         this.id = creation_object.id;
@@ -72,7 +72,7 @@ export class User implements UserDB{
     }
     // Given an access code finds the user in the database
     static async find(accessToken: string): Promise<UserAPIResponse> {
-        const response: UserAPIResponse = {success: true, data: undefined, error: ""};
+        const response: UserAPIResponse = { success: true, data: undefined, error: "" };
         const result = await DBManager.executeQuery("SELECT * from user where oauth_token = ?", [accessToken]);
         if (result.success) {
             if (result.data.length != 0) {
@@ -92,12 +92,12 @@ export class User implements UserDB{
     }
 
     // utilizes the admin user to update a specific major
-    async updateAdmin(accessToken: string, admin: string): Promise<GenericAPIResponse>{
-        const response: UserAPIResponse = {success: true, data: undefined, error: ""};
+    async updateAdmin(accessToken: string, admin: string): Promise<GenericAPIResponse> {
+        const response: UserAPIResponse = { success: true, data: undefined, error: "" };
         const result = await DBManager.executeQuery("UPDATE user SET isadmin = (?) WHERE oauth_token = (?);", [admin, accessToken]);
         if (result.success) {
             response.success = true;
-            response.data =  await (await User.find(accessToken)).data;
+            response.data = await (await User.find(accessToken)).data;
         } else {
             console.error("Admin update issue!");
             response.success = false;
@@ -108,11 +108,11 @@ export class User implements UserDB{
 
     // Creates a user and inserts them into the database based on the given information
     static async create(accessToken: string, first_name: string, last_name: string, email: string): Promise<UserAPIResponse> {
-        const response: UserAPIResponse = {success: true, data: undefined, error: ""};
+        const response: UserAPIResponse = { success: true, data: undefined, error: "" };
         const result = await DBManager.executeQuery("INSERT INTO user(oauth_token, email, first_name, last_name) VALUES (? , ?, ?, ?);", [accessToken, email, first_name, last_name]);
         if (result.success) {
             response.success = true;
-            response.data =  await (await User.find(accessToken)).data;
+            response.data = await (await User.find(accessToken)).data;
         } else {
             console.error("User creation issue!");
             response.success = false;
@@ -133,19 +133,19 @@ export class User implements UserDB{
         return response;
     }
     async updateUserProfile(updated_info: ProfileUpdate): Promise<UserAPIResponse> {
-        const response = {success: true, data: undefined, error: ""};
+        const response = { success: true, data: undefined, error: "" };
         let result = await DBManager.executeQuery("UPDATE user SET first_name = ?, last_name = ?, email = ?,\
                         bio = ?, grad_date = ?, major_id = ?, minor = ?, country_id = ?, state_id = ?, school_id = ?, picture = ? WHERE oauth_token = ?",
-                        [updated_info.first_name, updated_info.last_name, updated_info.email, updated_info.bio,
-                        updated_info.grad_date, updated_info.major, updated_info.minor, updated_info.country,
-                        updated_info.state, updated_info.school, updated_info.picture, this.oauth_token]);
+            [updated_info.first_name, updated_info.last_name, updated_info.email, updated_info.bio,
+            updated_info.grad_date, updated_info.major, updated_info.minor, updated_info.country,
+            updated_info.state, updated_info.school, updated_info.picture, this.oauth_token]);
         await DBManager.executeQuery("DELETE FROM club_roster WHERE user_id=?", [this.id.toString()]);
-        for(let i = 0; i < updated_info.clubs.length; i++) {
+        for (let i = 0; i < updated_info.clubs.length; i++) {
             if (updated_info.clubs[i] === "") {
                 continue;
             }
-            result = await DBManager.executeQuery("INSERT INTO club_roster VALUES(?, ?);", 
-                         [updated_info.clubs[i], this.id.toString()]);
+            result = await DBManager.executeQuery("INSERT INTO club_roster VALUES(?, ?);",
+                [updated_info.clubs[i], this.id.toString()]);
             if (!result.success) {
                 response.success = false;
                 break;
@@ -159,7 +159,7 @@ export class User implements UserDB{
     }
     // Searches all users either for alumni or students 
     async searchAllUsers(alumni = false): Promise<UserAPIResponse> {
-        const response: UserAPIResponse = {success: true, data: undefined, error: ""};
+        const response: UserAPIResponse = { success: true, data: undefined, error: "" };
         let query = "SELECT user.*, major.label as major_label, country.name as country_label, state.name as state_label, school.label as school_label \
             FROM user \
             JOIN major ON major_id = major.id  \
@@ -169,7 +169,7 @@ export class User implements UserDB{
             WHERE grad_date";
         // They're an alumni if their graduation date is in the past
         if (alumni) {
-            query = query + " < NOW();"; 
+            query = query + " < NOW();";
         } else {
             query = query + " > NOW();";
         }
@@ -180,7 +180,9 @@ export class User implements UserDB{
             for (const user of result.data) {
                 // No point including yourself in a search
                 if (user.oauth_token !== this.oauth_token) {
-                    response.data.push(new User(user));
+                    let new_user = new User(user);
+                    new_user.clubs = await new_user.getClubs();
+                    response.data.push(new_user);
                 }
             }
         } else {
