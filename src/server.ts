@@ -71,7 +71,7 @@ app.get("/privacy_policy", (req, res) => {
     res.sendFile(path.join(__dirname, "/views/privacy_policy.html"));
 });
 
-app.get("/dashboard", (req, res) => {
+app.get("/dashboard", isAuthenticated, (req, res) => {
     res.sendFile(path.join(__dirname, "/views/dashboard.html"));
 });
 

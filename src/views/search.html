@@ -2,12 +2,19 @@
 <html lang="en">
 
 <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link href="https://unpkg.com/tabulator-tables@4.6.0/dist/css/tabulator.min.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/8a0c87cb9a.js" crossorigin="anonymous"></script>
     <script src="/js/moment.js"></script>
     <script type="text/javascript" src="https://unpkg.com/tabulator-tables@4.6.0/dist/js/tabulator.min.js"></script>
@@ -16,140 +23,156 @@
 </head>
 
 <body>
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <img class="navbar-brand" src="/images/logo.png" style="height: 50px;width: 100px;">
-    <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <img class="navbar-brand" src="/images/logo.png" style="height: 50px;width: 100px;">
+        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse"
+            data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <div class="navbar-collapse collapse" id="navbarsExampleDefault">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="/dashboard">Dashboard</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/edit_profile">Edit Profile</a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="/search">Search</a>
-            </li>
-            <li class="nav-item" id="admin-nav">
-                <a class="nav-link" href="/admin">Admin Page</a>
-            </li>
-        </ul>
+        <div class="navbar-collapse collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboard">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/edit_profile">Edit Profile</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/search">Search</a>
+                </li>
+                <li class="nav-item" id="admin-nav">
+                    <a class="nav-link" href="/admin">Admin Page</a>
+                </li>
+            </ul>
 
-        <a class="btn btn-secondary" href="/auth/logout">Sign Out <i class="fas fa-sign-out-alt"></i></a>
-    </div>
-</nav>
+            <a class="btn btn-secondary" href="/auth/logout">Sign Out <i class="fas fa-sign-out-alt"></i></a>
+        </div>
+    </nav>
 
-<main role="main" style="margin-top: 70px;">
-    <div class="alert alert-danger" role="alert" id="search_err_message"></div>
+    <main role="main" style="margin-top: 70px;">
+        <div class="alert alert-danger" role="alert" id="search_err_message"></div>
 
 
-    <div class="pt-4 mt-3 pl-2 pr-2">
-        <div class="row">
-            <div class="col-md-2 mb-3">
-                <h3>Filter Options</h3>
-            </div>
-            <div class="col-md-10 mb-3">
-                <input onkeyup="search_table(this.value)" type="search" class="float-left form-control ds-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off" data-aria-expanded="false" aria-owns="algolia-autocomplete-listbox-0" dir="auto" style="position: relative; vertical-align: top;width: 100%;">
+        <div class="pt-4 mt-3 pl-2 pr-2">
+            <div class="row">
+                <div class="col-md-2 mb-3">
+                    <h3>Filter Options</h3>
+                </div>
+                <div class="col-md-10 mb-3">
+                    <input onkeyup="search_table(this.value)" type="search" class="float-left form-control ds-input"
+                        id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off"
+                        data-aria-expanded="false" aria-owns="algolia-autocomplete-listbox-0" dir="auto"
+                        style="position: relative; vertical-align: top;width: 100%;">
+                </div>
             </div>
         </div>
-    </div>
 
 
-    <div class="pl-2 pr-2 mt-3">
-        <div class="row">
-            <div class="col-md-2 mb-3">
-                <h6>User Type</h6>
-                <div class="form-check">
-                    <input style="cursor: pointer;" onchange="select_user_type(this.value)" class="form-check-input" type="radio" name="user_type" id="students" value="students" checked>
-                    <label style="cursor: pointer;" class="form-check-label" for="students">
-                        Students
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input style="cursor: pointer;" onchange="select_user_type(this.value)" class="form-check-input" type="radio" name="user_type" id="alumni" value="alumni">
-                    <label style="cursor: pointer;" class="form-check-label" for="alumni">
-                        Alumni
-                    </label>
-                </div>
-
-                <h6>Filter By</h6>
-                <div class="custom-control custom-switch">
-                    <input style="cursor: pointer;" onchange="update_filters()" type="checkbox" checked class="custom-control-input" id="first_name">
-                    <label style="cursor: pointer;" class="custom-control-label" for="first_name">First Name</label>
-                </div>
-                <div class="custom-control custom-switch">
-                    <input style="cursor: pointer;" onchange="update_filters()" type="checkbox" checked class="custom-control-input" id="last_name">
-                    <label style="cursor: pointer;" class="custom-control-label" for="last_name">Last Name</label>
-                </div>
-                <div class="custom-control custom-switch">
-                    <input style="cursor: pointer;" onchange="update_filters()" type="checkbox" class="custom-control-input" id="school_label">
-                    <label style="cursor: pointer;" class="custom-control-label" for="school_label">School</label>
-                </div>
-                <div class="custom-control custom-switch">
-                    <input style="cursor: pointer;" onchange="update_filters()" type="checkbox" class="custom-control-input" id="major_label">
-                    <label style="cursor: pointer;" class="custom-control-label" for="major_label">Major</label>
-                </div>
-                <div class="custom-control custom-switch">
-                    <input style="cursor: pointer;" onchange="update_filters()" type="checkbox" class="custom-control-input" id="country_label">
-                    <label style="cursor: pointer;" class="custom-control-label" for="country_label">Country</label>
-                </div>
-                <div class="custom-control custom-switch">
-                    <input style="cursor: pointer;" onchange="update_filters()" type="checkbox" class="custom-control-input" id="state_label">
-                    <label style="cursor: pointer;" class="custom-control-label" for="state_label">State</label>
-                </div>
-            </div>
-            <div class="col-md-10 mb-9">
-                <div id="alumni_search_table" class="d-none"></div>
-                <div id="student_search_table"></div>
-            </div>
-        </div>
-    </div>
-    <footer class="my-5 pt-5 text-muted text-center text-small">
-        <p class="mb-1">©2020 Software Design & Documentation</p>
-        <ul class="list-inline">
-            <li class="list-inline-item"><a href="/privacy_policy">Privacy</a></li>
-        </ul>
-    </footer>
-</main>
-
-<!-- User modal -->
-<div class="modal fade" id="user_modal" tabindex="-1" role="dialog" aria-labelledby="user_modal" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="user_modal_title">User's Profile</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-sm-6 col-md-4">
-                        <img src="/images/logo.png" style="max-width: 100%;max-height: 100%;" alt="Profile Picture" id="user_profile_image" class="img-rounded img-responsive">
+        <div class="pl-2 pr-2 mt-3">
+            <div class="row">
+                <div class="col-md-2 mb-3">
+                    <h6>User Type</h6>
+                    <div class="form-check">
+                        <input style="cursor: pointer;" onchange="select_user_type(this.value)" class="form-check-input"
+                            type="radio" name="user_type" id="students" value="students" checked>
+                        <label style="cursor: pointer;" class="form-check-label" for="students">
+                            Students
+                        </label>
                     </div>
-                    <div class="col-sm-6 col-md-8">
-                        <h4>Information</h4>
-                        <p>
-                            <i class="fas fa-map-marked-alt"></i> <span id="user_location"></span>
-                            <br>
-                            <i class="far fa-envelope"></i> <span id="user_email"></span>
-                            <br>
-                            <i class="fas fa-graduation-cap"></i> Graduation Date: <span id="user_grad_date"></span>
-                        </p>
-                        <h4>Bio</h4>
-                        <p id="user_bio"></p>
+                    <div class="form-check">
+                        <input style="cursor: pointer;" onchange="select_user_type(this.value)" class="form-check-input"
+                            type="radio" name="user_type" id="alumni" value="alumni">
+                        <label style="cursor: pointer;" class="form-check-label" for="alumni">
+                            Alumni
+                        </label>
+                    </div>
+
+                    <h6>Filter By</h6>
+                    <div class="custom-control custom-switch">
+                        <input style="cursor: pointer;" onchange="update_filters()" type="checkbox" checked
+                            class="custom-control-input" id="first_name">
+                        <label style="cursor: pointer;" class="custom-control-label" for="first_name">First Name</label>
+                    </div>
+                    <div class="custom-control custom-switch">
+                        <input style="cursor: pointer;" onchange="update_filters()" type="checkbox" checked
+                            class="custom-control-input" id="last_name">
+                        <label style="cursor: pointer;" class="custom-control-label" for="last_name">Last Name</label>
+                    </div>
+                    <div class="custom-control custom-switch">
+                        <input style="cursor: pointer;" onchange="update_filters()" type="checkbox"
+                            class="custom-control-input" id="school_label">
+                        <label style="cursor: pointer;" class="custom-control-label" for="school_label">School</label>
+                    </div>
+                    <div class="custom-control custom-switch">
+                        <input style="cursor: pointer;" onchange="update_filters()" type="checkbox"
+                            class="custom-control-input" id="major_label">
+                        <label style="cursor: pointer;" class="custom-control-label" for="major_label">Major</label>
+                    </div>
+                    <div class="custom-control custom-switch">
+                        <input style="cursor: pointer;" onchange="update_filters()" type="checkbox"
+                            class="custom-control-input" id="country_label">
+                        <label style="cursor: pointer;" class="custom-control-label" for="country_label">Country</label>
+                    </div>
+                    <div class="custom-control custom-switch">
+                        <input style="cursor: pointer;" onchange="update_filters()" type="checkbox"
+                            class="custom-control-input" id="state_label">
+                        <label style="cursor: pointer;" class="custom-control-label" for="state_label">State</label>
                     </div>
                 </div>
+                <div class="col-md-10 mb-9">
+                    <div id="alumni_search_table" class="d-none"></div>
+                    <div id="student_search_table"></div>
+                </div>
+            </div>
+        </div>
+        <footer class="my-5 pt-5 text-muted text-center text-small">
+            <p class="mb-1">©2020 Software Design & Documentation</p>
+            <ul class="list-inline">
+                <li class="list-inline-item"><a href="/privacy_policy">Privacy</a></li>
+            </ul>
+        </footer>
+    </main>
+
+    <!-- User modal -->
+    <div class="modal fade" id="user_modal" tabindex="-1" role="dialog" aria-labelledby="user_modal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="user_modal_title">User's Profile</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-6 col-md-4">
+                            <img src="/images/logo.png" style="max-width: 100%;max-height: 100%;" alt="Profile Picture"
+                                id="user_profile_image" class="img-rounded img-responsive">
+                        </div>
+                        <div class="col-sm-6 col-md-8">
+                            <h4>Information</h4>
+                            <p>
+                                <i class="fas fa-map-marked-alt"></i> <span id="user_location"></span>
+                                <br>
+                                <i class="far fa-envelope"></i> <span id="user_email"></span>
+                                <br>
+                                <i class="fas fa-graduation-cap"></i> Graduation Date: <span id="user_grad_date"></span>
+                                <br>
+                                <span id="user_clubs"></span>
+                            </p>
+                            <h4>Bio</h4>
+                            <p id="user_bio" style="overflow-x: scroll;"></p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<script type="text/javascript" src="/js/search.js"></script>
-<script src="/js/admin_nav.js" type="text/javascript" rel="script"></script>
+    <script type="text/javascript" src="/js/search.js"></script>
+    <script src="/js/admin_nav.js" type="text/javascript" rel="script"></script>
 </body>
 
 </html>
