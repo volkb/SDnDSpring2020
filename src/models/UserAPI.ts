@@ -26,7 +26,7 @@ type ProfileUpdate  = {
     club_end: string[];
 }
 
-interface UserDB {
+export interface UserDB {
     id: number;
     oauth_token: string;
     email: string;
@@ -90,6 +90,22 @@ export class User implements UserDB{
         }
         return response;
     }
+
+    // utilizes the admin user to update a specific major
+    async updateAdmin(accessToken: string, admin: string): Promise<GenericAPIResponse>{
+        const response: UserAPIResponse = {success: true, data: undefined, error: ""};
+        const result = await DBManager.executeQuery("UPDATE user SET isadmin = (?) WHERE oauth_token = (?);", [admin, accessToken]);
+        if (result.success) {
+            response.success = true;
+            response.data =  await (await User.find(accessToken)).data;
+        } else {
+            console.error("Admin update issue!");
+            response.success = false;
+            response.error = "Unable to update user admin privileges!";
+        }
+        return response;
+    }
+
     // Creates a user and inserts them into the database based on the given information
     static async create(accessToken: string, first_name: string, last_name: string, email: string): Promise<UserAPIResponse> {
         const response: UserAPIResponse = {success: true, data: undefined, error: ""};
