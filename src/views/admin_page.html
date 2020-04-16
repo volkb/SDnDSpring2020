@@ -435,10 +435,10 @@
                                     <div id="collapse_edit_admin" class="collapse" role="tabpanel"
                                         aria-labelledby="headingOne">
                                         <div class="card-body">
-                                            <form method="POST" action="/admin/user/set_admin">
+                                            <form method="POST" action="/admin/user/updateadmin">
                                                 <div class="form-group">
                                                     <label for="edit_admin_user">Select User</label>
-                                                    <select class="form-control" name="access_token"
+                                                    <select class="form-control" name="user_id"
                                                         id="edit_admin_user" onchange="userSelect(this.value)">
                                                         <option value="">Choose...</option>
                                                     </select>
@@ -463,58 +463,6 @@
                                                     type="reset">Reset</button>
                                             </form>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header" id="headingFour">
-                    <h2 class="mb-0">
-                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseOne" style="font-size:smaller;">
-                            Modify Users
-                        </button>
-                    </h2>
-                </div>
-
-                <div id="collapseFour" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
-                    <div class="card-body">
-                        <div id="user_accordion" role="tablist">
-                            <div class="card">
-                                <div class="card-header" role="tab">
-                                    <h5 class="mb-0">
-                                        <a data-toggle="collapse" href="#collapse_edit_admin" aria-expanded="false" aria-controls="collapseThreeAddSchool">
-                                            Set Admins
-                                        </a>
-                                    </h5>
-                                </div>
-
-                                <div id="collapse_edit_admin" class="collapse" role="tabpanel" aria-labelledby="headingOne">
-                                    <div class="card-body">
-                                        <form method="POST" action="/admin/user/set_admin">
-                                            <div class="form-group">
-                                                <label for="edit_admin_user">Select User</label>
-                                                <select class="form-control" name="access_token" id="edit_admin_user" onchange="userSelect(this.value)">
-                                                    <option value="">Choose...</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="admin" id="non_admin" value="0">
-                                                <label class="form-check-label" for="non_admin">
-                                                    Standard User
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="admin" id="admin" value="1">
-                                                <label class="form-check-label" for="admin">
-                                                    Admin User
-                                                </label>
-                                            </div>
-                                            <button class="btn btn-primary float-right ml-2 mb-2" type="submit">Update</button>
-                                            <button class="btn btn-secondary float-right" type="reset">Reset</button>
-                                        </form>
                                     </div>
                                 </div>
                             </div>

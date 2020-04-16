@@ -82,7 +82,7 @@ export class Admin extends User {
     // Make a user an admin
     async updateAdmin(user_id: number, is_admin: boolean): Promise<GenericAPIResponse> {
         const response: GenericAPIResponse = { success: true, error: ""};
-        const result = await DBManager.executeQuery("UPDATE user SET isadmin = (?) WHERE id = (?);", [is_admin ? "1" : "0", user_id.toString()]);
+        const result = await DBManager.executeQuery("UPDATE user SET isadmin = (?) WHERE id = (?);", [Number(is_admin).toString(), user_id.toString()]);
         if (!result.success) {
             console.error("Admin update issue!");
             response.success = false;

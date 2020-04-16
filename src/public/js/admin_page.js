@@ -93,7 +93,7 @@ async function populateUserSelect() {
     for(let x = 0; x < users.length; x++)
     {
         html += "<option value='" + users[x].id + "'>" + users[x].first_name + " " + users[x].last_name + "</option>";
-        gloabl_users[users[x].id] = users[x];
+        global_users[users[x].id] = users[x];
     }
 
     $("#edit_admin_user").html(html);

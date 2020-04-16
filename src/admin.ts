@@ -147,11 +147,11 @@ adminRouter.post("/major/edit", isAuthenticated, isAdmin, async (req, res) => {
     }
 });
 
-adminRouter.post("/user/set_admin", isAuthenticated, isAdmin, async (req, res) => {
+adminRouter.post("/user/updateadmin", isAuthenticated, isAdmin, async (req, res) => {
     // simple casting doesn't allow us to access the methods in admin as it is just a JSON object currently
     // we construct a new admin object from the user
     const admin = new Admin(req.user as UserDB);
-    const response = await admin.updateAdmin(req.body.access_token, req.body.admin);
+    const response = await admin.updateAdmin(req.body.user_id, req.body.admin);
     if (!response.success) {
         res.redirect(`/admin?error=${encodeURIComponent(response.error)}`);
     } else {
