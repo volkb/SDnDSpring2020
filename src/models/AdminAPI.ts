@@ -2,6 +2,7 @@ import { User, UserDB } from "./UserAPI";
 import { Club } from "./Club";
 import { School } from "./School";
 import { Major } from "./Major";
+import { DBManager } from "../server";
 
 interface GenericAPIResponse {
     success: boolean;
@@ -76,5 +77,17 @@ export class Admin extends User {
     async createMajor(school_id: number, major_name: string): Promise<GenericAPIResponse> {
         // Should we check if the major already exists or was the admin smart enough to?
         return (await Major.create(school_id, major_name));
+    }
+    
+    // Make a user an admin
+    async updateAdmin(user_id: number, is_admin: boolean): Promise<GenericAPIResponse> {
+        const response: GenericAPIResponse = { success: true, error: ""};
+        const result = await DBManager.executeQuery("UPDATE user SET isadmin = (?) WHERE id = (?);", [is_admin ? "1" : "0", user_id.toString()]);
+        if (!result.success) {
+            console.error("Admin update issue!");
+            response.success = false;
+            response.error = "Unable to update user admin privileges!";
+        }
+        return response;
     }
 }

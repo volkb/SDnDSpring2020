@@ -90,20 +90,19 @@ profileRouter.get("/major/:school_id", async (req, res) => {
 });
 
 profileRouter.get("/major", async(req, res) => {
-    const majors = await DBManager.executeQuery("SELECT * from major;", []);
+    const majors = await DBManager.executeQuery("SELECT * FROM major;", []);
     res.send(majors);
 });
 
 // Gets all the clubs in the DB
 profileRouter.get("/club", async (req, res) => {
-    const clubs = await DBManager.executeQuery("SELECT * from clubs;", []);
+    const clubs = await DBManager.executeQuery("SELECT * FROM clubs;", []);
     // Maybe convert this to Club objects at some point? Doesn't really matter as it immediately turns back to JSON
     res.send(clubs);
 });
 
 // Gets all the users in the DB
 profileRouter.get("/users", async (req, res) => {
-    const users = await DBManager.executeQuery("SELECT id, oauth_token, email, first_name, last_name, grad_date, industry, picture, bio, isadmin, major_id, minor, country_id, state_id, school_id from user;", []);
-    // Maybe convert this to Club objects at some point? Doesn't really matter as it immediately turns back to JSON
+    const users = await DBManager.executeQuery("SELECT id, first_name, last_name, isadmin FROM user;", []);
     res.send(users);
 });
