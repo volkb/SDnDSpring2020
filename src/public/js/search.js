@@ -1,4 +1,5 @@
 let query = "";
+var current_table = "student";
 const filter_list = [
     "first_name",
     "last_name",
