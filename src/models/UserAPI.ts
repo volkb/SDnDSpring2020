@@ -180,7 +180,9 @@ export class User implements UserDB{
             for (const user of result.data) {
                 // No point including yourself in a search
                 if (user.oauth_token !== this.oauth_token) {
-                    response.data.push(new User(user));
+                    let new_user = new User(user);
+                    new_user.clubs = await new_user.getClubs();
+                    response.data.push(new_user);
                 }
             }
         } else {

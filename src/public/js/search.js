@@ -23,6 +23,7 @@ const columns = [
     {title:"Country", field:"country_label", visible:false},
     {title:"State", field:"state_label", visible:false},
     {title:"School", field:"school_label", visible:false},
+    {title:"Clubs", field:"clubs", visible:false},
 ];
 
 // Creates the user search table
@@ -30,6 +31,7 @@ const alumni_table = new Tabulator("#alumni_search_table", {
     height:"550px",
     layout:"fitColumns",
     ajaxURL: "/search/users?alumni=1",
+    placeholder: "No users found",
     ajaxConfig:"GET", //ajax HTTP request type
     ajaxContentType:"json", // send parameters to the server as a JSON encoded string
     ajaxResponse:handle_response,
@@ -94,7 +96,22 @@ function show_profile(e, row){
     $('#user_location').text(data.state_label + ", " + data.country_label);
     $('#user_bio').html(data.bio);
     $('#user_grad_date').text(moment(data.grad_date).format("MM/DD/YYYY"));
-    $('#user_profile_image').prop("src", "/profile_pictures/" + data.picture);
+
+    if(data.picture === null)
+    {
+        $('#user_profile_image').prop("src", "/images/logo.png");
+    }
+    else
+    {
+        $('#user_profile_image').prop("src", "/profile_pictures/" + data.picture);
+    }
+
+    let html = "";
+    for(let x = 0; x < data.clubs.length; x++)
+    {
+        html += '<button class="badge badge-secondary">' + data.clubs[x].club_name + '</button>';
+    }
+    $("#user_clubs").html(html);
 }
 
 /**
