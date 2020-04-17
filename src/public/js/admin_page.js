@@ -1,4 +1,4 @@
-var gloabl_users = {};
+var global_users = {};
 (async () => {
     schools = await getSchools();
     populateSelect("edit_major_select_school", schools);
@@ -58,13 +58,13 @@ function majorSelect(major_id)
 }
 
 /**
- * Populates the edit major fields.
+ * Populates the admin select dropdown
  *
- * @param oauth_token The oauth_token of the selected user
+ * @param id The id of the selected user
  */
-function userSelect(oauth_token)
+function userSelect(id)
 {
-    let user = gloabl_users[oauth_token];
+    let user = global_users[id];
     if(user.isadmin === 1)
     {
         $("#admin").prop("checked", true);
@@ -92,8 +92,8 @@ async function populateUserSelect() {
     let html = "<option value=''>Choose...</option>";
     for(let x = 0; x < users.length; x++)
     {
-        html += "<option value='" + users[x].oauth_token + "'>" + users[x].first_name + " " + users[x].last_name + "</option>";
-        gloabl_users[users[x].oauth_token] = users[x];
+        html += "<option value='" + users[x].id + "'>" + users[x].first_name + " " + users[x].last_name + "</option>";
+        global_users[users[x].id] = users[x];
     }
 
     $("#edit_admin_user").html(html);

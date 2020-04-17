@@ -91,21 +91,6 @@ export class User implements UserDB {
         return response;
     }
 
-    // utilizes the admin user to update a specific major
-    async updateAdmin(accessToken: string, admin: string): Promise<GenericAPIResponse> {
-        const response: UserAPIResponse = { success: true, data: undefined, error: "" };
-        const result = await DBManager.executeQuery("UPDATE user SET isadmin = (?) WHERE oauth_token = (?);", [admin, accessToken]);
-        if (result.success) {
-            response.success = true;
-            response.data = await (await User.find(accessToken)).data;
-        } else {
-            console.error("Admin update issue!");
-            response.success = false;
-            response.error = "Unable to update user admin privileges!";
-        }
-        return response;
-    }
-
     // Creates a user and inserts them into the database based on the given information
     static async create(accessToken: string, first_name: string, last_name: string, email: string): Promise<UserAPIResponse> {
         const response: UserAPIResponse = { success: true, data: undefined, error: "" };
@@ -180,7 +165,7 @@ export class User implements UserDB {
             for (const user of result.data) {
                 // No point including yourself in a search
                 if (user.oauth_token !== this.oauth_token) {
-                    let new_user = new User(user);
+                    const new_user = new User(user);
                     new_user.clubs = await new_user.getClubs();
                     response.data.push(new_user);
                 }
