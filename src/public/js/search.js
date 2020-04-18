@@ -65,11 +65,11 @@ const student_table = new Tabulator("#student_search_table", {
  */
 function handle_response(url, params, response) {
     if (response.success) {
-        document.getElementById("search_err_message").style.display = "none";
+        $("#search_err_message").addClass("d-none");
     }
     else {
-        document.getElementById("search_err_message").innerText = response.error;
-        document.getElementById("search_err_message").style.display = "block";
+        $("#search_err_message").text(response.error);
+        $("#search_err_message").removeClass("d-none");
     }
 
     console.log(response);
