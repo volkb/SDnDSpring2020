@@ -128,15 +128,15 @@ function format_row(row) {
     const rowTabletr = document.createElement("tr");
 
     //add image on left of row
-    let image_string = "<img style='max-height: 200px;max-width:200px;' src='/images/logo.png'>";
+    let image_string = "<img style='height: 200px;width:200px;' src='/images/logo.png'>";
     if (data.picture !== null) {
-        image_string = "<img style='max-height: 200px;max-width:200px;' src='/profile_pictures/" + data.picture + "'>";
+        image_string = "<img style='height: 200px;width:200px;' src='/profile_pictures/" + data.picture + "'>";
     }
 
-    let cellContents = "<td>" + image_string + "</td>";
+    let cellContents = "<td style='width:50%;'>" + image_string + "</td>";
 
     //add row data on right hand side
-    cellContents += "<td><div><strong>Name:</strong> " + data.first_name + " " + data.last_name +
+    cellContents += "<td style='width:50%;'><div><strong>Name:</strong> " + data.first_name + " " + data.last_name +
         "</div><div><strong>Major:</strong> " + data.major_label +
         "</div><div><strong>Grad Year:</strong> " + moment(data.grad_date).format("YYYY") +
         "</div><div><strong>Country:</strong> " + data.country_label + "</div></td>";
